@@ -4,7 +4,7 @@ $.ajax({
             + sessionStorage.getItem("id"),
     success: function(res) {
         console.log(res);
-        document.getElementById("nombre").value = res.nombres
+        document.getElementById("nombres").value = res.nombres
         document.getElementById("apellidos").value = res.apellidos
         document.getElementById("estatura").value = res.estatura
         document.getElementById("peso").value = res.peso
@@ -14,7 +14,7 @@ $.ajax({
         $("#isCoach").prop('checked', res.iscoach);
     },
     error: function() {
-        alert("Error en datos")
+        alert("Error en solicitud de datos")
         clearSession();
     }
 });

@@ -6,10 +6,6 @@ html {
   overflow-y: scroll;
 }
 
-body {
-  background: #c1bdba;
-  font-family: 'Titillium Web', sans-serif;
-}
 
 a {
   text-decoration: none;
@@ -17,7 +13,7 @@ a {
   transition: .5s ease;
 }
 a:hover {
-  color: #179b77;
+  color: #6eb99f;
 }
 
 .form {
