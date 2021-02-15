@@ -1,48 +1,77 @@
-#include <SoftwareSerial.h>
+#include <SoftwareSerial.h>  // libreria que permite establecer pines digitales
 #include <Wire.h>
 #include "MAX30100_PulseOximeter.h"
 
-SoftwareSerial BTSerial(2, 3);
+SoftwareSerial miBT(10, 11);   // pin 10 como RX, pin 11 como TX
 
 /* Soporte para modulo de temperatura */
-float temperatura_LM35;   // Variable para almacenar el valor obtenido del sensor de temperatura
+int temperatura_LM35;   // Variable para almacenar el valor obtenido del sensor de temperatura
+int temperatura_LM35_LAST; 
+int temperatura_LM35_SEND; 
 int pin_LM35 = 0;         // Pin ANALOGICO A0
+
 
 /* Soporte para modulo de pulsos y oxigeno */
 PulseOximeter pox;
 uint32_t tsLastReport = 0;
 
-void setup() 
+void setup()
 {
-  // analogReference(INTERNAL);
-  Serial.begin(9600);
-  BTSerial.begin(9600);
+  Serial.begin(9600);   // comunicacion de monitor serial a 9600 bps
+  Serial.println("Listo");  // escribe Listo en el monitor
+  miBT.begin(9600);    // comunicacion serie entre Arduino y el modulo a 38400 bps
 }
- 
-void loop() 
-{
 
+void loop()
+{
   /* Modulo de temperatura */
+  temperatura_LM35 = 0;
   temperatura_LM35 = analogRead(pin_LM35); 
   temperatura_LM35 = (1.1 * temperatura_LM35 * 100.0) / 1024.0; 
-  Serial.print("Temperatura: ");
-  Serial.print(temperatura_LM35);
-  Serial.print("\n");
+  temperatura_LM35 = temperatura_LM35 + 32;
 
-  /* Modulo de pulso y oxigeno */
+  //Serial.print("Temperatura: ");
+  //Serial.print(temperatura_LM35);
+  //Serial.print("\n");
+  if(temperatura_LM35 > 33 && temperatura_LM35 < 40)
+  {
+    Serial.print("Temperatura: ");
+    Serial.print(temperatura_LM35);
+    Serial.print("\n");
+    temperatura_LM35_LAST = temperatura_LM35;
+    temperatura_LM35_SEND = temperatura_LM35; 
+  }
+  else
+  {
+
+    Serial.print("Temperaturas: ");
+    Serial.print(temperatura_LM35_LAST);
+    Serial.print("\n");
+    temperatura_LM35_SEND = temperatura_LM35_LAST; 
+  }
+  
+  /* Modulo de pulso y oxigeno 
   pox.update();
   Serial.print("Ritmo:");
   Serial.print(pox.getHeartRate());
   Serial.print(" / Oxigeno:");
   Serial.print(pox.getSpO2());
-  Serial.println("%");
+  Serial.println("%"); */
 
 
-  //CONEXION BLUETOOTH
-  if (BTSerial.available()) 
+  if (miBT.available())
   {
-    BTSerial.print(String(temperatura_LM35) + String(pox.getHeartRate()) + String(pox.getSpO2()));
-  }
+    miBT.write(temperatura_LM35_SEND);
+    miBT.write(",0,0");
+    miBT.write("\n");
+  } 
+  else
+  {
+    miBT.write(temperatura_LM35_SEND);
+    miBT.write(",0,0");
+    miBT.write("\n");
+  }  
 
-  delay(1000);
+  delay(500);
+
 }
