@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "arqui2-practica1-5598e",
+  "private_key_id": "71d9360a5eb75a1bdc6c1f48d8046940cd46c99b",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQC/nYNj+Fd5MIvh\ni0wjs46/aWeGpcq1Mr+7NrPvO5zqjpkXHVjqPPJZyuVxzFvpNbVqa1Xm0GMlwps/\nbagFE/EUFOsrqlYeRg1pREBkmz2SiPnPZqm4neB7gkubgN10VKFU+m8q6XlVQnUr\nN9N+3oEYY1ZEPsv48LS8hVtl9HIrdMvb9yurM/bHS3UHHFEQBRtSYySzVzHYkoqA\nfhSnJf83RtBJ4RDsrDzBy6CX0uzE1RyPgMHJqYARkAPsALMhY2VTc8kpQNREDhjG\nplpEk5FaKzM8rnqphxSPJFgalo+GytJLKsxBPCmPjipdmZ0q3UqLlfnBQxKVXgdy\nObFiYHl9AgMBAAECggEARQKClpeTUWdFiaZ0dosthwx8J4dAWT/8w30xEqECo4tV\n4XhFVJ88nVAwkGqMU5JvUvNzTZyRiMDszsw8bg+/jH74L5K6T07ld5sIIfOzGjpQ\n1fxgdcgOWA0WE9w2ZbYxIHzNWsQZWbaEolsJxbB3CASGxi9joLV4MklJIJAIKlPX\nnC4enOOzk5mkuhc7FKsCV3b0j7U7Pn0dboX590Uzazozd87NDplik9UBloKpUgO1\nBObJeUDmX7vPRL0GXFMErXtnLUCWmpJWQnhHQeADu9o+kob6tgtTtUxgZBpyKI6q\nrau8aBdjC0+tsQq0R+O6U+ny+1jhxODLuU235FdNdQKBgQDjkdcQ2JJkMpuJBrZu\n0TF+RpnLFY8w5oHd85+wnTucL/8xat42BoV7QqEPFUfLMMVpJIXPDrN5+lEi84x0\ngyv2kZYXPivtLAKvg6L8pGWH2nAFotr/lC32y15y5M+HXGMs+wAR1z2GwVf6M3xI\ni9hnDrrKi3VqtOtifC+pg80VzwKBgQDXjcZ8Yha82wWJizIaTI6I4MdSUhEpOFgF\nOIv/p9UqF7zFu4fcrGbuIEG7Jz0NVQ5glGzcR0tdYk8w9xsh1CkrhyIz2OJtNv00\nY6SmXmJzGQptAnD+7ZYCQ12Jqfko3dVctLHZCM4hfbGCDjFF4sC1M1alfonjYYVY\n6wwcbtZa8wKBgQCLTTneGQQ7i3MEBPTlju6CAsufshnN8Dws1jW5UfYsXIEVCfru\nDT3mPtoCNp+U9MzS2MWEAtbAYwcJoxYmOClQLLw4jBktfFREhgreJe/0ojUSbicq\nbdVZDhJJuGCE1nvrC9Z2FVCXTYECKkP40InuQ+j5lTaR1B+GUMiINqLypwKBgQDW\nNWZSpYfDFkVicpnP2NSs4fQysqurMvsF9TPrVHZZ5k0Kk1poyktfyV6JBm19mlE3\nWUj1f0Q+ATyBhI/KBnUDdL9gluAteMAYGA2/53wetXvO6OYx8RlqFlgWPnwFSK6H\n+mnjLQTr82U7wa7lrHmlmOc6f424EWna+3qFpwAOUQKBgEa0VN1SGlfrzii57VnH\nFg2esVSZvFT+q6DyvKaILKJ9IbpvzdpjHk0PJ0Y5opHQZcN4D/xqBfknkucx/yp3\ndJkmTHaQeQmem6GMfPmMDcqljZbJlUUlirtDf2U3nBfGtvTe3R1FcWRVl5l1xX8c\nLbjReVIZQliggJ7o8c/pytu7\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-adminsdk-lk9jf@arqui2-practica1-5598e.iam.gserviceaccount.com",
+  "client_id": "105986386120602463080",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-lk9jf%40arqui2-practica1-5598e.iam.gserviceaccount.com"
+}
