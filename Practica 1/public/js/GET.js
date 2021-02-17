@@ -1,38 +1,51 @@
 function users_Todos(){
     $.ajax({
         type:'GET',
-        url: 'http://us-central1-arqui2-practica1-5598e.cloudfunctions.net/app/Usuarios/Usuario',
-        success: function(res) {
-            console.log(res);
-            var tbl = $('#noaCargo tbody')
-            $.each(res, function(i, item){
-                tbl.append(
-                    '<tr class="row100 head" onclick="coach_Asociar(\'' + item.id_usu + '\')">' +
-                    '<th class="cell100 column1">♥</th>' +
-                    '<th class="cell100 column2">' + item.nombres + '</th>' +
-                    '<th class="cell100 column3">a</th>' +
-                    '</tr>'
-                );
-            });
-            coach_Todos()
-        },
-        error: function() {
-            alert("Error en solicitud de datos")
-            clearSession();
-        }
-    });
-}
-function coach_Todos(){
-    $.ajax({
-        type:'GET',
         url: 'http://us-central1-arqui2-practica1-5598e.cloudfunctions.net/app/coach/atletas/'
         + sessionStorage.getItem("id"),
-        success: function(res) {
-            console.log(res);
+        success: function(res_as) {
+            $.ajax({
+                type:'GET',
+                url: 'http://us-central1-arqui2-practica1-5598e.cloudfunctions.net/app/Usuarios/Usuario',
+                success: function(res) {
+                    console.log(res_as);
+                    console.log(res);
+                    var tb0 = $('#aCargo tbody')
+                    var tbl = $('#noaCargo tbody')
+                    $.each(res, function(i, item){
+                        var ingresado = false;
+                        $.each(res_as, function(k, itemRes){
+                            if (itemRes.id_user == item.id_usu){
+                                ingresado = true;
+                                tb0.append(
+                                    '<tr class="row100 head">' +
+                                    '<th class="cell100 column1" onclick="detachAtleta(\'' + item.id_usu + '\')">▼▼</th>' +
+                                    '<th class="cell100 column3">' + item.nombres + '</th>' +
+                                    '<th class="cell100 column3" onclick="aCargoTe(\'' + item.id_usu + '\')">Observar</th>' +
+                                    '<th class="cell100 column3" onclick="aCargoOx(\'' + item.id_usu + '\')">Observar</th>' +
+                                    '<th class="cell100 column3" onclick="aCargoPu(\'' + item.id_usu + '\')">Observar</th>' +
+                                    '</tr>'
+                                );
+                            }
+                        })
+                        if (!ingresado){
+                            tbl.append(
+                                '<tr class="row100 head" onclick="coach_Asociar(\'' + item.id_usu + '\')">' +
+                                '<th class="cell100 column1">♥♥</th>' +
+                                '<th class="cell100 column2">' + item.nombres + '</th>' +
+                                '<th class="cell100 column3">Agregar</th>' +
+                                '</tr>'
+                            );
+                        }
+                    });
+                },
+                error: function() {
+                    alert("Error en solicitud de datos")
+                }
+            });
         },
         error: function() {
-            alert("Error en solicitud de datos")
-            clearSession();
+            
         }
     });
 }
@@ -64,7 +77,7 @@ function user_Med(){
     $.ajax({
         type:'GET',
         url: 'https://us-central1-arqui2-practica1-5598e.cloudfunctions.net/app/Mediciones/Fecha/Usuario/' 
-            + sessionStorage.getItem("id"),
+            + sessionStorage.getItem("id_user"),
         success: function(res) {
             console.log(res)
             var tbl = $('#med_hist tbody')
@@ -77,30 +90,6 @@ function user_Med(){
                     '<th class="cell100 column1">♥</th>' +
                     '<th class="cell100 column2">' + item.Fecha+ '</th>' +
                     '<th class="cell100 column3">Ir</th>' +
-                    '</tr>'
-                );
-            });
-        },
-        error: function() {
-            alert("Error en datos")
-        }
-    });
-}
-
-function user_Med_Hist(){
-    $.ajax({
-        type:'GET',
-        url: 'https://us-central1-arqui2-practica1-5598e.cloudfunctions.net/app/Mediciones/' 
-            + sessionStorage.getItem('graph') + '/Usuario/' + sessionStorage.getItem("id"),
-        success: function(res) {
-            console.log(res)
-            var tbl = $('#med_hist tbody')
-            $.each(res, function(i, item){
-                tbl.append(
-                    '<tr class="row100 head" onclick="coach_Asociar(\'' + item.id_usu + '\')">' +
-                    '<th class="cell100 column1">♥</th>' +
-                    '<th class="cell100 column2">' + item.nombres + '</th>' +
-                    '<th class="cell100 column3">a</th>' +
                     '</tr>'
                 );
             });
@@ -148,8 +137,8 @@ function temp_(){
             document.getElementById('temp3').innerHTML = p
             document.getElementById('temp4').innerHTML = res[max].y
             document.getElementById('temp5').innerHTML = res[min].y
-            res[max].indexLabel = "\u2605 Mayor"
             res[min].indexLabel = "\u2691 Menor"
+            res[max].indexLabel = "\u2605 Mayor"
 
             graficarTemperatura_Barra(res);
         },
@@ -158,7 +147,6 @@ function temp_(){
         }
     });
 }
-
 function oxig_(){
     $.ajax({
         type:'GET',
@@ -194,8 +182,8 @@ function oxig_(){
                     avg + y / length, 0)).toFixed(2);
 
             document.getElementById('oxig3').innerHTML = p
-            res[max].indexLabel = "\u2605 Mayor"
             res[min].indexLabel = "\u2691 Menor"
+            res[max].indexLabel = "\u2605 Mayor"
 
             graficarOxigenacion_Barra(res);
         },
@@ -204,8 +192,6 @@ function oxig_(){
         }
     });
 }
-
-
 function puls_(){
     $.ajax({
         type:'GET',
@@ -241,8 +227,8 @@ function puls_(){
                     avg + y / length, 0)).toFixed(2);
 
             document.getElementById('puls3').innerHTML = p
-            res[max].indexLabel = "\u2605 Mayor"
             res[min].indexLabel = "\u2691 Menor"
+            res[max].indexLabel = "\u2605 Mayor"
 
             graficarPulsoCardiaco_Barra(res);
         },
@@ -250,4 +236,24 @@ function puls_(){
             alert("Error en datos")
         }
     });
+}
+
+function getRealTimeData(fecha, tipo){
+    $.ajax({
+        type:'GET',
+        url: 'https://us-central1-arqui2-practica1-5598e.cloudfunctions.net/app/Mediciones/' + tipo + '/Usuario/' 
+            + sessionStorage.getItem('id_user'),
+        success: function(res) {
+            if(tipo == 'OxigenoFHoy')
+                localStorage.setItem('data', res[0].OxigenoES)
+            else if(tipo == 'Temperatura')
+                localStorage.setItem('data', res[0].Temperatura)
+            else
+                localStorage.setItem('data', res[0].Ritmo_Cardiaco)
+        },
+        error: function() {
+            console.log("error en datos")
+        }
+    });
+    return parseInt(localStorage.getItem('data'))
 }

@@ -40,11 +40,8 @@
 			</div>
 		</nav>
 		<div class="container wow bounceInDown" data-wow-duration="2s">
-			<div class="row">
-                <div style="color: white; height: 350px; text-align: center;">
-                    <h1>Aqui va la grafica en tiempo real de</h1>
-                    <h2 id="prueba"></h2>
-                </div>
+			<div class="row" style="margin-bottom: 10px;">
+				<div id="chartContainer" style="height: 300px; width: 100%;"></div>
 			</div>
 		</div>
 	</div>
@@ -112,6 +109,7 @@
 		if(sessionStorage.getItem('iscoach') != 'false') {
 			document.getElementById('head_atletas').innerHTML = '<a href="atletas.html">Atletas</a>';
 		}
+		user_Med()
 	</script>
 </body>
 </html>
