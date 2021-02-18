@@ -47,7 +47,7 @@ app.post('/Asociar/coach/usuario',async(req,res)=>{
 //Añadir Mediciones
 app.post('/AddMed/Usuario',async(req,res)=>{
     var timestamp = new Date();
-    timestamp.setSeconds(timestamp.getSeconds() + 4);
+    timestamp.setSeconds(timestamp.getSeconds() + 1);
     
    await db.collection('Usuario').doc(req.body.Id_User).collection("SignosVitales").doc().create({
        Temperatura: req.body.Temperatura,
@@ -346,10 +346,11 @@ app.get("/Mediciones/Actual/Temperatura/Usuario/:id_usu",async(req,res)=>{
 //datos añadidos 
 
 
+
 app.get("/Mediciones/OxigenoFHoy/Usuario/:id_usu",async(req,res)=>{
     try{
         var timestamp = new Date();
-        timestamp.setSeconds(timestamp.getSeconds() - 2);
+        timestamp.setSeconds(timestamp.getSeconds());
 
         const UserCol= db.collection("Usuario");
         const snapshot = await UserCol.doc(req.params.id_usu).collection("SignosVitales").orderBy("TiempoM",'desc').limit(1).get();
@@ -367,9 +368,73 @@ app.get("/Mediciones/OxigenoFHoy/Usuario/:id_usu",async(req,res)=>{
 
         }));
         var FechAc= ObtenerFecha(timestamp);
-        var HoraA= ObtenerHora(timestamp);
-        console.log("Almacen "+HoraA);
-        console.log("Almacen "+Condicion[0].Hora);
+        var HoraA= ObtenerHora(timestamp-1000*60*60*6);
+        if((FechAc==Condicion[0].Fecha)&&(HoraA==Condicion[0].Hora)){
+                
+            return res.status(200).json(response);
+        }
+            
+
+    }catch(e){
+    }
+    return res.status(200).json([{OxigenoES:"0"}]);
+});
+
+app.get("/Mediciones/RitmoCFHoy/Usuario/:id_usu",async(req,res)=>{
+    try{
+        var timestamp = new Date();
+        timestamp.setSeconds(timestamp.getSeconds());
+
+        const UserCol= db.collection("Usuario");
+        const snapshot = await UserCol.doc(req.params.id_usu).collection("SignosVitales").orderBy("TiempoM",'desc').limit(1).get();
+
+        const Condicion = snapshot.docs.map((doc)=>({
+            
+            Fecha: doc.data().Fecha,
+            Hora:doc.data().Hora
+
+        }));
+
+        const response = snapshot.docs.map((doc)=>({
+            
+            Ritmo_Cardiaco: doc.data().Ritmo_Cardiaco
+
+        }));
+        var FechAc= ObtenerFecha(timestamp);
+        var HoraA= ObtenerHora(timestamp-1000*60*60*6);
+        if((FechAc==Condicion[0].Fecha)&&(HoraA==Condicion[0].Hora)){
+                
+            return res.status(200).json(response);
+        }
+            
+
+    }catch(e){
+    }
+    return res.status(200).json([{OxigenoES:"0"}]);
+});
+
+app.get("/Mediciones/TemperaturaFHoy/Usuario/:id_usu",async(req,res)=>{
+    try{
+        var timestamp = new Date();
+        timestamp.setSeconds(timestamp.getSeconds());
+
+        const UserCol= db.collection("Usuario");
+        const snapshot = await UserCol.doc(req.params.id_usu).collection("SignosVitales").orderBy("TiempoM",'desc').limit(1).get();
+
+        const Condicion = snapshot.docs.map((doc)=>({
+            
+            Fecha: doc.data().Fecha,
+            Hora:doc.data().Hora
+
+        }));
+
+        const response = snapshot.docs.map((doc)=>({
+            
+            Temperatura: doc.data().Temperatura
+
+        }));
+        var FechAc= ObtenerFecha(timestamp);
+        var HoraA= ObtenerHora(timestamp-1000*60*60*6);
         if((FechAc==Condicion[0].Fecha)&&(HoraA==Condicion[0].Hora)){
                 
             return res.status(200).json(response);
