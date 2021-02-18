@@ -1,0 +1,43 @@
+.power{
+	width: 100%;
+	float: left;
+	background-color: rgba(160, 179, 176, 0.25);
+	border-radius: 30px;
+	padding: 20px;
+    box-shadow: 0px 0px 8px 0px;
+}
+.totaly_text{
+		width: 100%;
+	float: left;
+	text-align: center;
+	margin-top: 20px;	
+	color: #000;
+}
+.making{
+	width: 100%;
+	float: left;
+	text-align: center;
+	margin-top: 20px;	
+	color: #000;
+	margin-left: 0;
+}
+.icon{
+	text-align: center;
+	margin-top: 40px;
+}
+
+.sensores :hover{
+	background-color: #6eb99f;
+    cursor: pointer;
+}
+
+.header-div .container .row{
+	padding-bottom: 25px;
+}
+@media (max-width: 760px) { 
+	.sensores{
+		width: 70%; 
+		margin:auto;
+	}
+}
+
