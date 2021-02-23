@@ -15,15 +15,29 @@ int pin_LM35 = 0;         // Pin ANALOGICO A0
 PulseOximeter pox;
 uint32_t tsLastReport = 0;
 
-void setup()
-{
+
+int PulseSensor = 7;
+int Signal = 0;                
+int Threshold = 500;
+int pulso = 0;
+
+void setup(){
   Serial.begin(9600);   // comunicacion de monitor serial a 9600 bps
   Serial.println("Listo");  // escribe Listo en el monitor
   miBT.begin(9600);    // comunicacion serie entre Arduino y el modulo a 38400 bps
 }
 
-void loop()
-{
+void loop(){
+
+  Signal = analogRead(PulseSensor);                                              
+  Serial.println(Signal);
+
+  if(Signal > Threshold){                           
+     Serial.println("PULSO");
+     pulso = 1;
+     delay(30);
+   }
+
   /* Modulo de temperatura */
   temperatura_LM35 = 0;
   temperatura_LM35 = analogRead(pin_LM35); 
@@ -41,14 +55,14 @@ void loop()
     temperatura_LM35_LAST = temperatura_LM35;
     temperatura_LM35_SEND = temperatura_LM35; 
   }
-  else
-  {
+   else
+   {
 
     Serial.print("Temperaturas: ");
     Serial.print(temperatura_LM35_LAST);
     Serial.print("\n");
     temperatura_LM35_SEND = temperatura_LM35_LAST; 
-  }
+    }
   
   /* Modulo de pulso y oxigeno 
   pox.update();
@@ -59,19 +73,40 @@ void loop()
   Serial.println("%"); */
 
 
-  if (miBT.available())
+if (miBT.available())
+{
+  miBT.write(temperatura_LM35_SEND);
+  miBT.write(",");
+  if(pulso == 1)
   {
-    miBT.write(temperatura_LM35_SEND);
-    miBT.write(",0,0");
-    miBT.write("\n");
-  } 
-  else
+    miBT.write("1");  
+  }
+  else{
+    miBT.write("0");
+  }
+  miBT.write(",0");
+  miBT.write("\n");
+} 
+else{
+  miBT.write(temperatura_LM35_SEND);
+  miBT.write(",");
+  if(pulso == 1)
   {
-    miBT.write(temperatura_LM35_SEND);
-    miBT.write(",0,0");
-    miBT.write("\n");
+    miBT.write("1");  
+  }
+  else{
+    miBT.write("0");
+  }
+  miBT.write(",0");
+  miBT.write("\n");
   }  
 
-  delay(500);
+  pulso = 0;
+  delay(1000);
+/*if (miBT.available())       // si hay informacion disponible desde modulo
+   Serial.write(miBT.read());   // lee Bluetooth y envia a monitor serial de Arduino
 
+if (Serial.available())     // si hay informacion disponible desde el monitor serial
+   miBT.write(Serial.read());   // lee monitor serial y envia a Bluetooth
+*/
 }
