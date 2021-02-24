@@ -15,98 +15,101 @@ int pin_LM35 = 0;         // Pin ANALOGICO A0
 PulseOximeter pox;
 uint32_t tsLastReport = 0;
 
-
+String envio = "";
 int PulseSensor = 7;
-int Signal = 0;                
-int Threshold = 500;
+int Signal = 0;                  
+int Threshold = 350;   
 int pulso = 0;
+int tiempoT, tiempoS;
+int ppm;
+
+int maxPulso = 345;
+int minPulso = 335;
+int pps = 0;
+bool pulsado;
 
 void setup(){
   Serial.begin(9600);   // comunicacion de monitor serial a 9600 bps
   Serial.println("Listo");  // escribe Listo en el monitor
   miBT.begin(9600);    // comunicacion serie entre Arduino y el modulo a 38400 bps
+
+  tiempoT = 0;
+  tiempoS = 0;
+  ppm = 1;
+  pps = 0;
+
+  pulsado = false;
 }
 
 void loop(){
-
-  Signal = analogRead(PulseSensor);                                              
-  Serial.println(Signal);
-
-  if(Signal > Threshold){                           
-     Serial.println("PULSO");
-     pulso = 1;
-     delay(30);
-   }
-
-  /* Modulo de temperatura */
+/* Modulo de temperatura */
   temperatura_LM35 = 0;
   temperatura_LM35 = analogRead(pin_LM35); 
   temperatura_LM35 = (1.1 * temperatura_LM35 * 100.0) / 1024.0; 
   temperatura_LM35 = temperatura_LM35 + 32;
 
-  //Serial.print("Temperatura: ");
-  //Serial.print(temperatura_LM35);
-  //Serial.print("\n");
   if(temperatura_LM35 > 33 && temperatura_LM35 < 40)
   {
-    Serial.print("Temperatura: ");
-    Serial.print(temperatura_LM35);
-    Serial.print("\n");
     temperatura_LM35_LAST = temperatura_LM35;
     temperatura_LM35_SEND = temperatura_LM35; 
   }
    else
    {
-
-    Serial.print("Temperaturas: ");
-    Serial.print(temperatura_LM35_LAST);
-    Serial.print("\n");
     temperatura_LM35_SEND = temperatura_LM35_LAST; 
-    }
+  }
   
-  /* Modulo de pulso y oxigeno 
-  pox.update();
-  Serial.print("Ritmo:");
-  Serial.print(pox.getHeartRate());
-  Serial.print(" / Oxigeno:");
-  Serial.print(pox.getSpO2());
-  Serial.println("%"); */
+  Signal = analogRead(PulseSensor);  //Lectura de datos del sensor de ritmo cardiaco
+  if(Signal >= maxPulso){   
+    if(pulsado == false){
+      pps++;
+    }
+    pulsado = true;
+    delay(30);
+   } 
+   if(Signal <= minPulso){
+    pulsado = false;
+   }
+        //Serial.println(Signal);
+   delay(100);
+   tiempoS++;
 
-
-if (miBT.available())
-{
-  miBT.write(temperatura_LM35_SEND);
-  miBT.write(",");
-  if(pulso == 1)
-  {
-    miBT.write("1");  
-  }
-  else{
-    miBT.write("0");
-  }
-  miBT.write(",0");
-  miBT.write("\n");
-} 
-else{
-  miBT.write(temperatura_LM35_SEND);
-  miBT.write(",");
-  if(pulso == 1)
-  {
-    miBT.write("1");  
-  }
-  else{
-    miBT.write("0");
-  }
-  miBT.write(",0");
-  miBT.write("\n");
-  }  
-
-  pulso = 0;
-  delay(1000);
-/*if (miBT.available())       // si hay informacion disponible desde modulo
-   Serial.write(miBT.read());   // lee Bluetooth y envia a monitor serial de Arduino
-
-if (Serial.available())     // si hay informacion disponible desde el monitor serial
-   miBT.write(Serial.read());   // lee monitor serial y envia a Bluetooth
-*/
+   
+   if(tiempoS >= 10){
+      tiempoS = 0;
+      tiempoT++;
+      ppm = (60*pps)/tiempoT;
+      if(tiempoT >= 15){
+        tiempoT = 0;
+        pps = 0;
+      }
+      Signal = (Signal - 300 + ppm)/2;
+      if(Signal < 30) Signal = 0;
+      envio = "";
+    if (miBT.available())
+    {
+        envio.concat(temperatura_LM35_SEND);
+        envio.concat(",");
+        envio.concat(pps);
+        envio.concat(",");
+        envio.concat(ppm);
+        envio.concat(",");
+        envio.concat(Signal);
+        envio.concat("\n");
+        miBT.print(envio);
+        Serial.println(envio);
+    } 
+    else{
+        envio.concat(temperatura_LM35_SEND);
+        envio.concat(",");
+        envio.concat(pps);
+        envio.concat(",");
+        envio.concat(ppm);
+        envio.concat(",");
+        envio.concat(Signal);
+        envio.concat("\n");
+        miBT.print(envio);
+        Serial.println(envio);
+     }  
+   }
+   
 }
