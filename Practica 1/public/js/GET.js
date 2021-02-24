@@ -1,12 +1,12 @@
 function users_Todos(){
     $.ajax({
         type:'GET',
-        url: 'http://us-central1-arqui2-practica1-5598e.cloudfunctions.net/app/coach/atletas/'
+        url: 'https://us-central1-arqui2-practica1-5598e.cloudfunctions.net/app/coach/atletas/'
         + sessionStorage.getItem("id"),
         success: function(res_as) {
             $.ajax({
                 type:'GET',
-                url: 'http://us-central1-arqui2-practica1-5598e.cloudfunctions.net/app/Usuarios/Usuario',
+                url: 'https://us-central1-arqui2-practica1-5598e.cloudfunctions.net/app/Usuarios/Usuario',
                 success: function(res) {
                     console.log(res_as);
                     console.log(res);
@@ -20,7 +20,7 @@ function users_Todos(){
                                 tb0.append(
                                     '<tr class="row100 head">' +
                                     '<th class="cell100 column1" onclick="detachAtleta(\'' + item.id_usu + '\')">▼▼</th>' +
-                                    '<th class="cell100 column3">' + item.nombres + '</th>' +
+                                    '<th class="cell100 column3" onclick="aCargoPe(\'' + item.id_usu + '\')">' + item.nombres + '</th>' +
                                     '<th class="cell100 column3" onclick="aCargoTe(\'' + item.id_usu + '\')">Observar</th>' +
                                     '<th class="cell100 column3" onclick="aCargoOx(\'' + item.id_usu + '\')">Observar</th>' +
                                     '<th class="cell100 column3" onclick="aCargoPu(\'' + item.id_usu + '\')">Observar</th>' +
