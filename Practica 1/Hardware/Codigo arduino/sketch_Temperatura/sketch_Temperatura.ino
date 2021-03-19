@@ -124,6 +124,14 @@ void velocidad()
 }
 
 /***************************************************************************
+* Modulo de velocidad cool con ultrasonico
+*/
+void velocidad_neryversion()
+{
+
+}
+
+/***************************************************************************
 * minuto cumplido 
 */
 void minuto()
