@@ -7,9 +7,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavbarComponent implements OnInit {
 
+  Iniciado=false;
   constructor() { }
 
   ngOnInit(): void {
+    this.validar();
+  }
+  validar(){
+
   }
 
 }

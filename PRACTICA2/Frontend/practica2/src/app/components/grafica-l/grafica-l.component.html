@@ -16,20 +16,45 @@
               <div class="container">
                   <div class="d-flex justify-content-center h-100">
                       
-                      
+                      <!---->
+
+                      <!---->
                     
 
-    <div class="card" style="width: 80%;" >
+    <div class="card" style="width: 80%; border-radius:5px;" >
       <div class="container">
-        
+    
 
 
-        <div class="card" style="width: 100%; background-color: black;">
-          <div class="container" style="width: 100%;" *ngIf="seg>=10">
-            <h2 style="color: white;"> {{min}}:{{seg}}</h2>
+
+        <div class="card" style="width: 100%; background-color: black; " *ngIf="seg>=10">
+
+          <div class="row align-items-end" style="width: 100%;">
+            <div class="col">
+              <div class="container" style="width: 100%;" >
+                <h2 style="color: white;">PESO: {{Peso}}kg.</h2>
+              </div>
+            </div>
+            <div class="col">
+              <div class="container" style="width: 100%;">
+                <h2 style="color: white;">{{min}}:{{seg}}</h2>
+              </div>
+            </div>          
           </div>
-          <div class="container" style="width: 100%;" *ngIf="seg<10">
-            <h2 style="color: white;"> {{min}}:0{{seg}}</h2>
+        </div>
+
+        <div class="card" style="width: 100%; background-color: black; " *ngIf="seg<10">
+          <div class="row align-items-end" style="width: 100%;" >
+            <div class="col">
+              <div class="container" style="width: 100%;">
+                <h2 style="color: white;">PESO: {{Peso}}kg.</h2>
+              </div>
+            </div>
+            <div class="col">
+              <div class="container" style="width: 100%;">
+                <h2 style="color: white;">{{min}}:0{{seg}}</h2>
+              </div>
+            </div>          
           </div>
         </div>
 
@@ -44,6 +69,11 @@
               [plugins]="lineChartPlugins">
             </canvas>
           </div>
+          <div class="card" >
+            <div class="card" style="width: 100%;"><H1>VO2MAX</H1></div>
+            <H1>Datos</H1>
+          </div>
+
           </div>
           <div class="card" style="width: 100%; background-color: black;">
             <p style="color: white;" >Hora: {{Hora}} <br>Fecha: {{Fecha}}</p>

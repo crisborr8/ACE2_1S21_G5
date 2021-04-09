@@ -40,7 +40,7 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i class="fas fa-key"></i></span>
                                     </div>
-                                    <input id="Pass" name="Pass" type="text" class="form-control" placeholder="Peso en kg/lbs">
+                                    <input  id="Peso" name="Peso" type="text" autocomplete="off" class="form-control" placeholder="Peso en kg/lbs">
                                 </div>
                                 
                                 
@@ -49,7 +49,7 @@
                         <div class="card-footer">
                             <br><br>
                             <div class="form-group" >
-                                <a class="btn float-right login_btn" routerLink="/Grafica" >Iniciar </a>
+                                <button class="btn float-right login_btn" (click)="Almacenar()">Iniciar </button>
                             </div>
                         </div>
                     </div>

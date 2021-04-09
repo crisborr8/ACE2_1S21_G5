@@ -11,7 +11,7 @@ import {Dato} from '../../modelo/Objeto';
 export class GraficaLComponent  implements OnInit {
   Hora!:any;
   Fecha!:any;
-
+  Peso!:any;
   min!:any;
   seg!:any;
   
@@ -109,6 +109,7 @@ private tick():void{
 resetTimer():void{
   this.min=5;
   this.seg=0;
+  this.Peso=100;
 
 }
 private temporizador(){

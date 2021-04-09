@@ -1,17 +1,13 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
-      <a class="navbar-brand" [routerLink]="['MenuToday']" routerLinkActive="router-link-active" >ACE_G5</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-       
+      <a class="navbar-brand"  routerLinkActive="router-link-active" >ACE_G5</a>
+      <div class="container">
         <ul class="navbar-nav me-rg mb-2 mb-lg-0">
             <li class="nav-item" routerLinkActive = 'active'>
-                <a class="nav-link" routerLink="/Inicio" tabindex="-1" aria-disabled="false">Inicio</a>
+                <a class="nav-link" routerLink="/Inicio" tabindex="-1" aria-disabled="false" *ngIf="Iniciado">Inicio</a>
               </li>
             <li class="nav-item" routerLinkActive = 'active'>
-            <a class="nav-link" routerLink="/Grafica" tabindex="-1" aria-disabled="false">Control</a>
+            <a class="nav-link" routerLink="/Grafica" tabindex="-1" aria-disabled="false" *ngIf="!Iniciado">Control</a>
             </li>
           
         </ul>
