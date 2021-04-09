@@ -10,8 +10,9 @@ import {Dato} from '../../modelo/Objeto';
 })
 export class InicioComponent implements OnInit {
 
-  Datos!:Dato;
-   Peso!:any;
+  Datos:Dato[]=[];
+   peso:string="";
+   User:string="";
   constructor( private router:Router , public Servicio:LocalSTService) { }
 
   ngOnInit(): void {
@@ -19,12 +20,13 @@ export class InicioComponent implements OnInit {
   }
 
   Almacenar(){
-    let valor = document.getElementById("Peso");
-    console.log(valor);
-   // this.Datos.Peso= Number(this.Peso);
-  //this.Servicio.AddDato(this.Datos);
-
-   // alert("VOY PA YAA "+ this.Servicio.getDato());
+  
+    console.log(this.peso);
+   this.Servicio.AddDato({
+     Peso:Number(this.peso)
+   });
+   this.Datos=this.Servicio.getDato();
+      alert("Su peso ingresado es de: "+ this.Datos[0].Peso);
     this.router.navigate(['/Grafica']);
   }
 

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ChartDataSets, ChartOptions, ChartType } from 'chart.js';
 import { Color, Label } from 'ng2-charts';
 import {Dato} from '../../modelo/Objeto';
+import {LocalSTService} from '../../servicios/local-st.service'
 
 @Component({
   selector: 'app-grafica-l',
@@ -9,6 +10,7 @@ import {Dato} from '../../modelo/Objeto';
   styleUrls: ['./grafica-l.component.css']
 })
 export class GraficaLComponent  implements OnInit {
+  Datos:Dato[]=[];
   Hora!:any;
   Fecha!:any;
   Peso!:any;
@@ -53,7 +55,7 @@ export class GraficaLComponent  implements OnInit {
   public lineChartType: ChartType = 'line';
   public lineChartPlugins = [];
 
-  constructor() {
+  constructor( private Servicio:LocalSTService) {
     this.resetTimer();
     setInterval(()=> this.tick(),1000);
   }
@@ -107,17 +109,18 @@ private tick():void{
 }
 
 resetTimer():void{
-  this.min=5;
+  this.min=1;
   this.seg=0;
-  this.Peso=100;
+  this.Datos=this.Servicio.getDato();
+  this.Peso=this.Datos[0].Peso;
 
 }
 private temporizador(){
     if(--this.seg<0){
       this.seg=59;
       if(--this.min<0){
-        this.min='Fin ';
-        this.seg='Control';
+        this.min='0';
+        this.seg='0';
       }
     }
 }
