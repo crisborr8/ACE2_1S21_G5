@@ -16,8 +16,12 @@ export class GraficaLComponent  implements OnInit {
   Peso!:any;
   min!:any;
   seg!:any;
-  
-  dato!:Dato;
+  VO2MAX!:any;
+  Prevo2max!:Number;
+  Oxigeno!:any;
+  Volumen!:any;
+
+  datos:Dato[]=[];
 
   public lineChartData: ChartDataSets[] = [];
   public lineChartLabels: Label[]=[];
@@ -37,6 +41,7 @@ export class GraficaLComponent  implements OnInit {
         scaleLabel: {
            display: true,
            labelString: 'Tiempor Real'
+           
         },
         gridLines: {
           //drawOnChartArea: false
@@ -61,10 +66,20 @@ export class GraficaLComponent  implements OnInit {
   }
 
   ngOnInit() {
-
+    console.log(':v');
+        this.calculoVO2MAX();
     this.ActualizarLaber();
     this.ActualizarDatos();
   }
+  calculoVO2MAX(){
+    this.Volumen=500;
+    this.Oxigeno=Number(this.Volumen)*(210);
+    this.Prevo2max=this.Oxigeno/5;
+    this.datos=this.Servicio.getDato();
+    this.VO2MAX=(Number(this.Prevo2max)/Number(this.datos[0].Peso)).toFixed(3);
+    
+  }
+
 
   
   ActualizarLaber(){
@@ -109,10 +124,10 @@ private tick():void{
 }
 
 resetTimer():void{
-  this.min=1;
-  this.seg=0;
+  this.min=0;
+  this.seg=9;
   this.Datos=this.Servicio.getDato();
-  this.Peso=this.Datos[0].Peso;
+  this.Peso=this.Datos[0].Peso.toFixed(3);
 
 }
 private temporizador(){
@@ -121,6 +136,7 @@ private temporizador(){
       if(--this.min<0){
         this.min='0';
         this.seg='0';
+        
       }
     }
 }

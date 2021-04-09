@@ -9,25 +9,45 @@ import {Dato} from '../../modelo/Objeto';
   styleUrls: ['./inicio.component.css']
 })
 export class InicioComponent implements OnInit {
-
+  numero!:Number;
   Datos:Dato[]=[];
    peso:string="";
    User:string="";
+   conversion:any;
   constructor( private router:Router , public Servicio:LocalSTService) { }
 
   ngOnInit(): void {
-  
+  this.Servicio.deleteDato();
   }
 
   Almacenar(){
-  
-    console.log(this.peso);
+    var element = <HTMLInputElement> document.getElementById("flexRadioDefault2");
+    var isChecked = element.checked;
+
+   
+
+    if(this.EsNumero(this.peso)){
+      console.log(this.peso);
+      if(!isChecked){
+        this.conversion=Number(this.peso)/(2.2046);
+        this.peso=this.conversion;
+       }
    this.Servicio.AddDato({
      Peso:Number(this.peso)
    });
    this.Datos=this.Servicio.getDato();
-      alert("Su peso ingresado es de: "+ this.Datos[0].Peso);
     this.router.navigate(['/Grafica']);
+    }
   }
 
+  EsNumero(dato:any){
+    var valoresAceptados = /^[0-9]+$/;
+       if (dato.match(valoresAceptados)){
+         // alert ("Es numérico");
+          return true;
+       } else {
+         alert ("\""+dato+"\" No es numérico");
+         return false;
+      }
+  }
 }

@@ -8,17 +8,9 @@ export class LocalSTService {
   datos: Dato[]=[];
   constructor() { }
   AddDato(data: Dato){
-    this.datos.push(data);
-      let datos:Dato[]=[];
-      if(localStorage.getItem('Peso')===null){
-      this.datos.push(data);
-      localStorage.setItem("Peso",JSON.stringify(this.datos));
-      }else{
-        let Tas=localStorage.getItem('Peso');
-        JSON.parse(Tas||'{}');
-        datos.push(data);
+      this.datos[0]=data;
         localStorage.setItem("Peso",JSON.stringify(this.datos));
-      }
+      
   }
 
   getDato(){
@@ -30,6 +22,10 @@ export class LocalSTService {
       return this.datos;
       }
     
+  }
+
+  deleteDato(){
+    localStorage.removeItem('Peso');
   }
 
 }
