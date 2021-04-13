@@ -52,7 +52,8 @@ export class GraficaLComponent  implements OnInit {
   public lineChartColors: Color[] = [
     {
       borderColor: 'black',
-      backgroundColor: 'transparent',
+      //backgroundColor: 'transparent',
+      backgroundColor: '#A7D4D8'
     },
   ];
 
