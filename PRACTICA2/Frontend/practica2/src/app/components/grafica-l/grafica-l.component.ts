@@ -20,6 +20,9 @@ export class GraficaLComponent  implements OnInit {
   Prevo2max!:Number;
   Oxigeno!:any;
   Volumen!:any;
+  volumenmax!:any;
+  volumenmin!:any;
+  volumenprom!:any;
 
   datos:Dato[]=[];
 
@@ -64,24 +67,32 @@ export class GraficaLComponent  implements OnInit {
   constructor( private Servicio:LocalSTService) {
     this.resetTimer();
     setInterval(()=> this.tick(),1000);
+    setInterval(()=> this.calculoVO2MAX(),1000);
+
   }
 
   ngOnInit() {
-    console.log(':v');
-        this.calculoVO2MAX();
     this.ActualizarLaber();
     this.ActualizarDatos();
   }
   calculoVO2MAX(){
-    this.Volumen=500;
+    this.valoresAire();
+    if(this.min==0 && this.seg==0 && this.VO2MAX==undefined){
+      console.log(':v');
+      this.Volumen=500;
     this.Oxigeno=Number(this.Volumen)*(210);
     this.Prevo2max=this.Oxigeno/5;
     this.datos=this.Servicio.getDato();
     this.VO2MAX=(Number(this.Prevo2max)/Number(this.datos[0].Peso)).toFixed(3);
+    }
     
   }
 
-
+  valoresAire(){
+    this.volumenmax=12;
+    this.volumenmin=13;
+    this.volumenprom=14;
+  }
   
   ActualizarLaber(){
     var timestamp = new Date();
@@ -116,15 +127,22 @@ export class GraficaLComponent  implements OnInit {
 }
 
 private tick():void{
+  //if(this.min==0 && this.seg==0){
+    //this.calculoVO2MAX();
+  //}
   this.temporizador();
   this.ActualizarLaber();
   this.ActualizarDatos();
   var Fec=new Date();
   this.Hora=this.ObtenerHora(Fec);
   this.Fecha=this.ObtenerFecha(Fec);
+
 }
 
 resetTimer():void{
+  this.volumenmax=0;
+  this.volumenmin=0;
+  this.volumenprom=0;
   this.min=0;
   this.seg=9;
   this.Datos=this.Servicio.getDato();
