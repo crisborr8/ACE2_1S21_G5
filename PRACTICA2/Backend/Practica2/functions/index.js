@@ -1,10 +1,7 @@
 const cors = require('cors');
 const functions = require("firebase-functions");
-
 const admin =require('firebase-admin');
-
 const express= require('express');
-
 const app=express()
 
 app.use(cors({origin:true}));
@@ -27,7 +24,7 @@ app.get("/volmax",async(req,res)=>{
         const UserCol= db.collection("Aire");
         const snapshot = await UserCol.orderBy('Amplitud','desc').limit(1).get();
         const response = snapshot.docs.map((doc)=>({
-            VolumenMax: doc.data().Amplitud
+            Data: doc.data().Amplitud
         }));
         return res.status(200).json(response[0]);
     }catch(error){
@@ -39,7 +36,7 @@ app.get("/volmin",async(req,res)=>{
         const UserCol= db.collection("Aire");
         const snapshot = await UserCol.orderBy('Amplitud','asc').limit(1).get();
         const response = snapshot.docs.map((doc)=>({
-            VolumenMin: doc.data().Amplitud
+            Data: doc.data().Amplitud
         }));
         return res.status(200).json(response[0]);
     }catch(error){
@@ -51,7 +48,7 @@ app.get("/volprom",async(req,res)=>{
         const UserCol= db.collection("Aire");
         const snapshot = await UserCol.get();
         const response = snapshot.docs.map((doc)=>({
-            Volumen: doc.data().Amplitud
+            Data: doc.data().Amplitud
         }));
         return res.status(200).json(response);
     }catch(error){

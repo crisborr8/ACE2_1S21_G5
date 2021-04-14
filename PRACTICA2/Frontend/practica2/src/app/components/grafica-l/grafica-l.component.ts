@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ChartDataSets, ChartOptions, ChartType } from 'chart.js';
 import { Color, Label } from 'ng2-charts';
-import {Dato} from '../../modelo/Objeto';
-import {LocalSTService} from '../../servicios/local-st.service'
+import {Dato, Vol} from '../../modelo/Objeto';
+import {LocalSTService} from '../../servicios/local-st.service';
+import {ConexionService} from '../../servicios/conexion.service';
 
 @Component({
   selector: 'app-grafica-l',
@@ -11,6 +12,8 @@ import {LocalSTService} from '../../servicios/local-st.service'
 })
 export class GraficaLComponent  implements OnInit {
   Datos:Dato[]=[];
+  DATA!:Vol;
+  DATAS:Vol[]=[];
   Hora!:any;
   Fecha!:any;
   Peso!:any;
@@ -64,11 +67,12 @@ export class GraficaLComponent  implements OnInit {
   public lineChartType: ChartType = 'line';
   public lineChartPlugins = [];
 
-  constructor( private Servicio:LocalSTService) {
+  constructor( private Servicio:LocalSTService,private conexion:ConexionService) {
     this.resetTimer();
     setInterval(()=> this.tick(),1000);
     setInterval(()=> this.calculoVO2MAX(),1000);
-
+   // setInterval(()=> this.valoresAire(),6000);
+    
   }
 
   ngOnInit() {
@@ -76,23 +80,62 @@ export class GraficaLComponent  implements OnInit {
     this.ActualizarDatos();
   }
   calculoVO2MAX(){
-    this.valoresAire();
+    
     if(this.min==0 && this.seg==0 && this.VO2MAX==undefined){
-      console.log(':v');
-      this.Volumen=500;
-    this.Oxigeno=Number(this.Volumen)*(210);
-    this.Prevo2max=this.Oxigeno/5;
-    this.datos=this.Servicio.getDato();
-    this.VO2MAX=(Number(this.Prevo2max)/Number(this.datos[0].Peso)).toFixed(3);
+      this.valoresAire();
+      
+      //---------------------
+      let Suma=0;
+      let contador=0;
+      this.conexion.Volumenes().subscribe(async(res: any) =>{
+        this.DATAS= await res;
+        
+        for(let i=0;i<this.DATAS.length;i++){
+          if(this.DATAS[i].Data>=0){
+            console.log(this.DATAS[i].Data);
+            Suma= Suma+this.DATAS[i].Data;
+            contador++;
+          }
+  
+        }
+        
+        this.volumenprom=(Suma/contador).toFixed(2);
+      
+        this.Oxigeno=(this.volumenprom)*(210);
+        this.Prevo2max=this.Oxigeno/5;
+        this.datos=this.Servicio.getDato();
+        this.VO2MAX=(Number(this.Prevo2max)/Number(this.datos[0].Peso)).toFixed(3);
+       
+      },(error:any)=>{
+        console.error(error);
+      });
+      //---------------------
+      
+    
     }
     
   }
 
   valoresAire(){
-    this.volumenmax=12;
-    this.volumenmin=13;
-    this.volumenprom=14;
+    this.conexion.VolumenMax().subscribe(async(res: any) =>{
+      this.DATA= await res;
+      console.log(this.DATA);
+      this.volumenmax=this.DATA.Data;
+    },(error:any)=>{
+      console.error(error);
+    });
+
+    this.conexion.VolumenMin().subscribe(async(res: any) =>{
+      this.DATA=await res;
+      console.log(this.DATA);
+      this.volumenmin=this.DATA.Data;
+    },(error:any)=>{
+      console.error(error);
+    });
+    
   }
+
+
   
   ActualizarLaber(){
     var timestamp = new Date();
