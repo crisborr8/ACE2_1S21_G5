@@ -13,6 +13,7 @@ import {ConexionService} from '../../servicios/conexion.service';
 export class GraficaLComponent  implements OnInit {
   Datos:Dato[]=[];
   DATA!:Vol;
+  Arreglo:any[]=[0,0,0,0,0,0,0,0,,0];
   DATAS:Vol[]=[];
   Hora!:any;
   Fecha!:any;
@@ -79,6 +80,7 @@ export class GraficaLComponent  implements OnInit {
     this.ActualizarLaber();
     this.ActualizarDatos();
   }
+  
   calculoVO2MAX(){
     
     if(this.min==0 && this.seg==0 && this.VO2MAX==undefined){
@@ -116,8 +118,9 @@ export class GraficaLComponent  implements OnInit {
     
   }
 
-  valoresAire(){
-    this.conexion.VolumenMax().subscribe(async(res: any) =>{
+  async valoresAire(){
+
+    const aire1= await this.conexion.VolumenMax().subscribe(async(res: any) =>{
       this.DATA= await res;
       console.log(this.DATA);
       this.volumenmax=this.DATA.Data;
@@ -125,7 +128,7 @@ export class GraficaLComponent  implements OnInit {
       console.error(error);
     });
 
-    this.conexion.VolumenMin().subscribe(async(res: any) =>{
+    const aire2= await this.conexion.VolumenMin().subscribe(async(res: any) =>{
       this.DATA=await res;
       console.log(this.DATA);
       this.volumenmin=this.DATA.Data;
@@ -137,10 +140,32 @@ export class GraficaLComponent  implements OnInit {
 
 
   
-  ActualizarLaber(){
+   ActualizarLaber(){
     var timestamp = new Date();
     for(let i=0;i<10;i++){
-      this.lineChartLabels[9-i]=this.ObtenerHora(timestamp.setSeconds(timestamp.getSeconds() - 1));
+
+      let Horat= this.ObtenerHora(timestamp.setSeconds(timestamp.getSeconds() - 1));
+      try {
+
+        const aire2=  this.conexion.VolumenHora(this.ObtenerHora(timestamp.setSeconds(timestamp.getSeconds() - 1))).subscribe(async(res: any) =>{
+          this.DATA=await res;
+          console.log(this.DATA);
+          this.Arreglo[9-i]=Number(this.DATA.Data);
+          
+        },(error:any)=>{
+          //console.error(error);
+          this.Arreglo[9-i]=0;
+        });
+      } catch (error) {
+        console.log('XD');
+      }
+ 
+
+    
+      this.lineChartData=[{data: [this.Arreglo[0], this.Arreglo[1], this.Arreglo[2], this.Arreglo[3], this.Arreglo[4],this.Arreglo[5], this.Arreglo[6],this.Arreglo[7],this.Arreglo[8],this.Arreglo[9]], label: 'Volumen de Aire'}];
+
+     // this.lineChartData=[{data: [this.Arreglo[0].Data, this.Arreglo[1].Data, this.Arreglo[2].Data, this.Arreglo[3].Data, this.Arreglo[4].Data,this.Arreglo[5].Data, this.Arreglo[6].Data,this.Arreglo[7].Data,this.Arreglo[8].Data,this.Arreglo[9].Data], label: 'Volumen de Aire'}];
+      this.lineChartLabels[9-i]=Horat;
     }
 
   }
@@ -148,13 +173,13 @@ export class GraficaLComponent  implements OnInit {
    getRand(min:number, max:number) {
     return Math.random() * (max - min) + min;
   }
-
+ 
   ActualizarDatos(){
     
-    this.lineChartData=[{data: [this.getRand(-100,0), this.getRand(10,100), this.getRand(-100,100), this.getRand(0,100), this.getRand(0,100),this.getRand(0,100), this.getRand(0,100)], label: 'Volumen de Aire'}];
+  //  this.lineChartData=[{data: [1,2,3, 4, 3,2, 1,5,5,0], label: 'Volumen de Aire'}];
   }
 
-   ObtenerHora(Tiempo:any){
+ObtenerHora(Tiempo:any){
     const dat = new Date(Tiempo).toLocaleString('en-GB');
     const Separar = dat.split(",",2);
     const Hora = Separar[1];

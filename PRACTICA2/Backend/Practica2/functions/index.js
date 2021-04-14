@@ -9,12 +9,13 @@ admin.initializeApp({
     credential: admin.credential.applicationDefault()
 });
 const db =admin.firestore();
-
+//-1000*60*60*6
 app.post('/Iniciar/vo2max',async(req,res)=>{
-
+   var tiempo= new Date();
    const Usuario= await db.collection('Aire').doc()
     .create({
-        Amplitud :req.body.Amplitud
+        Amplitud :req.body.Amplitud,
+        Hora: ObtenerHora(tiempo)
     })
      res.status(204).json();
 });
@@ -55,6 +56,34 @@ app.get("/volprom",async(req,res)=>{
         return res.status(500).send(error);
     }
 });
+app.get("/volhora/:hora",async(req,res)=>{
+    try{
+        const UserCol= db.collection("Aire");
+        const snapshot = await UserCol.where('Hora','==',req.params.hora).get();
+        const response = snapshot.docs.map((doc)=>({
+            Data: doc.data().Amplitud
+        }));
+
+        if (response[0] != null) {
+			return res.status(200).json(response[0]);
+		} else {
+			return res.status(500).json({Data:0});
+		}
+
+    }catch(error){
+        return res.status(500).send(error);
+
+    }
+    
+
+});
+
+function ObtenerHora(Tiempo){
+    const dat = new Date(Tiempo).toLocaleString('en-GB');
+    const Separar = dat.split(",",2);
+    const Hora = Separar[1];
+    return Hora;
+}
 exports.app = functions.https.onRequest(app);
 // // Create and Deploy Your First Cloud Functions
 // // https://firebase.google.com/docs/functions/write-firebase-functions
