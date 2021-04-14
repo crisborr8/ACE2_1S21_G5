@@ -7,6 +7,9 @@ export class LocalSTService {
 
   datos: Dato[]=[];
   constructor() { }
+
+
+
   AddDato(data: Dato){
       this.datos[0]=data;
         localStorage.setItem("Peso",JSON.stringify(this.datos));
