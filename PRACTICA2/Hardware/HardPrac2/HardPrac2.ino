@@ -8,6 +8,7 @@ volatile int NumPulsos; //variable para la cantidad de pulsos recibidos
 int PinSensor = 2;    //Sensor conectado en el pin 2
 float factor_conversion=7.11; //para convertir de frecuencia a caudal
 float volumen=0;
+int vol=0;
 long dt=0; //variación de tiempo por cada bucle
 long t0=0; //millis() del bucle anterior
 
@@ -45,25 +46,33 @@ void loop()
     float caudal_L_m=frecuencia/factor_conversion; //calculamos el caudal en L/m
     dt=millis()-t0; //calculamos la variación de tiempo
     t0=millis();
-    volumen=volumen+(caudal_L_m/60)*(dt/1000); // volumen(L)=caudal(L/s)*tiempo(s)
-
+    volumen= (caudal_L_m/60)*(dt/1000); // volumen(L)=caudal(L/s)*tiempo(s)
+    
     //-----Enviamos por el puerto serie---------------
-    Serial.print ("Caudal: "); 
-    Serial.print (caudal_L_m,3); 
-    Serial.print ("L/min\tVolumen: "); 
-    Serial.print (volumen,3); 
-    Serial.println (" L");
+    //Serial.print ("Caudal: "); 
+    //Serial.print (caudal_L_m,3); 
+    //Serial.print ("L/min\tVolumen: "); 
+    vol = volumen * (500/0.250);
+    Serial.print (vol);
+    Serial.println ('$'); 
+    //Serial.println (" L");
     
     if (miBT.available())
     {
-        envio.concat(",");
-        miBT.print(envio);
-        Serial.println(envio);
+        envio = "";
+        //int vol = (int) volumen;
+        //envio.concat(volumen,3);
+        //envio.concat("$");
+        //miBT.print(envio);
+        //Serial.println(envio);
     } 
     else
     {
-        envio.concat(",");
-        miBT.print(envio);
-        Serial.println(envio);
+        envio = "";
+        //int vol = (int) volumen;
+        //envio.concat(volumen,3);
+        //envio.concat("$");
+        //miBT.print(envio);
+        //Serial.println(envio);
      } 
 }
