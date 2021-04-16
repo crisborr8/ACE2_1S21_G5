@@ -4,6 +4,7 @@ import { Color, Label } from 'ng2-charts';
 import {Dato, Vol} from '../../modelo/Objeto';
 import {LocalSTService} from '../../servicios/local-st.service';
 import {ConexionService} from '../../servicios/conexion.service';
+import { delay } from 'rxjs/operators';
 
 @Component({
   selector: 'app-grafica-l',
@@ -13,7 +14,8 @@ import {ConexionService} from '../../servicios/conexion.service';
 export class GraficaLComponent  implements OnInit {
   Datos:Dato[]=[];
   DATA!:Vol;
-  Arreglo:any[]=[0,0,0,0,0,0,0,0,,0];
+  Arreglo:any[]=[0,0,0,0,0,0,0,0,0,0];
+  Arreglo2:any[]=[0,0,0,0,0,0,0,0,1,0];
   DATAS:Vol[]=[];
   Hora!:any;
   Fecha!:any;
@@ -72,13 +74,12 @@ export class GraficaLComponent  implements OnInit {
     this.resetTimer();
     setInterval(()=> this.tick(),1000);
     setInterval(()=> this.calculoVO2MAX(),1000);
-   // setInterval(()=> this.valoresAire(),6000);
+  //  setInterval(()=> this.ActualizarLaber(),1000);
     
   }
 
   ngOnInit() {
     this.ActualizarLaber();
-    this.ActualizarDatos();
   }
   
   calculoVO2MAX(){
@@ -140,32 +141,71 @@ export class GraficaLComponent  implements OnInit {
 
 
   
-   ActualizarLaber(){
-    var timestamp = new Date();
-    for(let i=0;i<10;i++){
+   async ActualizarLaber(){
+     this.Arreglo=this.Arreglo2;
+     let it=0;
+     let datito=0;
+     if(it==0){
+        
 
-      let Horat= this.ObtenerHora(timestamp.setSeconds(timestamp.getSeconds() - 1));
-      try {
-
-        const aire2=  this.conexion.VolumenHora(this.ObtenerHora(timestamp.setSeconds(timestamp.getSeconds() - 1))).subscribe(async(res: any) =>{
-          this.DATA=await res;
-          console.log(this.DATA);
-          this.Arreglo[9-i]=Number(this.DATA.Data);
+      await it++;
+    var timestamp = await new Date();
+    var palabusqueda=timestamp;
+    console.log("--->  "+this.ObtenerHora(palabusqueda.setSeconds(palabusqueda.getSeconds() - 1)));
+        try {
           
-        },(error:any)=>{
-          //console.error(error);
-          this.Arreglo[9-i]=0;
-        });
-      } catch (error) {
-        console.log('XD');
-      }
- 
-
+      const aire2=await this.conexion.VolumenHora(this.ObtenerHora(palabusqueda)).subscribe(async(res: any) =>{
+        this.DATA= await res;
+        let it2=0;
+        if(it2==0){
+          await it2++;
+          if(this.DATA.Data!=null){
+            
+            datito= await this.DATA.Data;
+            console.log(datito);
+          }else{
+            console.log('FF');
+          }
+         
+         
+        }
+        console.log('.............. '+datito);
+        for(let j=0;j<10;j++){
+          if(j==9){
+            this.Arreglo[j]=datito;
+          }else{
+            this.Arreglo[j]=this.Arreglo2[j+1];
+          }
+        }
     
-      this.lineChartData=[{data: [this.Arreglo[0], this.Arreglo[1], this.Arreglo[2], this.Arreglo[3], this.Arreglo[4],this.Arreglo[5], this.Arreglo[6],this.Arreglo[7],this.Arreglo[8],this.Arreglo[9]], label: 'Volumen de Aire'}];
+        this.lineChartData=[{data: [this.Arreglo[0], this.Arreglo[1], this.Arreglo[2], this.Arreglo[3], this.Arreglo[4],this.Arreglo[5], this.Arreglo[6],this.Arreglo[7],this.Arreglo[8],this.Arreglo[9]], label: 'Volumen de Aire'}];
+  
+        
+      },(error:any)=>{
+        console.log('.............. '+datito);
+        for(let j=0;j<10;j++){
+          if(j==9){
+            this.Arreglo[j]=datito;
+          }else{
+            this.Arreglo[j]=this.Arreglo2[j+1];
+          }
+        }
+    
+        this.lineChartData=[{data: [this.Arreglo[0], this.Arreglo[1], this.Arreglo[2], this.Arreglo[3], this.Arreglo[4],this.Arreglo[5], this.Arreglo[6],this.Arreglo[7],this.Arreglo[8],this.Arreglo[9]], label: 'Volumen de Aire'}];
+    
+        
+      });
+    } catch (error) {
+      console.log('XD');
+    }
 
-     // this.lineChartData=[{data: [this.Arreglo[0].Data, this.Arreglo[1].Data, this.Arreglo[2].Data, this.Arreglo[3].Data, this.Arreglo[4].Data,this.Arreglo[5].Data, this.Arreglo[6].Data,this.Arreglo[7].Data,this.Arreglo[8].Data,this.Arreglo[9].Data], label: 'Volumen de Aire'}];
+
+    for(let i=0;i<10;i++){
+      let Horat= this.ObtenerHora(timestamp.setSeconds(timestamp.getSeconds() - 1));
       this.lineChartLabels[9-i]=Horat;
+    }
+
+
     }
 
   }
@@ -174,10 +214,7 @@ export class GraficaLComponent  implements OnInit {
     return Math.random() * (max - min) + min;
   }
  
-  ActualizarDatos(){
-    
-  //  this.lineChartData=[{data: [1,2,3, 4, 3,2, 1,5,5,0], label: 'Volumen de Aire'}];
-  }
+ 
 
 ObtenerHora(Tiempo:any){
     const dat = new Date(Tiempo).toLocaleString('en-GB');
@@ -200,7 +237,6 @@ private tick():void{
   //}
   this.temporizador();
   this.ActualizarLaber();
-  this.ActualizarDatos();
   var Fec=new Date();
   this.Hora=this.ObtenerHora(Fec);
   this.Fecha=this.ObtenerFecha(Fec);
@@ -227,5 +263,7 @@ private temporizador(){
       }
     }
 }
+
+
 
 }

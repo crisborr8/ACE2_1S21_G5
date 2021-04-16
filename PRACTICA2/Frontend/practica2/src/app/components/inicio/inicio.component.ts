@@ -14,11 +14,37 @@ export class InicioComponent implements OnInit {
    peso:string="";
    User:string="";
    conversion:any;
-  constructor( private router:Router , public Servicio:LocalSTService) { }
+   Hora!:any;
+   Fecha!:any;
+  constructor( private router:Router , public Servicio:LocalSTService) {
+    setInterval(()=> this.tick(),1000);
+   }
 
   ngOnInit(): void {
   this.Servicio.deleteDato();
+  
   }
+
+  private tick():void{
+    var Fec=new Date();
+    this.Hora=this.ObtenerHora(Fec);
+    this.Fecha=this.ObtenerFecha(Fec);
+  
+  }
+  ObtenerHora(Tiempo:any){
+    const dat = new Date(Tiempo).toLocaleString('en-GB');
+    const Separar = dat.split(",",2);
+    const Hora = Separar[1];
+    return Hora;
+}
+ ObtenerFecha(Tiempo:any){
+  const dat = new Date(Tiempo).toLocaleString('en-GB');
+  const Separar = dat.split(",",2);
+  const FechaA = Separar[0];
+  const desglose= FechaA.split("/",3);
+  const Fin= desglose[0]+"-"+desglose[1]+"-"+desglose[2];
+  return Fin;
+}
 
   Almacenar(){
     var element = <HTMLInputElement> document.getElementById("flexRadioDefault2");

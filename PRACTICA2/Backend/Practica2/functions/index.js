@@ -71,6 +71,29 @@ app.get("/volhora/:hora",async(req,res)=>{
 		}
 
     }catch(error){
+      //  return res.status(500).send(error);
+
+    }
+    
+
+});
+
+app.get("/volhora",async(req,res)=>{
+    try{
+        const UserCol= db.collection("Aire");
+        const snapshot = await UserCol.orderBy('Hora','desc').limit(10).get();
+        const response = snapshot.docs.map((doc)=>({
+            Data: doc.data().Amplitud,
+            Hora: doc.data().Hora
+        }));
+
+        if (response[0] != null) {
+			return res.status(200).json(response);
+		} else {
+			return res.status(500).json([{Data:0},{Data:0},{Data:0},{Data:0},{Data:0},{Data:0},{Data:0},{Data:0},{Data:0},{Data:0}]);
+		}
+
+    }catch(error){
         return res.status(500).send(error);
 
     }

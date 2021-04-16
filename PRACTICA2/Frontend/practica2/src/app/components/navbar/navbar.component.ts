@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {Router} from '@angular/router';
 import {LocalSTService} from '../../servicios/local-st.service';
-import {Dato} from '../../modelo/Objeto'
+import {Dato} from '../../modelo/Objeto';
+
 
 @Component({
   selector: 'app-navbar',
@@ -11,6 +12,7 @@ import {Dato} from '../../modelo/Objeto'
 export class NavbarComponent implements OnInit {
 
   Datos:Dato[]=[];
+  Que:boolean = true;
   constructor( private router:Router, public Servicio:LocalSTService) { }
 
   ngOnInit(): void {
@@ -24,6 +26,10 @@ export class NavbarComponent implements OnInit {
     }
     return false;
   }
+
+ 
+
+  
 
 
 }

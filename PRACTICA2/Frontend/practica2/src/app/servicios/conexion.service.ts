@@ -26,4 +26,8 @@ export class ConexionService {
     let url1 = 'http://localhost:5000/practica2-8875c/us-central1/app/volhora/'+Horas;
     return this.http.get(url1);
   }
+  VolumenHoras(){
+    let url1 = 'http://localhost:5000/practica2-8875c/us-central1/app/volhora';
+    return this.http.get(url1);
+  }
 }
