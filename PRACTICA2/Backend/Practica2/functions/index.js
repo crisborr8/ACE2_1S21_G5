@@ -35,9 +35,9 @@ app.get("/ObtenerId",async(req,res)=>{
     }
 });
 
-app.post('/Iniciar/vo2max/:idSes',async(req,res)=>{
+app.post('/Iniciar/vo2max',async(req,res)=>{
    var tiempo= new Date();
-   const Usuario= await db.collection('Sesion').doc(req.params.idSes).collection('Aire').doc()
+   const Usuario= await db.collection('Sesion').doc(req.body.idSes).collection('Aire').doc()
     .create({
         Amplitud :req.body.Amplitud,
         Hora: ObtenerHora(tiempo)

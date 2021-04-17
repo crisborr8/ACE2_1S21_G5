@@ -82,17 +82,26 @@
                         <div class="col-sm">
 
                           <div class="container">
-                      
-                            <div class="card" style="width: 100%; height: 50%; margin-top: 60px; background-color: darkcyan;">
+                            <div class="card" style="width: 5px; margin-top: 100px; background-color: transparent;" *ngIf="seg!=0||(min!=0 && seg==0)||VO2MAX==undefined"></div>
+                            <div class="card" style="width: 100%; height: 50%; margin-top: 20px; background-color: darkcyan;" *ngIf="min==0 && seg==0">
                               <h1>DATOS </h1>
-                              <div class="container" *ngIf="min==0 && seg==0">
+                              <div class="container" >
                               <Font size="70" >{{VO2MAX}}</Font>
                               </div>
-                              <div class="container" *ngIf="seg!=0||(min!=0 && seg==0)||VO2MAX==undefined">
-                                <Font size="70" >0</Font>
-                                </div>
+                              
                               <h4>ml/kg/min</h4>
                             </div>
+
+                            <div class="card" style="width: 100%; height: 50%; margin-top: 20px; background-color: darkcyan;" *ngIf="seg!=0||(min!=0 && seg==0)||VO2MAX==undefined">
+                              <h1>DATOS </h1>
+                              <div class="container" >
+                              <Font size="70" >0</Font>
+                              </div>
+                              
+                              <h4>ml/kg/min</h4>
+                            </div>
+
+
                           </div>
 
                         </div>
@@ -100,14 +109,29 @@
 
                       <div class="row">
                         <div class="col-sm">
-                          <div class="container" style="margin-top: 10px;">
-                            <div class="card">
-                              <h1>ANIMO</h1>
-                              <h2>vo2max Atleta normal <br> 40-50</h2>
-                              <h2>vo2max Atleta profecional <br> 70-80</h2>
+                          <div class="container" style="margin-top: 10px;" *ngIf="min==0 && seg==0" >
+                            <div class="card" style="background-color: red; border-color: white; border-width: 5px;" *ngIf="VO2MAX<40">
+                              <h1>Animo tu puedes</h1>
+                              <h2>Entrena Para mejorar tu resistencia</h2>
+                              <p>Puedes mejorar y ser un atleta normal y luego superar a un profecional</p>
+                            </div>
+                            <div class="card" style="background-color:yellow; border-color: white; border-width: 5px;" *ngIf="VO2MAX>=40 && VO2MAX<70">
+                              <h1>Genial</h1>
+                              <h2>Tienes la resistencia de un Atleta normal</h2>
+                              <p>Aun puedes Mejorar y alcanzar el ritmo de un profecional!!</p>
+                            </div>
+                            <div class="card" style="background-color:green; border-color: white; border-width: 5px;" *ngIf="VO2MAX>=70">
+                              <h1>Excelente</h1>
+                              <h2>Tienes la resistencia de un Atleta profecional </h2>
+                              <p>Aun puedes Mejorar y hacer un plus de 15%!!</p>
                             </div>
                           </div>
                           
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-sm">
+                          <div class="container" style="margin-top: 15px;"></div>
                         </div>
                       </div>
                     </div>
@@ -117,12 +141,12 @@
 
                   <div class="col-sm-6">
 
-                    <div class="card" style=" margin: 10px; background-color: black; color: white;">
+                    <div class="card" style=" margin: 10px; background-color: black; color: white; border-color: white; border-width: 5px;">
                       
                       <div class="container">
                         <div class="row">
                           <div class="col-sm">
-                            <h3><b>Aire</b></h3>
+                            <h3><b>Oxigeno</b></h3>
                           </div>
                         </div>
 
@@ -130,14 +154,14 @@
                           <div class="col-sm">
                             <div class="card" style="  margin: 10px; color: black;">
                               <h6>maximo</h6>
-                               <p> <b>{{volumenmax}}</b> Lt.</p>
+                               <p> <b>{{volumenmax}}</b> ml.</p>
                            </div>
                           </div>
 
                           <div class="col-sm">
                             <div class="card" style="  margin: 10px; color: black;">
                               <h6>minimo</h6>
-                               <p> <b>{{volumenmin}}</b> Lt.</p>
+                               <p> <b>{{volumenmin}}</b> ml.</p>
                              </div>
                           </div>
 
@@ -154,7 +178,7 @@
                             
                             <div class="card" style="  margin: 10px; color: black;">
                               <h6>Inhalado</h6>
-                              <p> <b>{{volumenprom}}</b> Lt.</p>
+                              <p> <b>{{volumenprom}}</b> ml.</p>
                            </div>
 
                           </div>
@@ -162,7 +186,7 @@
                             
                             <div class="card" style="  margin: 10px; color: black;">
                               <h6>Exhalado</h6>
-                              <p> <b>{{volumenpromNeg}}</b> Lt.</p>
+                              <p> <b>{{volumenpromNeg}}</b> ml.</p>
                             </div>
 
                           </div>
@@ -173,7 +197,7 @@
                             
                             <div class="card" style="  margin: 10px; color: black;">
                               <h6>General</h6>
-                              <p> <b>{{promediog}}</b> Lt.</p>
+                              <p> <b>{{promediog}}</b> ml.</p>
                             </div>
 
                           </div>
