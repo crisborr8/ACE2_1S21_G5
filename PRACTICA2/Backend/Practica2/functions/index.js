@@ -10,9 +10,34 @@ admin.initializeApp({
 });
 const db =admin.firestore();
 //-1000*60*60*6
-app.post('/Iniciar/vo2max',async(req,res)=>{
+
+app.post('/CrearSesion',async(req,res)=>{
+ var tiempo1 = new Date();
+    try {
+        const Sesion =await db.collection('Sesion').add({tiempo:tiempo1})
+         res.status(204).json({ID:Sesion.id});
+    } catch (error) {
+        
+    }
+    
+});
+
+app.get("/ObtenerId",async(req,res)=>{
+    try{
+        const UserCol= db.collection("Sesion");
+        const snapshot = await UserCol.orderBy("tiempo","desc").limit(1).get();
+        const response = snapshot.docs.map((doc)=>({
+            IDs: doc.id
+        }));
+        return res.status(200).json(response[0]);
+    }catch(error){
+        return res.status(500).send(error);
+    }
+});
+
+app.post('/Iniciar/vo2max/:idSes',async(req,res)=>{
    var tiempo= new Date();
-   const Usuario= await db.collection('Aire').doc()
+   const Usuario= await db.collection('Sesion').doc(req.params.idSes).collection('Aire').doc()
     .create({
         Amplitud :req.body.Amplitud,
         Hora: ObtenerHora(tiempo)
@@ -20,9 +45,11 @@ app.post('/Iniciar/vo2max',async(req,res)=>{
      res.status(204).json();
 });
 
-app.get("/volmax",async(req,res)=>{
+
+
+app.get("/volmax/:idSes",async(req,res)=>{
     try{
-        const UserCol= db.collection("Aire");
+        const UserCol= db.collection('Sesion').doc(req.params.idSes).collection("Aire");
         const snapshot = await UserCol.orderBy('Amplitud','desc').limit(1).get();
         const response = snapshot.docs.map((doc)=>({
             Data: doc.data().Amplitud
@@ -32,9 +59,9 @@ app.get("/volmax",async(req,res)=>{
         return res.status(500).send(error);
     }
 });
-app.get("/volmin",async(req,res)=>{
+app.get("/volmin/:idSes",async(req,res)=>{
     try{
-        const UserCol= db.collection("Aire");
+        const UserCol= db.collection('Sesion').doc(req.params.idSes).collection("Aire");
         const snapshot = await UserCol.orderBy('Amplitud','asc').limit(1).get();
         const response = snapshot.docs.map((doc)=>({
             Data: doc.data().Amplitud
@@ -44,9 +71,9 @@ app.get("/volmin",async(req,res)=>{
         return res.status(500).send(error);
     }
 });
-app.get("/volprom",async(req,res)=>{
+app.get("/volprom/:idSes",async(req,res)=>{
     try{
-        const UserCol= db.collection("Aire");
+        const UserCol= db.collection('Sesion').doc(req.params.idSes).collection("Aire");
         const snapshot = await UserCol.get();
         const response = snapshot.docs.map((doc)=>({
             Data: doc.data().Amplitud
@@ -56,9 +83,9 @@ app.get("/volprom",async(req,res)=>{
         return res.status(500).send(error);
     }
 });
-app.get("/volhora/:hora",async(req,res)=>{
+app.get("/volhora/:idSes/:hora",async(req,res)=>{
     try{
-        const UserCol= db.collection("Aire");
+        const UserCol= db.collection('Sesion').doc(req.params.idSes).collection("Aire");
         const snapshot = await UserCol.where('Hora','==',req.params.hora).get();
         const response = snapshot.docs.map((doc)=>({
             Data: doc.data().Amplitud
@@ -78,9 +105,9 @@ app.get("/volhora/:hora",async(req,res)=>{
 
 });
 
-app.get("/volhora",async(req,res)=>{
+app.get("/volhora/:idSes",async(req,res)=>{
     try{
-        const UserCol= db.collection("Aire");
+        const UserCol= db.collection('Sesion').doc(req.params.idSes).collection("Aire");
         const snapshot = await UserCol.orderBy('Hora','desc').limit(10).get();
         const response = snapshot.docs.map((doc)=>({
             Data: doc.data().Amplitud,
@@ -100,6 +127,10 @@ app.get("/volhora",async(req,res)=>{
     
 
 });
+
+
+
+
 
 function ObtenerHora(Tiempo){
     const dat = new Date(Tiempo).toLocaleString('en-GB');

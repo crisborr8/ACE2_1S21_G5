@@ -29,6 +29,10 @@ export class GraficaLComponent  implements OnInit {
   volumenmax!:any;
   volumenmin!:any;
   volumenprom!:any;
+  volumenpromNeg!:any;
+  promediog!:any;
+
+  sesion!:string;
 
   datos:Dato[]=[];
 
@@ -79,6 +83,7 @@ export class GraficaLComponent  implements OnInit {
   }
 
   ngOnInit() {
+    
     this.ActualizarLaber();
   }
   
@@ -88,9 +93,12 @@ export class GraficaLComponent  implements OnInit {
       this.valoresAire();
       
       //---------------------
+      
       let Suma=0;
+      let resta=0;
       let contador=0;
-      this.conexion.Volumenes().subscribe(async(res: any) =>{
+      let contadorn=0;
+      this.conexion.Volumenes( String(this.Servicio.getSesion())).subscribe(async(res: any) =>{
         this.DATAS= await res;
         
         for(let i=0;i<this.DATAS.length;i++){
@@ -99,10 +107,20 @@ export class GraficaLComponent  implements OnInit {
             Suma= Suma+this.DATAS[i].Data;
             contador++;
           }
-  
+
+          if(this.DATAS[i].Data<0){
+            console.log(this.DATAS[i].Data);
+            resta= resta+this.DATAS[i].Data;
+            contadorn++;
+          }
+          
+          //promediog=promediog+this.DATAS[i].Data;
         }
         
+       
+        this.promediog=(Suma+resta).toFixed(2);
         this.volumenprom=(Suma/contador).toFixed(2);
+        this.volumenpromNeg=(resta/contadorn).toFixed(2);
       
         this.Oxigeno=(this.volumenprom)*(210);
         this.Prevo2max=this.Oxigeno/5;
@@ -121,7 +139,7 @@ export class GraficaLComponent  implements OnInit {
 
   async valoresAire(){
 
-    const aire1= await this.conexion.VolumenMax().subscribe(async(res: any) =>{
+    const aire1= await this.conexion.VolumenMax(String(this.Servicio.getSesion())).subscribe(async(res: any) =>{
       this.DATA= await res;
       console.log(this.DATA);
       this.volumenmax=this.DATA.Data;
@@ -129,7 +147,7 @@ export class GraficaLComponent  implements OnInit {
       console.error(error);
     });
 
-    const aire2= await this.conexion.VolumenMin().subscribe(async(res: any) =>{
+    const aire2= await this.conexion.VolumenMin(String(this.Servicio.getSesion())).subscribe(async(res: any) =>{
       this.DATA=await res;
       console.log(this.DATA);
       this.volumenmin=this.DATA.Data;
@@ -147,6 +165,7 @@ export class GraficaLComponent  implements OnInit {
      let datito=0;
      if(it==0){
         
+      const tu=await delay(1000);
 
       await it++;
     var timestamp = await new Date();
@@ -154,7 +173,7 @@ export class GraficaLComponent  implements OnInit {
     console.log("--->  "+this.ObtenerHora(palabusqueda.setSeconds(palabusqueda.getSeconds() - 1)));
         try {
           
-      const aire2=await this.conexion.VolumenHora(this.ObtenerHora(palabusqueda)).subscribe(async(res: any) =>{
+      const aire2=await this.conexion.VolumenHora(this.ObtenerHora(palabusqueda),String(this.Servicio.getSesion())).subscribe(async(res: any) =>{
         this.DATA= await res;
         let it2=0;
         if(it2==0){
@@ -247,8 +266,10 @@ resetTimer():void{
   this.volumenmax=0;
   this.volumenmin=0;
   this.volumenprom=0;
-  this.min=0;
-  this.seg=9;
+  this.volumenpromNeg=0;
+  this.promediog=0;
+  this.min=5;
+  this.seg=0;
   this.Datos=this.Servicio.getDato();
   this.Peso=this.Datos[0].Peso.toFixed(3);
 

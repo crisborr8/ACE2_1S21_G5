@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import {LocalSTService} from '../../servicios/local-st.service';
-import {Dato} from '../../modelo/Objeto';
+import {Dato,ID} from '../../modelo/Objeto';
+import {ConexionService} from '../../servicios/conexion.service';
+
 
 @Component({
   selector: 'app-inicio',
@@ -16,14 +18,17 @@ export class InicioComponent implements OnInit {
    conversion:any;
    Hora!:any;
    Fecha!:any;
-  constructor( private router:Router , public Servicio:LocalSTService) {
+   prueba!:any;
+   Ids!:ID;
+  constructor( private router:Router , public Servicio:LocalSTService, private conexion:ConexionService) {
     setInterval(()=> this.tick(),1000);
    }
 
   ngOnInit(): void {
-  this.Servicio.deleteDato();
-  
+  this.Servicio.deleteDato();  
+  this.Servicio.deleteSesion();
   }
+
 
   private tick():void{
     var Fec=new Date();
@@ -46,13 +51,40 @@ export class InicioComponent implements OnInit {
   return Fin;
 }
 
-  Almacenar(){
+  async Almacenar(){
+
+   
+    
+
+    
     var element = <HTMLInputElement> document.getElementById("flexRadioDefault2");
     var isChecked = element.checked;
 
    
 
     if(this.EsNumero(this.peso)){
+
+      try {
+        const crear=await this.conexion.Crear().subscribe(async(res: any) =>{
+          this.prueba= await res;
+           console.log(this.prueba);
+    
+        });
+
+        const obtener= await this.conexion.ObtenerID().subscribe(async(res: any) =>{
+          this.Ids= await res;
+          localStorage.setItem('Sesion',JSON.stringify(this.Ids));
+          console.log(this.Ids.IDs);
+    
+        });
+
+
+      } catch (error) {
+        console.log('ERRRRROOOOORRR');
+      }
+
+
+
       console.log(this.peso);
       if(!isChecked){
         this.conversion=Number(this.peso)/(2.2046);

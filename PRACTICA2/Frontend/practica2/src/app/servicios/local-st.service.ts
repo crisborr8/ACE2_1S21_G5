@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
-import {Dato} from '../modelo/Objeto';
+import {Dato,ID} from '../modelo/Objeto';
 @Injectable({
   providedIn: 'root'
 })
 export class LocalSTService {
 
   datos: Dato[]=[];
+  sesion!:ID;
   constructor() { }
 
 
@@ -25,6 +26,19 @@ export class LocalSTService {
       return this.datos;
       }
     
+  }
+
+  getSesion(){
+    if(localStorage.getItem('Sesion')===null){
+      return this.sesion;
+    }else{
+      let Tas= localStorage.getItem('Sesion');
+      this.sesion= JSON.parse(Tas||'{}');
+    return this.sesion.IDs;
+    }
+  }
+  deleteSesion(){
+    localStorage.removeItem('Sesion');
   }
 
   deleteDato(){

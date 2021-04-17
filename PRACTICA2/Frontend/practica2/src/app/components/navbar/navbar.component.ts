@@ -4,6 +4,7 @@ import {LocalSTService} from '../../servicios/local-st.service';
 import {Dato} from '../../modelo/Objeto';
 
 
+
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
