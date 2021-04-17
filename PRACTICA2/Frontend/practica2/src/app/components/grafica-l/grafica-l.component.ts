@@ -4,6 +4,7 @@ import { Color, Label } from 'ng2-charts';
 import {Dato, Vol} from '../../modelo/Objeto';
 import {LocalSTService} from '../../servicios/local-st.service';
 import {ConexionService} from '../../servicios/conexion.service';
+import { delay } from 'rxjs/operators';
 
 @Component({
   selector: 'app-grafica-l',
@@ -13,6 +14,8 @@ import {ConexionService} from '../../servicios/conexion.service';
 export class GraficaLComponent  implements OnInit {
   Datos:Dato[]=[];
   DATA!:Vol;
+  Arreglo:any[]=[0,0,0,0,0,0,0,0,0,0];
+  Arreglo2:any[]=[0,0,0,0,0,0,0,0,1,0];
   DATAS:Vol[]=[];
   Hora!:any;
   Fecha!:any;
@@ -26,6 +29,10 @@ export class GraficaLComponent  implements OnInit {
   volumenmax!:any;
   volumenmin!:any;
   volumenprom!:any;
+  volumenpromNeg!:any;
+  promediog!:any;
+
+  sesion!:string;
 
   datos:Dato[]=[];
 
@@ -37,7 +44,7 @@ export class GraficaLComponent  implements OnInit {
       yAxes: [{
          scaleLabel: {
             display: true,
-            labelString: 'Amplitud de Aire'
+            labelString: 'Aire ml'
          },
          gridLines: {
           //drawOnChartArea: false
@@ -46,7 +53,7 @@ export class GraficaLComponent  implements OnInit {
       xAxes: [{
         scaleLabel: {
            display: true,
-           labelString: 'Tiempor Real'
+           labelString: 'Tiempor Real hh:mm:ss'
            
         },
         gridLines: {
@@ -71,23 +78,29 @@ export class GraficaLComponent  implements OnInit {
     this.resetTimer();
     setInterval(()=> this.tick(),1000);
     setInterval(()=> this.calculoVO2MAX(),1000);
-   // setInterval(()=> this.valoresAire(),6000);
+  //  setInterval(()=> this.ActualizarLaber(),1000);
     
   }
 
   ngOnInit() {
-    this.ActualizarLaber();
-    this.ActualizarDatos();
+    
+      this.ActualizarLaber();
+    
+     
   }
+  
   calculoVO2MAX(){
     
     if(this.min==0 && this.seg==0 && this.VO2MAX==undefined){
       this.valoresAire();
       
       //---------------------
+      
       let Suma=0;
+      let resta=0;
       let contador=0;
-      this.conexion.Volumenes().subscribe(async(res: any) =>{
+      let contadorn=0;
+      this.conexion.Volumenes( String(this.Servicio.getSesion())).subscribe(async(res: any) =>{
         this.DATAS= await res;
         
         for(let i=0;i<this.DATAS.length;i++){
@@ -96,12 +109,22 @@ export class GraficaLComponent  implements OnInit {
             Suma= Suma+this.DATAS[i].Data;
             contador++;
           }
-  
+
+          if(this.DATAS[i].Data<0){
+            console.log(this.DATAS[i].Data);
+            resta= resta+this.DATAS[i].Data;
+            contadorn++;
+          }
+          
+          
         }
-        
-        this.volumenprom=(Suma/contador).toFixed(2);
+        //TENIENDO EN CUENTA
+       //Suma y resta esta en ml de aire : 1 litro tiene 1000 ml de aire :1 litro de aire tiene 210ml de oxigeno
+        this.promediog=(((Suma+resta)/(contador+contadorn))*(1/1000)*(210)).toFixed(2);
+        this.volumenprom=((Suma/contador)*(1/1000)*(210)).toFixed(2);
+        this.volumenpromNeg=((resta/contadorn)*(1/1000)*(210)).toFixed(2);
       
-        this.Oxigeno=(this.volumenprom)*(210);
+        this.Oxigeno=(this.volumenprom);
         this.Prevo2max=this.Oxigeno/5;
         this.datos=this.Servicio.getDato();
         this.VO2MAX=(Number(this.Prevo2max)/Number(this.datos[0].Peso)).toFixed(3);
@@ -116,45 +139,93 @@ export class GraficaLComponent  implements OnInit {
     
   }
 
-  valoresAire(){
-    this.conexion.VolumenMax().subscribe(async(res: any) =>{
+  async valoresAire(){
+
+    const aire1= await this.conexion.VolumenMax(String(this.Servicio.getSesion())).subscribe(async(res: any) =>{
       this.DATA= await res;
       console.log(this.DATA);
-      this.volumenmax=this.DATA.Data;
+      this.volumenmax=(this.DATA.Data*(1/1000)*(210)).toFixed(2);//Data.Data esta en ml de aire lo convierto a litros y por ultimo a ml de oxigeno
     },(error:any)=>{
       console.error(error);
     });
 
-    this.conexion.VolumenMin().subscribe(async(res: any) =>{
+    const aire2= await this.conexion.VolumenMin(String(this.Servicio.getSesion())).subscribe(async(res: any) =>{
       this.DATA=await res;
       console.log(this.DATA);
-      this.volumenmin=this.DATA.Data;
+      this.volumenmin=(this.DATA.Data*(1/1000)*(210)).toFixed(2);//Data.Data esta en ml de aire lo convierto a litros y por ultimo a ml de oxigeno
     },(error:any)=>{
       console.error(error);
     });
     
   }
-
-
+  async ActualizarLaber(){
+     this.Arreglo=this.Arreglo2;
+     let it=0;
+     let datito=0;
+     if(it==0){
+      const tu=await delay(1000);
+      await it++;
+    var timestamp = await new Date();
+    var palabusqueda=timestamp;
+    console.log("--->  "+this.ObtenerHora(palabusqueda.setSeconds(palabusqueda.getSeconds() - 1)));
+        try {
+      const aire2=await this.conexion.VolumenHora(this.ObtenerHora(palabusqueda),String(this.Servicio.getSesion())).subscribe(async(res: any) =>{
+        this.DATA= await res;
+        let it2=0;
+        if(it2==0){
+          await it2++;
+          if(this.DATA.Data!=null){
+            
+            datito= await Number(((this.DATA.Data)*(210/1000)).toFixed(2));
+            console.log(datito);
+          }else{
+            console.log('FF');
+          }
+         
+         
+        }
+        console.log('.............. '+datito);
+        for(let j=0;j<10;j++){
+          if(j==9){
+            this.Arreglo[j]=datito;
+          }else{
+            this.Arreglo[j]=this.Arreglo2[j+1];
+          }
+        }
+    
+        this.lineChartData=[{data: [this.Arreglo[0], this.Arreglo[1], this.Arreglo[2], this.Arreglo[3], this.Arreglo[4],this.Arreglo[5], this.Arreglo[6],this.Arreglo[7],this.Arreglo[8],this.Arreglo[9]], label: 'Volumen de Aire'}];
   
-  ActualizarLaber(){
-    var timestamp = new Date();
+        
+      },(error:any)=>{
+        console.log('.............. '+datito);
+        for(let j=0;j<10;j++){
+          if(j==9){
+            this.Arreglo[j]=datito;
+          }else{
+            this.Arreglo[j]=this.Arreglo2[j+1];
+          }
+        }
+    
+        this.lineChartData=[{data: [this.Arreglo[0], this.Arreglo[1], this.Arreglo[2], this.Arreglo[3], this.Arreglo[4],this.Arreglo[5], this.Arreglo[6],this.Arreglo[7],this.Arreglo[8],this.Arreglo[9]], label: 'Volumen de Aire'}];
+    
+        
+      });
+    } catch (error) {
+      console.log('XD');
+    }
+
+
     for(let i=0;i<10;i++){
-      this.lineChartLabels[9-i]=this.ObtenerHora(timestamp.setSeconds(timestamp.getSeconds() - 1));
+      let Horat= this.ObtenerHora(timestamp.setSeconds(timestamp.getSeconds() - 1));
+      this.lineChartLabels[9-i]=Horat;
+    }
+
+
     }
 
   }
-
-   getRand(min:number, max:number) {
-    return Math.random() * (max - min) + min;
-  }
-
-  ActualizarDatos(){
-    
-    this.lineChartData=[{data: [this.getRand(-100,0), this.getRand(10,100), this.getRand(-100,100), this.getRand(0,100), this.getRand(0,100),this.getRand(0,100), this.getRand(0,100)], label: 'Volumen de Aire'}];
-  }
-
-   ObtenerHora(Tiempo:any){
+ 
+ ObtenerHora(Tiempo:any){
     const dat = new Date(Tiempo).toLocaleString('en-GB');
     const Separar = dat.split(",",2);
     const Hora = Separar[1];
@@ -175,7 +246,6 @@ private tick():void{
   //}
   this.temporizador();
   this.ActualizarLaber();
-  this.ActualizarDatos();
   var Fec=new Date();
   this.Hora=this.ObtenerHora(Fec);
   this.Fecha=this.ObtenerFecha(Fec);
@@ -183,11 +253,14 @@ private tick():void{
 }
 
 resetTimer():void{
+  //this.VO2MAX=0;
   this.volumenmax=0;
   this.volumenmin=0;
   this.volumenprom=0;
+  this.volumenpromNeg=0;
+  this.promediog=0;
   this.min=0;
-  this.seg=9;
+  this.seg=30;
   this.Datos=this.Servicio.getDato();
   this.Peso=this.Datos[0].Peso.toFixed(3);
 
@@ -202,5 +275,7 @@ private temporizador(){
       }
     }
 }
+
+
 
 }
