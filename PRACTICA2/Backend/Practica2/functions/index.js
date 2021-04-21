@@ -40,7 +40,7 @@ app.post('/Iniciar/vo2max',async(req,res)=>{
    const Usuario= await db.collection('Sesion').doc(req.body.idSes).collection('Aire').doc()
     .create({
         Amplitud :req.body.Amplitud,
-        Hora: ObtenerHora(tiempo)
+        Hora: ObtenerHora(tiempo-1000*60*60*6)
     })
      res.status(204).json();
 });

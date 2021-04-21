@@ -31,9 +31,7 @@ export class GraficaLComponent  implements OnInit {
   volumenprom!:any;
   volumenpromNeg!:any;
   promediog!:any;
-
   sesion!:string;
-
   datos:Dato[]=[];
 
   public lineChartData: ChartDataSets[] = [];
@@ -120,14 +118,15 @@ export class GraficaLComponent  implements OnInit {
         }
         //TENIENDO EN CUENTA
        //Suma y resta esta en ml de aire : 1 litro tiene 1000 ml de aire :1 litro de aire tiene 210ml de oxigeno
-        this.promediog=(((Suma+resta)/(contador+contadorn))*(1/1000)*(210)).toFixed(2);
-        this.volumenprom=((Suma/contador)*(1/1000)*(210)).toFixed(2);
-        this.volumenpromNeg=((resta/contadorn)*(1/1000)*(210)).toFixed(2);
+        this.promediog=(((Suma+resta)/(contador+contadorn))).toFixed(2);
+        this.volumenprom=((Suma/contador)).toFixed(2);
+        this.volumenpromNeg=((resta/contadorn)).toFixed(2);
       
-        this.Oxigeno=(this.volumenprom);
+        //AQUI HAGO EL CALCULO DEL VO2MAX
+        this.Oxigeno=(this.volumenprom*(210/1000)).toFixed(2);
         this.Prevo2max=this.Oxigeno/5;
         this.datos=this.Servicio.getDato();
-        this.VO2MAX=(Number(this.Prevo2max)/Number(this.datos[0].Peso)).toFixed(3);
+        this.VO2MAX=(Number(this.Prevo2max)/Number(this.datos[0].Peso)).toFixed(2);
        
       },(error:any)=>{
         console.error(error);
@@ -144,7 +143,7 @@ export class GraficaLComponent  implements OnInit {
     const aire1= await this.conexion.VolumenMax(String(this.Servicio.getSesion())).subscribe(async(res: any) =>{
       this.DATA= await res;
       console.log(this.DATA);
-      this.volumenmax=(this.DATA.Data*(1/1000)*(210)).toFixed(2);//Data.Data esta en ml de aire lo convierto a litros y por ultimo a ml de oxigeno
+      this.volumenmax=(this.DATA.Data).toFixed(2);//Data.Data esta en ml de aire lo convierto a litros y por ultimo a ml de oxigeno
     },(error:any)=>{
       console.error(error);
     });
@@ -152,7 +151,7 @@ export class GraficaLComponent  implements OnInit {
     const aire2= await this.conexion.VolumenMin(String(this.Servicio.getSesion())).subscribe(async(res: any) =>{
       this.DATA=await res;
       console.log(this.DATA);
-      this.volumenmin=(this.DATA.Data*(1/1000)*(210)).toFixed(2);//Data.Data esta en ml de aire lo convierto a litros y por ultimo a ml de oxigeno
+      this.volumenmin=(this.DATA.Data).toFixed(2);//Data.Data esta en ml de aire lo convierto a litros y por ultimo a ml de oxigeno
     },(error:any)=>{
       console.error(error);
     });
@@ -176,7 +175,7 @@ export class GraficaLComponent  implements OnInit {
           await it2++;
           if(this.DATA.Data!=null){
             
-            datito= await Number(((this.DATA.Data)*(210/1000)).toFixed(2));
+            datito= await Number((this.DATA.Data).toFixed(2));
             console.log(datito);
           }else{
             console.log('FF');
@@ -259,8 +258,8 @@ resetTimer():void{
   this.volumenprom=0;
   this.volumenpromNeg=0;
   this.promediog=0;
-  this.min=0;
-  this.seg=30;
+  this.min=5;
+  this.seg=0;
   this.Datos=this.Servicio.getDato();
   this.Peso=this.Datos[0].Peso.toFixed(3);
 
