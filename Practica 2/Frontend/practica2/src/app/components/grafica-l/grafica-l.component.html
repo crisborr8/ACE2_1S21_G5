@@ -1,0 +1,237 @@
+
+<html>
+  <body background="../assets/Imagen/FondoLog.jpg">
+    <app-navbar></app-navbar>
+    <div class="container text-center pb-5 " style="width: 100%; height: 100%;">
+      <div class="row pb-sm-0 my-5">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          <p class="lead text-center " style="opacity: 3; font-size: 50px">
+            <b></b>
+          </p>
+        </div>
+      </div>
+      <div class="row py-2">
+        <div class="col w-auto h-auto mx-auto">
+         
+            <div class="container">
+                <div class="d-flex justify-content-center h-100">
+                    
+
+  <div class="card" style="width: 80%; " >
+    <div class="card" style="width: 100%; background-color: black; " *ngIf="seg>=10">
+
+      <div class="row align-items-end" style="width: 100%;">
+        <div class="col">
+          <div class="container" style="width: 100%;" >
+            <h2 style="color: white;">PESO: {{Peso}}kg.</h2>
+          </div>
+        </div>
+        <div class="col">
+          <div class="container" style="width: 100%;">
+            <h2 style="color: white;">{{min}}:{{seg}}</h2>
+          </div>
+        </div>          
+      </div>
+    </div>
+
+    <div class="card" style="width: 100%; background-color: black; " *ngIf="seg<10">
+      <div class="row align-items-end" style="width: 100%;" >
+        <div class="col">
+          <div class="container" style="width: 100%;">
+            <h2 style="color: white;">PESO: {{Peso}}kg.</h2>
+          </div>
+        </div>
+        <div class="col">
+          <div class="container" style="width: 100%;">
+            <h2 style="color: white;">{{min}}:0{{seg}}</h2>
+          </div>
+        </div>          
+      </div>
+    </div>
+    <div class="container">
+  
+
+
+
+        <div style="display: block;">
+          <canvas baseChart width="600px" height="150px"
+            [datasets]="lineChartData"
+            [labels]="lineChartLabels"
+            [options]="lineChartOptions"
+            [colors]="lineChartColors"
+            [legend]="lineChartLegend"
+            [chartType]="lineChartType"
+            [plugins]="lineChartPlugins">
+          </canvas>
+        </div>
+        <div class="card" >
+          <div class="card" style="width: 100%; background-color:darkgray;"><H1> <b>VO2MAX</b> </H1></div>
+          
+          <div class="container" style="background-image: url('../../../assets/Imagen/FondoLog.jpg');">
+
+<!--<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<-->
+
+<!--<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<-->
+            <div class="d-flex justify-content-center h-100">
+              <div class="container">
+                <div class="row">
+                  <div class="col-sm-6">
+
+                    <div class="container">
+                      <div class="row">
+                        <div class="col-sm">
+
+                          <div class="container">
+                            <div class="card" style="width: 5px; margin-top: 100px; background-color: transparent;" *ngIf="seg!=0||(min!=0 && seg==0)||VO2MAX==undefined"></div>
+                            <div class="card" style="width: 100%; height: 50%; margin-top: 20px; background-color: darkcyan;" *ngIf="min==0 && seg==0">
+                              <h1>DATOS </h1>
+                              <div class="container" >
+                              <Font size="70" >{{VO2MAX}}</Font>
+                              </div>
+                              
+                              <h4>ml/kg/min</h4>
+                            </div>
+
+                            <div class="card" style="width: 100%; height: 50%; margin-top: 20px; background-color: darkcyan;" *ngIf="seg!=0||(min!=0 && seg==0)||VO2MAX==undefined">
+                              <h1>DATOS </h1>
+                              <div class="container" >
+                              <Font size="70" >0</Font>
+                              </div>
+                              
+                              <h4>ml/kg/min</h4>
+                            </div>
+
+
+                          </div>
+
+                        </div>
+                      </div>
+
+                      <div class="row">
+                        <div class="col-sm">
+                          <div class="container" style="margin-top: 10px;" *ngIf="min==0 && seg==0" >
+                            <div class="card" style="background-color: red; border-color: white; border-width: 5px;" *ngIf="VO2MAX<40">
+                              <h1>Animo tu puedes</h1>
+                              <h2>Entrena Para mejorar tu resistencia</h2>
+                              <p>Puedes mejorar y ser un atleta normal y luego superar a un profecional</p>
+                            </div>
+                            <div class="card" style="background-color:yellow; border-color: white; border-width: 5px;" *ngIf="VO2MAX>=40 && VO2MAX<70">
+                              <h1>Genial</h1>
+                              <h2>Tienes la resistencia de un Atleta normal</h2>
+                              <p>Aun puedes Mejorar y alcanzar el ritmo de un profecional!!</p>
+                            </div>
+                            <div class="card" style="background-color:green; border-color: white; border-width: 5px;" *ngIf="VO2MAX>=70">
+                              <h1>Excelente</h1>
+                              <h2>Tienes la resistencia de un Atleta profecional </h2>
+                              <p>Aun puedes Mejorar y hacer un plus de 15%!!</p>
+                            </div>
+                          </div>
+                          
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-sm">
+                          <div class="container" style="margin-top: 15px;"></div>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+
+
+                  <div class="col-sm-6">
+
+                    <div class="card" style=" margin: 10px; background-color: black; color: white; border-color: white; border-width: 5px;">
+                      
+                      <div class="container">
+                        <div class="row">
+                          <div class="col-sm">
+                            <h3><b>Aire</b></h3>
+                          </div>
+                        </div>
+
+                        <div class="row">
+                          <div class="col-sm">
+                            <div class="card" style="  margin: 10px; color: black;">
+                              <h6>maximo</h6>
+                               <p> <b>{{volumenmax}}</b> ml.</p>
+                           </div>
+                          </div>
+
+                          <div class="col-sm">
+                            <div class="card" style="  margin: 10px; color: black;">
+                              <h6>minimo</h6>
+                               <p> <b>{{volumenmin}}</b> ml.</p>
+                             </div>
+                          </div>
+
+                        </div>
+                        <div class="row">
+                          <div class="col-sm">
+                              <h6><u>Promedio</u></h6>
+                          </div>
+                          
+                        </div>
+
+                        <div class="row">
+                          <div class="col-sm">
+                            
+                            <div class="card" style="  margin: 10px; color: black;">
+                              <h6>Inhalado</h6>
+                              <p> <b>{{volumenprom}}</b> ml.</p>
+                           </div>
+
+                          </div>
+                          <div class="col-sm">
+                            
+                            <div class="card" style="  margin: 10px; color: black;">
+                              <h6>Exhalado</h6>
+                              <p> <b>{{volumenpromNeg}}</b> ml.</p>
+                            </div>
+
+                          </div>
+                        </div>
+
+                        <div class="row">
+                          <div class="col-sm">
+                            
+                            <div class="card" style="  margin: 10px; color: black;">
+                              <h6>General</h6>
+                              <p> <b>{{promediog}}</b> ml.</p>
+                            </div>
+
+                          </div>
+                          
+                        </div>
+
+                      </div>
+                        
+                      </div>
+
+                  </div>
+                </div>
+              </div>
+
+              
+               
+                
+
+            </div>
+        </div>
+        </div>
+
+        </div>
+        <div class="card" style="width: 100%; background-color: black;">
+          <p style="color: white;" >Hora: {{Hora}} <br>Fecha: {{Fecha}}</p>
+        </div>
+  </div>
+
+                </div>
+            </div>
+       
+        </div>
+      </div>
+    </div>
+
+  </body>
+</html>
