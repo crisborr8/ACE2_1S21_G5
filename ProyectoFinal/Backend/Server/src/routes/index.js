@@ -16,7 +16,7 @@ const connection = mysql.createConnection({
     host: '3.12.129.123',
     user: 'root',
     password: 'secret',
-    database: 'backenddb',
+    database: 'ace2backend',
     port: 33061
 
    /* host: '127.0.0.1',
