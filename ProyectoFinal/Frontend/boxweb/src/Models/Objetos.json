@@ -1,0 +1,20 @@
+{
+    "Esquema1":[
+        {
+            "titulo":"Prueba 1",
+            "Encargado": "Alejandro1"
+            
+        },
+        {
+            "titulo":"Prueba 2",
+            "Encargado": "Alejandro2"
+            
+        },
+        {
+            "titulo":"Prueba 3",
+            "Encargado": "Alejandro3"
+            
+        }
+
+    ]
+}

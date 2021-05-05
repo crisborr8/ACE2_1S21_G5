@@ -2,6 +2,14 @@
   text-align: center;
 }
 
+.cab{
+  color: white;
+}
+.Hora{
+  
+  color: white;
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;

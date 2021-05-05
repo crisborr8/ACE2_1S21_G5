@@ -1,25 +1,49 @@
 import logo from './logo.svg';
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
+import Navegacion from './components/NavBar/Navegacion';
+
+import {Esquema1} from './Models/Objetos.json';
+import React,{ Component } from 'react';
+
+class App extends Component  {
+
+  
+  constructor(){
+    super();
+    this.state={
+      Esquema1:Esquema1
+    }
+  }
+
+  render(){
+    
+    const Tem = this.state.Esquema1.map((Esquema,i)=>{
+      return(
+        <div className="card">
+          {Esquema.titulo}
+        </div>
+      )
+
+    })
+
+    return (
+
+      <div className="App">
+        
+        <Navegacion titulo="TEMPERATURA223"></Navegacion>
+
+       {Tem}
+
         <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+  
+      </div>
+    )
+  }
+
+
+  
 }
 
 export default App;
+
