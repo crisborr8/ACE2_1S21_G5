@@ -5,6 +5,7 @@ import Navegacion from './components/NavBar/Navegacion';
 
 import {Esquema1} from './Models/Objetos.json';
 import React,{ Component } from 'react';
+import Historial from './components/Historial/Historial';
 
 class App extends Component  {
 
@@ -34,9 +35,9 @@ class App extends Component  {
         <Navegacion titulo="TEMPERATURA223"></Navegacion>
 
        {Tem}
-
+        <Historial/>
         <img src={logo} className="App-logo" alt="logo" />
-  
+      
       </div>
     )
   }
