@@ -20,9 +20,14 @@ import CanvasJSReact from '../../canvasjs.react';
 const useStyles = makeStyles((theme) => ({
     centrarTexto: {
         textAlign: 'center',
+        fontWeight: 'bold',
+        fontSize: '20px'
     },
     centrarContenido: {
         textAlign: 'center',
+    },
+    colorBloque:{
+        backgroundColor: '#EBAC44'
     },
     bloque: {
         textAlign: 'right',
@@ -38,20 +43,60 @@ const useStyles = makeStyles((theme) => ({
     },
     alinearTabla: {
         display: 'inline-block',
-        width: '88%'
+        width: '88%',
+        backgroundColor: '#fff',
+        borderRadius: '20px'
     },
     container: {
-        maxHeight: 440,
+        maxHeight: 420,
+        
+    },
+    estiloAutoComplete:{
+        
+        // backgroundColor: '#FFF',
+        width: '100%',
     },
     anchoTextField: {
         width: '70%',
+        backgroundColor: '#FFF',
+        borderRadius: '20px',
     },
     anchoPagination: {
         maxWidth: '70%'
     },
-    containerGrafica: {
-        maxWidth: 4,
+    bloqueGrafica: {
+        textAlign: 'left',
+        display: 'block',
+        maxWidth: '20%'
     },
+    grafica: {
+        padding:'4px',
+	background:'#fff',
+    borderRadius: '20px',
+    },
+    contGrafica:{
+        height: '420px',
+        width: '370',
+        border: '1px solid #ddd',
+        background: '#f1f1f1',
+        overflowx: 'scroll',
+        overflowy: 'scroll',
+        borderRadius: '20px',
+    },
+    ancho:{
+        width: 'auto',
+        height: 'auto',
+        borderRadius: '20px',
+    },
+    maxAlto:{
+        maxHeight: '500',
+    },
+    colorHeadTable:{
+        backgroundColor: '#E6E6E6',
+        fontWeight: 'bolder',
+        fontSize: '20',
+        fontFamily: 'arial',
+    }
 }));
 
 var CanvasJSChart = CanvasJSReact.CanvasJSChart;
@@ -68,15 +113,17 @@ export default function Historial() {
     let [primeraVez, setPrimeraVez] = useState(true);
     let [fechaSeleccionada, setFechaSeleccionada] = useState('');
     const [page, setPage] = React.useState(0);
-    const [rowsPerPage, setRowsPerPage] = React.useState(10);
+    const [rowsPerPage, setRowsPerPage] = React.useState(5);
     let [entrenamientoSeleccionado, setEntrenamientoSeleccionado] = useState({});
     const listaMediciones = [
         'Fuerza',
         'Oxígeno',
+        'Aceleración',
         'Temperatura',
         'Ritmo Cardiaco'
     ]
-    let [hisotrialMedicion, setHistorialMedicion] = useState([]);
+
+    let [maxMinMed, setMaxMinMed] = useState([]);
     let [options, setOptions] = useState({
         animationEnabled: true,
         title: {
@@ -89,7 +136,7 @@ export default function Historial() {
         axisX: {
             title: "Tiempo",
         },
-        width: '312',
+       
         data: [{
             type: "splineArea",
             xValueFormatString: "",
@@ -102,8 +149,8 @@ export default function Historial() {
     };
 
     const handleChangeRowsPerPage = (event) => {
-        setRowsPerPage(+event.target.value);
-        setPage(0);
+        setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
     };
 
     if (primeraVez) {
@@ -215,8 +262,6 @@ export default function Historial() {
                     response.data.data.forEach((element) => {
                         arr.push({ label: "", y: element.valor});
                     })
-                    console.log(arr)
-                    
                     options.data[0].dataPoints = arr;
                     options.title.text = value;
                     setOptions({ ...options});
@@ -224,7 +269,22 @@ export default function Historial() {
                     setMensajeErrorData('No se pudo recuperar el historial de mediciones')
                     setBanderaErrorData(true);
                 }
-            });
+        });
+
+        //ENVIAR MEDICION SELECCIONADA -> VALUE;
+        axios.get('http://localhost:5000/minMedMax')
+            .then(response => {
+                let arr = [];
+                if (response.data.status === "success") {
+                    response.data.data.forEach((element) => {
+                        arr.push(element.valor);
+                    })
+                    setMaxMinMed(arr);
+                } else {
+                    setMensajeErrorData('No se pudo recuperar los valores promedio de la medición')
+                    setBanderaErrorData(true);
+                }
+        });
     };
 
 
@@ -239,11 +299,14 @@ export default function Historial() {
                 <div className="row">
                     <div className="col col-lg-6 col-md-12 col-sm-12 col-12 order-sm-last order-last order-lg-first order-md-last">
                         <div className="card border-dark mb-3">
+                            <div style={{backgroundColor: '#E6E6E6'}}>
                             <div className="card-header">
                                 <div className={classes.centrarTexto}>
                                     <Typography use="headline3">HISTORIAL</Typography>
                                 </div>
                             </div>
+                            </div>
+                            <div className={classes.colorBloque}>
                             <div className="card-body">
                                 <div className={classes.centrarContenido}>
                                     <div className={classes.bloque}>
@@ -259,6 +322,7 @@ export default function Historial() {
                                         options={fechasHistorial}
                                         getOptionLabel={(option) => option}
                                         onChange={metodoCambiaEstadoFechaSeleccionada}
+                                        className={classes.estiloAutoComplete}
                                         renderInput={(params) => (
                                             <TextField
                                                 {...params}
@@ -274,17 +338,18 @@ export default function Historial() {
 
 
                                             <TableContainer className={classes.container}>
-                                                <Table stickyHeader aria-label="sticky table" >
-                                                    <TableHead>
+                                                <Table stickyHeader aria-label="sticky table">
+                                                    <TableHead >
                                                         <TableRow >
-                                                            <TableCell align="right">No.</TableCell>
-                                                            <TableCell align="right">Fecha</TableCell>
-                                                            <TableCell align="right">Hora</TableCell>
-                                                            <TableCell align="right">Seleccionar</TableCell>
+                                                            <TableCell className={classes.colorHeadTable} align="right">No.</TableCell>
+                                                            <TableCell className={classes.colorHeadTable} align="right">Fecha</TableCell>
+                                                            <TableCell className={classes.colorHeadTable} align="right">Hora</TableCell>
+                                                            <TableCell className={classes.colorHeadTable} align="right">Seleccionar</TableCell>
                                                         </TableRow>
                                                     </TableHead>
                                                     <TableBody>
-                                                        {listaHoras.map((row) => (
+                                                        {listaHoras.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row,index) => {
+                                                            return(
                                                             <TableRow key={row.key} >
                                                                 <TableCell component="th" scope="row">
                                                                     {row.key}
@@ -295,7 +360,7 @@ export default function Historial() {
                                                                     <Button
                                                                         variant="contained"
                                                                         size="large"
-                                                                        style={{ color: '#FFFFFF', backgroundColor: '#0B78F4' }}
+                                                                        style={{ color: '#FFFFFF', backgroundColor: '#6C66E4' }}
                                                                         onClick={(e) => metodoBtnVerEntrenamiento(e, row.key)}
                                                                     >
                                                                         Ver detalles
@@ -304,23 +369,27 @@ export default function Historial() {
 
                                                                 </TableCell>
                                                             </TableRow>
-                                                        ))}
+                                                            );
+                                                            })}
                                                     </TableBody>
                                                 </Table>
                                             </TableContainer>
-                                            <TablePagination
-                                                rowsPerPageOptions={[10, 25, 100]}
+                                            
+                                        </div>
+                                        
+                                    </div>
+                                    <TablePagination
+                                                rowsPerPageOptions={[5, 10, 25, 55, 100]}
                                                 component="div"
                                                 count={listaHoras.length}
                                                 rowsPerPage={rowsPerPage}
                                                 page={page}
-                                                className={classes.anchoPagination}
+                                                // className={classes.anchoPagination}
                                                 onChangePage={handleChangePage}
                                                 onChangeRowsPerPage={handleChangeRowsPerPage}
                                             />
-                                        </div>
-                                    </div>
                                 </div>
+                            </div>
                             </div>
                         </div>
                     </div>
@@ -332,6 +401,7 @@ export default function Historial() {
                                     <Typography use="headline3">DETALLES DEL ENTRENAMIENTO</Typography>
                                 </div>
                             </div>
+                            <div className={classes.colorBloque}>
                             <div className="card-body">
                                 <div className={classes.centrarContenido}>
                                     <div>
@@ -358,10 +428,43 @@ export default function Historial() {
                                         )}
                                     />
                                     <br></br>
-                                    <div className={classes.containerGrafica}>
-                                    <CanvasJSChart options={options} />
+                                    <div>
+                                    <label style={{fontSize: '18px', fontWeight: 'bold', fontFamily: 'Arial'}}>
+                                        Valor mínimo: 
+                                    </label>
+                                    &nbsp;
+                                    <label style={{fontSize: '18px', fontFamily: 'Arial'}}> 
+                                        {maxMinMed[0]}
+                                    </label>
+                                    &nbsp; &nbsp;
+                                    <label style={{fontSize: '18px', fontWeight: 'bold', fontFamily: 'Arial'}}>
+                                        Valor medio: 
+                                    </label>
+                                    &nbsp;
+                                    <label style={{fontSize: '18px', fontFamily: 'Arial'}}> 
+                                        {maxMinMed[1]}
+                                    </label>
+                                    &nbsp; &nbsp; &nbsp;
+                                    <label style={{fontSize: '18px', fontWeight: 'bold', fontFamily: 'Arial'}}>
+                                        Valor máximo: 
+                                    </label>
+                                    &nbsp;
+                                    <label style={{fontSize: '18px', fontFamily: 'Arial'}}> 
+                                        {maxMinMed[2]}
+                                    </label>
+                                    </div>
+                                    <br></br>
+                                    {/* <div className={classes.bloqueGrafica}> */}
+                                    <div className={classes.contGrafica}>
+                                        <div className={classes.ancho}>
+                                            <div className={classes.grafica}>
+
+                                                <CanvasJSChart options={options} />
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
+                            </div>
                             </div>
                         </div>
                     </div>
