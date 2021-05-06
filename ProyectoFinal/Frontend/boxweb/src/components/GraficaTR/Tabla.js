@@ -3,10 +3,10 @@ import Datatable from 'react-data-table-component'
 
 
 const tablaDatos=[
-    {id:1 , año:"2000" , nombre:"Alejandro"},
-    {id:2 , año:"2001" , nombre:"Alejandro1"},
-    {id:3 , año:"2002" , nombre:"Alejandro2"},
-    {id:4 , año:"2003" , nombre:"Alejandro3"}
+    {id:1 , oxigeno:"2000" , estabilidad:"/"},
+    {id:2 , oxigeno:"2001" , estabilidad:"X"},
+    {id:3 , oxigeno:"2002" , estabilidad:"!"},
+    {id:4 , oxigeno:"2003" , estabilidad:"/"},
 ];
 
 const columnas =[
@@ -16,13 +16,13 @@ const columnas =[
         sortable: true
     },
     {
-        name:'Año',
-        selector:'año',
+        name:'Oxigeno',
+        selector:'oxigeno',
         sortable: true
     },
     {
-        name:'Nombre',
-        selector:'nombre',
+        name:'Estabilidad',
+        selector:'estabilidad',
         sortable: true
     }
 ];
@@ -33,11 +33,14 @@ export default class Tabla extends Component {
     render() {
         return (
             <div>
-                <Datatable>
-                    columns={columnas}
-                    data={tablaDatos}
-                    title="Bitacora"
-                </Datatable>
+                <div className="card">
+                <Datatable 
+                columns={columnas}
+                data={tablaDatos}
+                title="Bitacora"
+                />
+                </div>
+                    
             </div>
         )
     }
