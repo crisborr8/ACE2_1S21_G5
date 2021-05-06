@@ -9,7 +9,19 @@
   
   color: white;
 }
+.btn{
+  border-color: transparent;
+}
+.op{
+  text-decoration: none;
+}
 
+.container{
+  border-color: white;
+}
+.Option{
+  color: white;
+}
 .App-logo {
   height: 40vmin;
   pointer-events: none;
