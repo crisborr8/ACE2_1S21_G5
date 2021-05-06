@@ -34,9 +34,8 @@ class App extends Component  {
         
         <Navegacion titulo="TEMPERATURA223"></Navegacion>
 
-       {Tem}
+       {/* {Tem} */}
         <Historial/>
-        <img src={logo} className="App-logo" alt="logo" />
       
       </div>
     )
