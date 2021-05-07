@@ -71,7 +71,7 @@ render(){
         <nav className="navbar navbar-dark bg-dark">
 
            <h1 className="cab">AC2-G5</h1> 
-           <div className="card bg-dark"> 
+           <div id="reloj" className="card bg-dark"> 
            <Reloj></Reloj>
            <Fecha></Fecha>
            </div>
