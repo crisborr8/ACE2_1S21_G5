@@ -45,7 +45,7 @@ render(){
                              </button>
                              <div className="dropdown-menu dropdown-menu-right">
                              <a className="op" href="/ReporteTR"><button className="dropdown-item" type="button" >Oxigeno</button></a>
-                             <a className="op" href="/ReporteTR"><button className="dropdown-item" type="button" >Temperatura</button></a>
+                             <a className="op" href="/ReporteTRtem"><button className="dropdown-item" type="button" >Temperatura</button></a>
                              <a className="op" href="/ReporteTR"><button className="dropdown-item" type="button" >Ritmo Cardiaco</button></a>
                              <a className="op" href="/ReporteTR"><button className="dropdown-item" type="button" >Fuerza</button></a>
                                

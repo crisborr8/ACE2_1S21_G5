@@ -37,7 +37,7 @@ var xVal = dps.length + 1;
 var yVal = 15;
 var updateInterval = 1000;
 
-class Grafica extends Component {
+class Graficatem extends Component {
 
 	constructor() {
 		super();
@@ -71,10 +71,10 @@ class Grafica extends Component {
 	render() {
 		const options = {
 			title :{
-				text: "Oxigeno"
+				text: "Temperatura"
 			},axisY: {
-				title: "Oxigeno",
-				suffix: "ml"
+				title: "Temperatura",
+				suffix: "°C"
 				
 			},
 			axisX: {
@@ -120,4 +120,4 @@ class Grafica extends Component {
 		);
 	}
 }
-export default Grafica;
+export default Graficatem;

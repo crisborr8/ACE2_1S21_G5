@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import Navegacion from '../NavBar/Navegacion'
-import Grafica from './Grafica'
+import Graficatem from './Graficatem'
 
 
-export default class Reportetr extends Component {
+export default class Reptem extends Component {
     render() {
         return (
             <div>
@@ -12,7 +12,7 @@ export default class Reportetr extends Component {
                     
                     <div id="BaseRepo" className="card">
                         <h1>REPORTE EN TIEMPO REAL</h1>
-                       <Grafica/>
+                       <Graficatem/>
                     </div>
 
                     

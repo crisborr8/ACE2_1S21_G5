@@ -37,7 +37,7 @@ export default class Perfil extends Component {
                 <div id="Columna" className="col-sm">
                   <div id="bot1" className="card">
                   <h1>Oxigeno</h1>
-                    <a className="op" href="/">
+                    <a className="op" href="/ReporteTR">
                       <button className="botones2"></button>
                     </a>
                   </div>
@@ -48,7 +48,7 @@ export default class Perfil extends Component {
                 <div id="Columna" className="col-sm">
                   <div id="bot" className="card">
                   <h1>Temperatura</h1>
-                  <a className="op" href="/">
+                  <a className="op" href="/ReporteTRtem">
                     <button className="botones3"></button>
                   </a>
                   </div>
