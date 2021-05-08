@@ -26,15 +26,15 @@ render(){
               <div className="row">
 
                 <div className="col-sm">
-                <a className="op" href="/ReporteTR"><button type="button" class="btn btn-dark">Perfil</button></a>
+                <a className="op" href="/Perfil"><button type="button" className="btn btn-dark">Perfil</button></a>
                 
                 </div>
                 <div className="col-sm">
-                <a className="op" href="/ReporteTR"><button type="button" class="btn btn-dark">Principal</button></a>
+                <a className="op" href="/ReporteTR"><button type="button" className="btn btn-dark">Principal</button></a>
               
                 </div>
                 <div className="col-sm">
-                <a className="op" href="/Historial"><button type="button" class="btn btn-dark">Historial</button></a>
+                <a className="op" href="/Historial"><button type="button" className="btn btn-dark">Historial</button></a>
                 
                 </div>
 
@@ -54,7 +54,7 @@ render(){
                 </div>
 
                 <div className="col-sm">
-                <a className="op" href="/ReporteTR"><button type="button" class="btn btn-dark">Cerrar Sesion</button></a>
+                <a className="op" href="/ReporteTR"><button type="button" className="btn btn-dark">Cerrar Sesion</button></a>
                   
                   </div>
 

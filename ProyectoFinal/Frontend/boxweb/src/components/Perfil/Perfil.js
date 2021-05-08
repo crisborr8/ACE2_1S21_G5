@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Navegacion from "../NavBar/Navegacion";
-import RC from "../../assets/img/RC.jpg";
 
 export default class Perfil extends Component {
  
@@ -10,6 +9,7 @@ export default class Perfil extends Component {
       <div id="perfil">
         <Navegacion />
         <div className="container">
+        
          
           <div id="bot3" className="card">
               <h1>DATOS PERSONALES</h1>
@@ -18,7 +18,9 @@ export default class Perfil extends Component {
           
           </div>
           
-
+         <div className="card" id="bot2">
+         <button type="button"  className="btn btn-success">Iniciar Entrenamiento</button>
+         </div>
           <div id="BasePerfil" className="card">
             <div id="con2" className="container">
               <div id="Fila" className="row">

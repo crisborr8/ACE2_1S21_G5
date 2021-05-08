@@ -15,10 +15,9 @@ export default class Reportetr extends Component {
                         GRAFICA
                        <Grafica/>
                     </div>
-                    <div className="card">
-                        bitacora
-                        <Tabla/>
-                    </div>
+
+                    
+                   
                 </div>
             </div>
         )

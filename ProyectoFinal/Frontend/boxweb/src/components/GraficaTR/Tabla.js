@@ -1,47 +1,27 @@
-import React, { Component } from 'react'
-import Datatable from 'react-data-table-component'
+import React, { Component } from 'react';
+import { BootstrapTable,TableHeaderColumn} from 'react-bootstrap-table';
 
-
-const tablaDatos=[
-    {id:1 , oxigeno:"2000" , estabilidad:"/"},
-    {id:2 , oxigeno:"2001" , estabilidad:"X"},
-    {id:3 , oxigeno:"2002" , estabilidad:"!"},
-    {id:4 , oxigeno:"2003" , estabilidad:"/"},
-];
-
-const columnas =[
-    {
-        name:'Id',
-        selector:'id',
-        sortable: true
-    },
-    {
-        name:'Oxigeno',
-        selector:'oxigeno',
-        sortable: true
-    },
-    {
-        name:'Estabilidad',
-        selector:'estabilidad',
-        sortable: true
-    }
-];
-
-
-
-export default class Tabla extends Component {
-    render() {
-        return (
-            <div>
-                <div className="card">
-                <Datatable 
-                columns={columnas}
-                data={tablaDatos}
-                title="Bitacora"
-                />
-                </div>
-                    
-            </div>
-        )
-    }
+import '../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css'
+ 
+ 
+class Tabla extends Component {
+  render() {
+    return (
+      <div>
+        <BootstrapTable data={this.props.data}>
+          <TableHeaderColumn isKey dataField='id'>
+            ID
+          </TableHeaderColumn>
+          <TableHeaderColumn dataField='oxigeno'>
+            Oxigeno
+          </TableHeaderColumn>
+          <TableHeaderColumn dataField='estabilidad'>
+            Estabilidad
+          </TableHeaderColumn>
+        </BootstrapTable>
+      </div>
+    );
+  }
 }
+ 
+export default Tabla;

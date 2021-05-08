@@ -20,6 +20,27 @@
   background-image: url('./assets/img/klipartz.com.png');
   
 }
+
+.botones1:hover {
+
+  box-shadow: inset 0 0 0 3px cyan;
+  }
+  .botones2:hover {
+
+    box-shadow: inset 0 0 0 3px cyan;
+    }
+
+    .botones3:hover {
+
+      box-shadow: inset 0 0 0 3px cyan;
+      }
+
+      .botones4:hover {
+
+        box-shadow: inset 0 0 0 3px cyan;
+        }
+      
+
 .botones2{
   border-color: transparent;
   margin: 15px;
@@ -47,6 +68,7 @@
 #con2{
   width: 100%;
   height: 45%;
+ 
 }
 .op{
   text-decoration: none;
@@ -54,7 +76,7 @@
 #Fila{
   width: 100%;
   height: 100%;
-  margin-bottom: 200px;
+  margin-bottom: 100px;
 }
 
 #Columna{
@@ -106,8 +128,8 @@
 
 #BasePerfil{
   background-color: black;
-  height:400px;
-  margin-bottom: 500px;
+  border-color: white;
+  margin-bottom: 200px;
 }
 #perfil{
   background-color: black;
@@ -116,7 +138,7 @@
 #bot{
   text-align: center;
   width: 50%;
-  margin-left: 30%;
+  margin-left: 40%;
   margin-top: 10%;
   
 }
@@ -124,7 +146,14 @@
 #bot1{
   text-align: center;
   width: 50%;
+  margin-left: 10%;
   margin-top: 10%;
+}
+#bot2{
+  text-align: center;
+  width: 30%;
+  margin-top: 15px;;
+  margin-bottom: 15px;
 }
 #bot3{
   text-align: center;
