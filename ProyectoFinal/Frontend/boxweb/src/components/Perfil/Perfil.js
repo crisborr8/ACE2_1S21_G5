@@ -69,7 +69,7 @@ handleClick(e) {
                 <div id="Columna" className="col-sm">
                   <div id="bot" className="card">
                     <h1>Ritmo Cardiaco</h1>
-                    <a className="op" href="/">
+                    <a className="op" href="/ReporteTR">
                       <button className="botones1"></button>
                     </a>
                   </div>
@@ -78,7 +78,7 @@ handleClick(e) {
                 <div id="Columna" className="col-sm">
                   <div id="bot1" className="card">
                   <h1>Oxigeno</h1>
-                    <a className="op" href="/ReporteTR" onClick={this.handleClick}>
+                    <a className="op" href="/ReporteTR">
                     
                       <button className="botones2"></button>
                     </a>
@@ -90,7 +90,7 @@ handleClick(e) {
                 <div id="Columna" className="col-sm">
                   <div id="bot" className="card">
                   <h1>Temperatura</h1>
-                  <a className="op" href="/ReporteTRtem">
+                  <a className="op" href="/ReporteTR">
                     <button className="botones3"></button>
                   </a>
                   </div>
@@ -98,7 +98,7 @@ handleClick(e) {
                 <div id="Columna" className="col-sm">
                   <div className="card" id="bot1">
                   <h1>Fuerza</h1>
-                  <a className="op" href="/">
+                  <a className="op" href="/ReporteTR">
                     <button className="botones4"></button>
                   </a>
                   </div>

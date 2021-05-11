@@ -14,6 +14,33 @@ function rowClassNameFormat(row, rowIdx) {
 }
 
 class Tabla extends Component {
+
+	constructor() {
+		super();
+	
+		this.state={
+			medicion:{
+				tipo:'',
+				unidad:''
+			}
+		}
+		this.llenar = this.llenar.bind(this);
+		this.llenar();
+	}
+
+
+  async llenar(){
+    
+		if( await localStorage.getItem('medicion')===null){
+		 
+		}else{
+		  let Tas= await localStorage.getItem('medicion');
+		  console.log(Tas);
+		  const tem=await this.setState({medicion:JSON.parse(Tas||'{}')});
+		}
+		
+		  
+   }
   render() {
     return (
       
@@ -46,7 +73,7 @@ class Tabla extends Component {
                 backgroundColor: "black",
               }}
             >
-              Oxigeno (ml)
+              {this.state.medicion.tipo} ({this.state.medicion.unidad})
             </TableHeaderColumn>
             <TableHeaderColumn
               dataField="estabilidad"

@@ -28,6 +28,11 @@ class Navegacion extends Component{
 
   Setear(){
    localStorage.setItem('Logueado', JSON.stringify(this.state.usuario));
+   localStorage.setItem('medicion', JSON.stringify({tipo:'Temperatura', unidad:' °C'}));
+  // localStorage.setItem('medicion', JSON.stringify({tipo:'Oxigeno', unidad:' O2'}));
+  // localStorage.setItem('medicion', JSON.stringify({tipo:'Ritmo Cardiaco', unidad:' BPM'}));
+  // localStorage.setItem('medicion', JSON.stringify({tipo:'Velocidad', unidad:' u/s'}));
+  // localStorage.setItem('medicion', JSON.stringify({tipo:'Fuerza', unidad:' N'}));
   }
     
 render(){

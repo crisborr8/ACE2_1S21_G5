@@ -43,21 +43,62 @@ class Grafica extends Component {
 		super();
 		this.updateChart = this.updateChart.bind(this);
 		this.state={
-			data:datas
+			data:datas,
+			medicion:{
+				tipo:'',
+				unidad:''
+			}
+		}
+		this.llenar = this.llenar.bind(this);
+		this.llenar();
+	}
+
+	async llenar(){
+    
+		if( await localStorage.getItem('medicion')===null){
+		 
+		}else{
+		  let Tas= await localStorage.getItem('medicion');
+		  console.log(Tas);
+		  const tem=await this.setState({medicion:JSON.parse(Tas||'{}')});
 		}
 		
-	}
+		  
+   }
 	
 	componentDidMount() {
 		setInterval(this.updateChart, updateInterval);
 		
 	}
 	updateChart() {
+
+		
 		var min = 1;
 		var max = 100;
-		yVal = (min + (Math.random() * (max-min))).toFixed(2);
-		//yVal = yVal +  Math.round(5 + Math.random() *(-5-5));
 		times= new Date();
+		//AQUI REALIZARE LA PETICION
+
+
+
+		//AQUI FINALIZA LA PETICION INICIA LA ASIGNACION
+		yVal = (min + (Math.random() * (max-min))).toFixed(2);
+		
+		
+		if(this.state.medicion.tipo=='Oxigeno'){
+			
+			console.log('Oxigeno');
+		}else if(this.state.medicion.tipo=='Temperatura'){
+			console.log('Temperatura');
+
+		}else if(this.state.medicion.tipo=='Ritmo Cardiaco'){
+			console.log('Ritmo Cardiaco');
+
+		}else if(this.state.medicion.tipo=='Velocidad'){
+			console.log('Velocidad');
+
+		}else if(this.state.medicion.tipo=='Fuerza'){
+			console.log('Fuerza');
+		}
 		dps.push({x: xVal,label:String(ObtenerHora(times)),y: Number(yVal) });
 		datas.unshift({id: indice, oxigeno: yVal, estabilidad: String(ObtenerHora(times))});
 		this.setState(datas);
@@ -69,24 +110,26 @@ class Grafica extends Component {
 		this.chart.render();
 	}
 	render() {
-		const options = {
-			title :{
-				text: "Oxigeno"
-			},axisY: {
-				title: "Oxigeno",
-				suffix: "ml"
+		
+			const options = {
+				title :{
+					text: this.state.medicion.tipo
+				},axisY: {
+					title: this.state.medicion.tipo,
+					suffix: String(this.state.medicion.unidad)
+					
+				},
+				axisX: {
+					title: "Hora",
+					
+				},
+				data: [{
 				
-			},
-			axisX: {
-				title: "Hora",
-				
-			},
-			data: [{
-			
-				type: "line",
-				dataPoints : dps
-			}]
-		}
+					type: "line",
+					dataPoints : dps
+				}]
+			}
+		
 		
 		
 		return (
@@ -99,7 +142,7 @@ class Grafica extends Component {
 			</div>
 			
 
-			<div id="filtroRendimiento" className="btn-group">
+			<div id="filtroRendimiento" className="btn-group" >
                              <button type="button" className="btn btn-secondary dropdown-toggle bg-dark" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                  Filtro Rendimiento
                              </button>
@@ -108,7 +151,8 @@ class Grafica extends Component {
                              <a className="op" href="/ReporteTR"><button className="dropdown-item" type="button" >Normal</button></a>
                              <a className="op" href="/ReporteTR"><button className="dropdown-item" type="button" >Bueno</button></a>  
                              </div>
-                        </div>
+                </div>
+				
 
 
 		<div id="SubReporte" className="card">

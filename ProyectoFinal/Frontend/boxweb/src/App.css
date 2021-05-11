@@ -191,6 +191,7 @@
 }
 
 #filtroRendimiento{
+  visibility: collapse;
   width: 10%;
   margin-right: 85%;
 }
