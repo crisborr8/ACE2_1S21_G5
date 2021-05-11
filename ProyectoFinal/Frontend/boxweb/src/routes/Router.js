@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import App from '../App'
 import Historial from '../components/Historial/Historial'
 import Login from '../components/login/Login'
+import Registrar from '../components/Registrar/Registrar'
 
 export default class Router extends Component {
     render() {
@@ -12,6 +13,7 @@ export default class Router extends Component {
                     <Route exact path="/" component={App}/>
                     <Route exact path="/Login" component={Login}/>
                     <Route exact path="/Historial" component={Historial}/>
+                    <Route exact path='/Registrar' component={Registrar}/>
                 </Switch>
             </BrowserRouter>
         )

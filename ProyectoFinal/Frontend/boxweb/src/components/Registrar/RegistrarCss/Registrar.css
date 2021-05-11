@@ -1,0 +1,38 @@
+.form-groups{
+    display: inline;
+    
+}
+
+.contenedor1{
+    max-width: 800px;
+    min-width: 300px;
+    width: 80%;
+    border-radius: 25px;
+    margin: 100px auto;
+    background: linear-gradient(135deg, rgba(34,193,195,1) 0%,     rgba(253,187,45,1) 100%);
+    padding:'20px'
+}
+
+
+.check{
+    width: 100%;
+    align-items: center;
+}
+.check .form-group{
+    align-self: flex-start;
+    padding-left: 50%;
+}
+
+@media screen and (max-width: 625px) {
+    .contenedor1{
+        max-width: 800px;
+        min-width: 300px;
+        width: 100%;
+        border-radius: 25px;
+        margin: 100px auto;
+        background: linear-gradient(135deg, rgb(66, 195, 34) 0%,     rgb(59, 193, 202) 100%);
+        padding:'20px'
+    }
+}
+
+
