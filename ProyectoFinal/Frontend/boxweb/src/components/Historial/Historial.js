@@ -154,7 +154,11 @@ export default function Historial() {
     };
 
     if (primeraVez) {
-
+        //ENVIAR ID DE USUARIO
+        // “data” : {
+        //     {"id_user" : "1234"}
+        // }
+   
         axios.get('http://localhost:5000/fechasHistorial')
             .then(response => {
                 if (response.data.status === 'success') {
@@ -164,12 +168,13 @@ export default function Historial() {
                         return;
                     }
                     setBanderaSinFechas(false);
-                    let arr = [];
+                    // let arr = [];
                     response.data.data.forEach(element => {
-                        let f = new Date(element.fecha)
-                        arr.push(f.getDate() + '/' + (f.getMonth() + 1) + '/' + f.getFullYear())
+                        fechasHistorial.push(element.fecha)
+                        //let f = new Date(element.fecha)
+                        //arr.push(f.getDate() + '/' + (f.getMonth() + 1) + '/' + f.getFullYear())
                     });
-                    setFechasHistorial(arr)
+                    // setFechasHistorial(arr)
                 } else {
                     setBnderaFechasNoRecup(true);
                 }
@@ -222,7 +227,8 @@ export default function Historial() {
             return;
         }
         setFechaSeleccionada(value);
-        //ENVIAR FECHA
+        // console.log('FECHA: ' + value);
+        //ENVIAR FECHA y ID USUARIO
         axios.get('http://localhost:5000/entrenamientosFecha')
             .then(response => {
                 // setListaHoras([]);
@@ -253,7 +259,7 @@ export default function Historial() {
         if (value === '' || value === null) {
             return;
         }
-        
+        //ENVIAR TAMBIEN ID DEL ENTRENAMIENTO
         //ENVIAR MEDICION SELECCIONADA -> VALUE;
         axios.get('http://localhost:5000/historialMedicion')
             .then(response => {
@@ -270,7 +276,7 @@ export default function Historial() {
                     setBanderaErrorData(true);
                 }
         });
-
+        //ENVIAR ID_ENTRENAMIENTO
         //ENVIAR MEDICION SELECCIONADA -> VALUE;
         axios.get('http://localhost:5000/minMedMax')
             .then(response => {
@@ -348,7 +354,7 @@ export default function Historial() {
                                                         </TableRow>
                                                     </TableHead>
                                                     <TableBody>
-                                                        {listaHoras.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row,index) => {
+                                                        {listaHoras.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
                                                             return(
                                                             <TableRow key={row.key} >
                                                                 <TableCell component="th" scope="row">
@@ -410,7 +416,7 @@ export default function Historial() {
                                     </label>
                                     &nbsp;
                                     <label style={{fontSize: '18px', fontFamily: 'Arial'}}> 
-                                        {entrenamientoSeleccionado.duracion}
+                                        {entrenamientoSeleccionado.duracion} seg
                                     </label>
                                     </div>
                                     <Autocomplete
