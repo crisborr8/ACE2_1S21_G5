@@ -6,8 +6,28 @@ import Reloj from '../Reloj/Reloj';
 
 class Navegacion extends Component{
 
-  Mover(){
-    alert('Hola');
+ constructor() {
+		super();
+		this.state={
+			usuario:{
+                id:'5000',
+                nombre:'José Alejandro',
+                apellido:'Grande Marín',
+                usuario:'Alejo',
+                edad:'23',
+                peso:'67',
+                estatura:'165',
+                correo:'Alejo@g.com'
+            
+       },
+		}
+         this.Setear = this.Setear.bind(this);
+        // this.CancelarEditar = this.CancelarEditar.bind(this);
+		
+	}
+
+  Setear(){
+   localStorage.setItem('Logueado', JSON.stringify(this.state.usuario));
   }
     
 render(){
@@ -19,6 +39,23 @@ render(){
 
 
 
+
+        
+
+
+        <nav className="navbar navbar-dark bg-dark">
+
+           <h1 className="cab">AC2-G5</h1> 
+           <div id="reloj" className="card bg-dark"> 
+           <Reloj></Reloj>
+           <Fecha></Fecha>
+           </div>
+          <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span className="navbar-toggler-icon"></span>
+          </button>
+
+
+
 <div className="collapse navbar-collapse" id="navbarToggleExternalContent">
           <div className="bg-dark ">
             
@@ -26,11 +63,11 @@ render(){
               <div className="row">
 
                 <div className="col-sm">
-                <a className="op" href="/Perfil"><button type="button" className="btn btn-dark">Perfil</button></a>
+                <a className="op" href="/PerfilI"><button type="button" className="btn btn-dark">Perfil</button></a>
                 
                 </div>
                 <div className="col-sm">
-                <a className="op" href="/ReporteTR"><button type="button" className="btn btn-dark">Principal</button></a>
+                <a className="op" href="/Perfil"><button type="button" className="btn btn-dark">Principal</button></a>
               
                 </div>
                 <div className="col-sm">
@@ -54,7 +91,7 @@ render(){
                 </div>
 
                 <div className="col-sm">
-                <a className="op" href="/ReporteTR"><button type="button" className="btn btn-dark">Cerrar Sesion</button></a>
+                <button type="button" onClick={this.Setear} className="btn btn-dark">Cerrar Sesion</button>
                   
                   </div>
 
@@ -65,19 +102,15 @@ render(){
           </div>
         </div>
 
-        
 
 
-        <nav className="navbar navbar-dark bg-dark">
 
-           <h1 className="cab">AC2-G5</h1> 
-           <div id="reloj" className="card bg-dark"> 
-           <Reloj></Reloj>
-           <Fecha></Fecha>
-           </div>
-          <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span className="navbar-toggler-icon"></span>
-          </button>
+
+
+
+
+
+
         </nav>
       </div>
 

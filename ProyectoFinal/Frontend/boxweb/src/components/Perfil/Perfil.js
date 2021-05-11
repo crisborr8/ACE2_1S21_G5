@@ -1,9 +1,52 @@
 import React, { Component } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Navegacion from "../NavBar/Navegacion";
+import Grafica from "../GraficaTR/Grafica";
 
 export default class Perfil extends Component {
- 
+                     constructor() {
+                              super();
+                              this.state={
+                                editar:false,
+                                      usuario:{
+                                          id:'',
+                                          nombre:'',
+                                          apellido:'',
+                                          usuario:'',
+                                          edad:'',
+                                          peso:'',
+                                          estatura:'',
+                                          correo:''
+                                      }
+                              }
+
+                                      
+                                  
+                                  this.llenar = this.llenar.bind(this);
+                                  this.handleClick= this.handleClick.bind(this);
+                                  this.llenar();
+                              
+                            }
+  async llenar(){
+    
+     if( await localStorage.getItem('Logueado')===null){
+      
+     }else{
+       let Tas= await localStorage.getItem('Logueado');
+     
+       const tem=await this.setState({usuario:JSON.parse(Tas||'{}')});
+    
+     }
+    
+       
+}
+
+handleClick(e) {
+    e.preventDefault(false);
+    console.log('The link was clicked.');
+    e.href="/"
+  }
+
   render() {
     return (
       <div id="perfil">
@@ -13,14 +56,12 @@ export default class Perfil extends Component {
          
           <div id="bot3" className="card">
               <h1>DATOS PERSONALES</h1>
-            <h4>Nombre: Alejandro</h4>
-            <h4>Edad: 23</h4>
+            <h4>Usuario: {this.state.usuario.usuario}</h4>
+            <h4>Edad: {this.state.usuario.edad}</h4>
           
           </div>
           
-         <div className="card" id="bot2">
-         <button type="button"  className="btn btn-success">Iniciar Entrenamiento</button>
-         </div>
+         
           <div id="BasePerfil" className="card">
             <div id="con2" className="container">
               <div id="Fila" className="row">
@@ -37,7 +78,8 @@ export default class Perfil extends Component {
                 <div id="Columna" className="col-sm">
                   <div id="bot1" className="card">
                   <h1>Oxigeno</h1>
-                    <a className="op" href="/ReporteTR">
+                    <a className="op" href="/ReporteTR" onClick={this.handleClick}>
+                    
                       <button className="botones2"></button>
                     </a>
                   </div>

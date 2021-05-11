@@ -6,6 +6,7 @@ import Login from '../components/login/Login'
 import Reportetr from '../components/GraficaTR/Reportetr'
 import Perfil from '../components/Perfil/Perfil'
 import Reptem from '../components/GraficaTR/Reptem'
+import PerfilInicio from '../components/Perfil/PerfilInicio'
 
 export default class Router extends Component {
     render() {
@@ -18,6 +19,7 @@ export default class Router extends Component {
                     <Route exact path="/ReporteTR" component={Reportetr}/>
                     <Route exact path="/ReporteTRtem" component={Reptem}/>
                     <Route exact path="/Perfil" component={Perfil}/>
+                    <Route exact path="/PerfilI" component={PerfilInicio}/>
 
                 </Switch>
             </BrowserRouter>
