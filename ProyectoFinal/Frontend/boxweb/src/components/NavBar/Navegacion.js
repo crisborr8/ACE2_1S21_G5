@@ -84,15 +84,6 @@ render(){
             <span className="navbar-toggler-icon"></span>
           </button>
 
-<<<<<<< HEAD
-          <div className="collapse navbar-collapse" id="navbarToggleExternalContent">
-            <div className="bg-dark p-4">
-              <h4 className="text-white">Collapsed content</h4>
-              <span className="text-muted"> {this.props.titulo}.</span>
-            </div>
-          </div>
-          
-=======
 
 
 <div className="collapse navbar-collapse" id="navbarToggleExternalContent">
@@ -150,7 +141,6 @@ render(){
 
 
 
->>>>>>> GraficaTRv1
         </nav>
       </div>
 
