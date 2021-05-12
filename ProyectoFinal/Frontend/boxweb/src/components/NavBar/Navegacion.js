@@ -3,7 +3,6 @@ import Fecha from '../Reloj/Fecha';
 import Reloj from '../Reloj/Reloj';
 
 
-
 class Navegacion extends Component{
 
  constructor(props) {
@@ -44,7 +43,7 @@ handleClick(e) {
   
 }
 
-handleClick1() {
+handleClick1(e) {
   localStorage.setItem('medicion', JSON.stringify({tipo:'Oxigeno', unidad:' O2'}));
   this.props.history.push('/ReporteTR');
 }
@@ -105,20 +104,6 @@ render(){
                 
                 </div>
 
-                <div className="col-sm">
-                       <div className="btn-group">
-                             <button type="button" className="btn btn-secondary dropdown-toggle bg-dark" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                  Mediciones-TR
-                             </button>
-                             <div className="dropdown-menu dropdown-menu-right">
-                             <button className="dropdown-item" type="button" onClick={(()=>this.handleClick1)()} >Oxigeno</button>
-                             <a className="op" href="#" onClick={()=>this.handleClick}><button className="dropdown-item" type="button" >Temperatura</button></a>
-                             <a className="op" href="#" onClick={()=>this.handleClick2}><button className="dropdown-item" type="button" >Ritmo Cardiaco</button></a>
-                             <a className="op" href="#" onClick={()=>this.handleClick3}><button className="dropdown-item" type="button" >Fuerza</button></a>
-                               
-                             </div>
-                        </div>
-                </div>
 
                 <div className="col-sm">
                 <button type="button" onClick={this.handleClick3} className="btn btn-dark">Cerrar Sesion</button>

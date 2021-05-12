@@ -40,6 +40,8 @@ export default class Perfil extends Component {
        const tem=await this.setState({usuario:JSON.parse(Tas||'{}')});
     
      }
+
+     await localStorage.removeItem('medicion')
     
        
 }

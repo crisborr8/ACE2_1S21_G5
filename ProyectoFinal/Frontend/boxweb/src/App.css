@@ -239,3 +239,12 @@
 #user{
   text-align:center;
 }
+
+#contbtn1{
+  background-color: black;
+  color: white;
+}
+#menbtn{
+  width: 50%;
+ 
+}

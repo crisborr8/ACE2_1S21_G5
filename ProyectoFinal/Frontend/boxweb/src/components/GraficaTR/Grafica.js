@@ -2,6 +2,21 @@ import React, { Component, useState } from 'react'
 import CanvasJSReact from '../../canvasjs.react';
 import { Table } from '@material-ui/core';
 import Tabla from './Tabla'
+import { Route , withRouter} from 'react-router-dom';
+
+import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
+
+import "../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css";
+
+function rowClassNameFormat(row, rowIdx) {
+  if (row["oxigeno"] < 20) {
+    return "Mal-Row";
+  } else if (row["oxigeno"] >= 20 && row["oxigeno"] <= 40) {
+    return "Normal-Row";
+  } else {
+    return "Exelente-Row";
+  }
+}
 var CanvasJS = CanvasJSReact.CanvasJS;
 var CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
@@ -39,8 +54,8 @@ var updateInterval = 1000;
 
 class Grafica extends Component {
 
-	constructor() {
-		super();
+	constructor(props) {
+		super(props);
 		this.updateChart = this.updateChart.bind(this);
 		this.state={
 			data:datas,
@@ -50,6 +65,10 @@ class Grafica extends Component {
 			}
 		}
 		this.llenar = this.llenar.bind(this);
+		this.handleClick=this.handleClick.bind(this);
+		this.handleClick1=this.handleClick1.bind(this);
+		this.handleClick2=this.handleClick2.bind(this);
+		this.handleClick3=this.handleClick3.bind(this);
 		this.llenar();
 	}
 
@@ -65,12 +84,60 @@ class Grafica extends Component {
 		
 		  
    }
+
+  async handleClick() {
+  
+	await localStorage.setItem('medicion', JSON.stringify({tipo:'Temperatura', unidad:' °C'}));
+	await this.llenar();
+	datas=await [];
+	dps=await[];
+	await this.setState(datas);
 	
-	componentDidMount() {
-		setInterval(this.updateChart, updateInterval);
+	
+  }
+  
+  async handleClick1() {
+	await localStorage.setItem('medicion', JSON.stringify({tipo:'Oxigeno', unidad:' O2'}));
+	await this.llenar();
+	datas=await [];
+	dps=await[];
+	await this.setState(datas);
+
+  }
+  
+  async handleClick2() {
+	
+	await localStorage.setItem('medicion', JSON.stringify({tipo:'Ritmo Cardiaco', unidad:' BPM'}));
+	await this.llenar();
+	datas=await [];
+	dps=await[];
+	await this.setState(datas);
+	
+	//this.props.history.push('/ReporteTR');
+	
+  }
+  
+  async handleClick3() {
+   
+	  await localStorage.setItem('medicion', JSON.stringify({tipo:'Fuerza', unidad:' N'}));
+	  await this.llenar();
+	  datas=await [];
+	  dps=await[];
+	await this.setState(datas);
+	  
+  // localStorage.setItem('medicion', JSON.stringify({tipo:'Velocidad', unidad:' u/s'}));
+	
+  }
+  	componentDidMount() {
+ 		  this.intervalo=setInterval(this.updateChart, updateInterval);
 		
+	
+		}
+	componentWillUnmount(){
+		clearInterval(this.intervalo);
 	}
-	updateChart() {
+    
+  updateChart() {
 
 		
 		var min = 1;
@@ -107,7 +174,10 @@ class Grafica extends Component {
 		if (dps.length >  10 ) {
 			dps.shift();
 		}
-		this.chart.render();
+
+			this.chart.render();
+		
+		
 	}
 	render() {
 		
@@ -134,6 +204,15 @@ class Grafica extends Component {
 		
 		return (
 		<div>
+			<div id="contbtn1" className="card">
+				<div className="row">
+					<div className="col-sm"><button type="button" id="menbtn" onClick={this.handleClick1} className="btn btn-primary">Oxigeno</button></div>
+					<div className="col-sm"><button type="button" id="menbtn" onClick={this.handleClick} className="btn btn-primary">Temperatura</button></div>
+					<div className="col-sm"><button type="button" id="menbtn" onClick={this.handleClick2} className="btn btn-primary">Ritmo Cardiaco</button></div>
+					<div className="col-sm"><button type="button" id="menbtn" onClick={this.handleClick3} className="btn btn-primary">Fuerza</button></div>
+
+				</div>
+			</div>
 			<div id="SubReporte" className="card">
 				<h1>GRAFICA</h1>
 					<CanvasJSChart options = {options}
@@ -157,11 +236,63 @@ class Grafica extends Component {
 
 		<div id="SubReporte" className="card">
 			<h1>BITACORA</h1>
-			<Tabla data={datas}></Tabla>
+			{/*<Tabla data={datas}></Tabla>*/}
+
+
+
+			<div id="Bitacora" className="overflow-auto">
+          <BootstrapTable
+            data={datas}
+            trClassName={rowClassNameFormat}
+          >
+            <TableHeaderColumn
+              isKey
+              dataField="id"
+              dataAlign="center"
+              headerAlign="left"
+              width="10%"
+              tdStyle={{ backgroundColor: "gray" }}
+              thStyle={{
+                color: "White",
+                backgroundColor: "black",
+              }}
+            >
+              ID
+            </TableHeaderColumn>
+            <TableHeaderColumn
+              dataField="oxigeno"
+              dataAlign="center"
+              headerAlign="center"
+              width="50%"
+              thStyle={{
+                color: "White",
+                backgroundColor: "black",
+              }}
+            >
+              {this.state.medicion.tipo} ({this.state.medicion.unidad})
+            </TableHeaderColumn>
+            <TableHeaderColumn
+              dataField="estabilidad"
+              dataAlign="center"
+              headerAlign="center"
+              thStyle={{
+                color: "White",
+                backgroundColor: "black",
+              }}
+            >
+              Hora
+            </TableHeaderColumn>
+          </BootstrapTable>
+        </div>
+
+
+
+
+
          </div>
 			{/*You can get reference to the chart instance as shown above using onRef. This allows you to access all chart properties and methods*/}
 		</div>
 		);
 	}
 }
-export default Grafica;
+export default withRouter(Grafica);
