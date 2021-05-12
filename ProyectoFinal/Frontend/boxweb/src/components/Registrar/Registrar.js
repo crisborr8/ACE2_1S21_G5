@@ -2,7 +2,7 @@
 import axios from 'axios';
 import React, {useState } from 'react'
 import Navbar from '../NavBar/Navegacion'
-import './RegistrarCss/Registrar.css'
+import '../../css/login.css';
 
 
 
@@ -206,6 +206,7 @@ const Inputs = props=>{
     return (<div className='form-group'>
             <label> {props.label}</label>
             <input 
+                
                 className={props.clase}
                 type={props.type}
                 name={props.nombre}

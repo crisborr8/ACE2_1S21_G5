@@ -33,11 +33,11 @@
     padding-bottom: 1rem;
     box-shadow: inset 0px -3px 0px 0px rgba(49, 252, 3, 0.952);
     transition: box-shadow 0.2s ease-in;
+   
+    padding: 5px 40px 10px 15px;
+
   }
 
-  .form-group input:invalid{
-    border-color: red;
-  }
 
   .form-group .cssInputs:focus{
     box-shadow: inset 0px -3px 0px 0px rgba(18, 26, 134, 0.7);
@@ -78,3 +78,53 @@
       background: rgb(34,193,195);
       background: linear-gradient(90deg, rgba(31,32,33,1) 0%, rgba(36,163,189,1) 48%, rgba(25,122,156,1) 59%, rgba(32,95,126,0.9416141456582633) 76%);
   }
+
+
+  .form-groups{
+    display: inline;
+    
+}
+
+.contenedor1{
+    max-width: 800px;
+    min-width: 300px;
+    width: 80%;
+    border-radius: 25px;
+    margin: 100px auto;
+    background: linear-gradient(135deg, rgba(34,193,195,1) 0%,     rgba(253,187,45,1) 100%);
+    padding:'20px'
+}
+
+
+.check{
+    width: 100%;
+    align-items: center;
+}
+.check .form-group{
+    align-self: flex-start;
+    padding-left: 50%;
+}
+
+.validacion{
+  font-size: 15px;
+  margin-top: 0;
+  color: red;
+  display: none; 
+
+  
+}
+
+
+
+
+@media screen and (max-width: 625px) {
+    .contenedor1{
+        max-width: 800px;
+        min-width: 300px;
+        width: 100%;
+        border-radius: 25px;
+        margin: 100px auto;
+        background: linear-gradient(135deg, rgb(66, 195, 34) 0%,     rgb(59, 193, 202) 100%);
+        padding:'20px'
+    }
+}
