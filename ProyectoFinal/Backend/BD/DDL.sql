@@ -31,6 +31,7 @@ CREATE TABLE IF NOT EXISTS BoxinPunch.Sesion_Entrenamiento (
   idSesion_Entrenamiento INT NOT NULL AUTO_INCREMENT,
   id_User int null,
   fecha date null,
+  hora time null,
   duracion int null,
   FOREIGN KEY(id_User) REFERENCES Usuario(idUsuario),
   PRIMARY KEY (idSesion_Entrenamiento))
@@ -53,3 +54,8 @@ CREATE TABLE IF NOT EXISTS BoxinPunch.Datos_Entrenamiento (
 ENGINE = InnoDB;
 
             
+
+--- Correciones
+
+ alter table Sesion_Entrenamiento add hora time;
+ update Sesion_Entrenamiento set hora = '00:10:01';
