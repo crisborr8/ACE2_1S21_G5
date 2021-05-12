@@ -24,6 +24,9 @@ export default class Perfil extends Component {
                                   
                                   this.llenar = this.llenar.bind(this);
                                   this.handleClick= this.handleClick.bind(this);
+                                  this.handleClick1= this.handleClick1.bind(this);
+                                  this.handleClick2= this.handleClick2.bind(this);
+                                  this.handleClick3= this.handleClick3.bind(this);
                                   this.llenar();
                               
                             }
@@ -42,9 +45,34 @@ export default class Perfil extends Component {
 }
 
 handleClick(e) {
-    e.preventDefault(false);
-    console.log('The link was clicked.');
-    e.href="/"
+    e.preventDefault();
+    localStorage.setItem('medicion', JSON.stringify({tipo:'Temperatura', unidad:' °C'}));
+    this.props.history.push('/ReporteTR');
+    
+    
+  }
+
+  handleClick1(e) {
+    e.preventDefault();
+    
+    localStorage.setItem('medicion', JSON.stringify({tipo:'Oxigeno', unidad:' O2'}));
+    this.props.history.push('/ReporteTR');
+    
+  }
+
+  handleClick2(e) {
+    e.preventDefault();
+    localStorage.setItem('medicion', JSON.stringify({tipo:'Ritmo Cardiaco', unidad:' BPM'}));
+    this.props.history.push('/ReporteTR');
+    
+  }
+
+  handleClick3(e) {
+    e.preventDefault(); 
+  // localStorage.setItem('medicion', JSON.stringify({tipo:'Velocidad', unidad:' u/s'}));
+    localStorage.setItem('medicion', JSON.stringify({tipo:'Fuerza', unidad:' N'}));
+    this.props.history.push('/ReporteTR');
+    
   }
 
   render() {
@@ -69,7 +97,7 @@ handleClick(e) {
                 <div id="Columna" className="col-sm">
                   <div id="bot" className="card">
                     <h1>Ritmo Cardiaco</h1>
-                    <a className="op" href="/ReporteTR">
+                    <a className="op" href="#" onClick={this.handleClick2}>
                       <button className="botones1"></button>
                     </a>
                   </div>
@@ -78,7 +106,7 @@ handleClick(e) {
                 <div id="Columna" className="col-sm">
                   <div id="bot1" className="card">
                   <h1>Oxigeno</h1>
-                    <a className="op" href="/ReporteTR">
+                    <a className="op" href="#" onClick={this.handleClick1}>
                     
                       <button className="botones2"></button>
                     </a>
@@ -90,7 +118,7 @@ handleClick(e) {
                 <div id="Columna" className="col-sm">
                   <div id="bot" className="card">
                   <h1>Temperatura</h1>
-                  <a className="op" href="/ReporteTR">
+                  <a className="op" href="#" onClick={this.handleClick}>
                     <button className="botones3"></button>
                   </a>
                   </div>
@@ -98,7 +126,7 @@ handleClick(e) {
                 <div id="Columna" className="col-sm">
                   <div className="card" id="bot1">
                   <h1>Fuerza</h1>
-                  <a className="op" href="/ReporteTR">
+                  <a className="op" href="#" onClick={this.handleClick3}>
                     <button className="botones4"></button>
                   </a>
                   </div>

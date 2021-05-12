@@ -6,8 +6,8 @@ import Reloj from '../Reloj/Reloj';
 
 class Navegacion extends Component{
 
- constructor() {
-		super();
+ constructor(props) {
+		super(props);
 		this.state={
 			usuario:{
                 id:'5000',
@@ -22,18 +22,49 @@ class Navegacion extends Component{
        },
 		}
          this.Setear = this.Setear.bind(this);
+         this.handleClick = this.handleClick.bind(this);
+         this.handleClick1 = this.handleClick1.bind(this);
+         this.handleClick2 = this.handleClick2.bind(this);
+         this.handleClick3 = this.handleClick3.bind(this);
         // this.CancelarEditar = this.CancelarEditar.bind(this);
 		
 	}
 
   Setear(){
    localStorage.setItem('Logueado', JSON.stringify(this.state.usuario));
-   localStorage.setItem('medicion', JSON.stringify({tipo:'Temperatura', unidad:' °C'}));
-  // localStorage.setItem('medicion', JSON.stringify({tipo:'Oxigeno', unidad:' O2'}));
-  // localStorage.setItem('medicion', JSON.stringify({tipo:'Ritmo Cardiaco', unidad:' BPM'}));
-  // localStorage.setItem('medicion', JSON.stringify({tipo:'Velocidad', unidad:' u/s'}));
-  // localStorage.setItem('medicion', JSON.stringify({tipo:'Fuerza', unidad:' N'}));
+   
   }
+
+  
+handleClick(e) {
+  
+  localStorage.setItem('medicion', JSON.stringify({tipo:'Temperatura', unidad:' °C'}));
+  this.props.history.push('/ReporteTR');
+  e.preventDefault();
+  
+}
+
+handleClick1() {
+  localStorage.setItem('medicion', JSON.stringify({tipo:'Oxigeno', unidad:' O2'}));
+  this.props.history.push('/ReporteTR');
+}
+
+handleClick2(e) {
+  
+  localStorage.setItem('medicion', JSON.stringify({tipo:'Ritmo Cardiaco', unidad:' BPM'}));
+  this.props.history.push('/ReporteTR');
+  e.preventDefault();
+}
+
+handleClick3(e) {
+ 
+    localStorage.setItem('medicion', JSON.stringify({tipo:'Fuerza', unidad:' N'}));
+    this.props.history.push('/ReporteTR');
+    e.preventDefault();
+// localStorage.setItem('medicion', JSON.stringify({tipo:'Velocidad', unidad:' u/s'}));
+  
+  
+}
     
 render(){
 
@@ -41,12 +72,6 @@ render(){
 
 
         <div className="pos-f-t">
-
-
-
-
-        
-
 
         <nav className="navbar navbar-dark bg-dark">
 
@@ -86,17 +111,17 @@ render(){
                                   Mediciones-TR
                              </button>
                              <div className="dropdown-menu dropdown-menu-right">
-                             <a className="op" href="/ReporteTR"><button className="dropdown-item" type="button" >Oxigeno</button></a>
-                             <a className="op" href="/ReporteTRtem"><button className="dropdown-item" type="button" >Temperatura</button></a>
-                             <a className="op" href="/ReporteTR"><button className="dropdown-item" type="button" >Ritmo Cardiaco</button></a>
-                             <a className="op" href="/ReporteTR"><button className="dropdown-item" type="button" >Fuerza</button></a>
+                             <button className="dropdown-item" type="button" onClick={(()=>this.handleClick1)()} >Oxigeno</button>
+                             <a className="op" href="#" onClick={()=>this.handleClick}><button className="dropdown-item" type="button" >Temperatura</button></a>
+                             <a className="op" href="#" onClick={()=>this.handleClick2}><button className="dropdown-item" type="button" >Ritmo Cardiaco</button></a>
+                             <a className="op" href="#" onClick={()=>this.handleClick3}><button className="dropdown-item" type="button" >Fuerza</button></a>
                                
                              </div>
                         </div>
                 </div>
 
                 <div className="col-sm">
-                <button type="button" onClick={this.Setear} className="btn btn-dark">Cerrar Sesion</button>
+                <button type="button" onClick={this.handleClick3} className="btn btn-dark">Cerrar Sesion</button>
                   
                   </div>
 
