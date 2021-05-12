@@ -1,0 +1,130 @@
+
+
+/* body {
+    background: rgb(34,193,195);
+    background: linear-gradient(90deg, rgba(31,32,33,1) 0%, rgba(36,163,189,1) 48%, rgba(25,122,156,1) 59%, rgba(32,95,126,0.9416141456582633) 76%);
+} */
+
+  
+  .form-group{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 2rem;
+    max-width: 100%;
+  }
+
+  .form-group .cssInputs{
+      /*    1. definimos el ancho
+            2. estilo de caja
+            3. quitamos borde
+            4. tamaño de letra
+            5. contorno interior izquierdo
+            6. contorno interior abajo
+            7. dibujar una linea
+            8. transición lenta para el pintado de la 
+       */
+    width: 80%;
+    box-sizing: content-box;
+    border: transparent;
+    border-radius: 25px;
+    font-size: 1.1rem;
+    padding-left: 1.5rem;  
+    padding-bottom: 1rem;
+    box-shadow: inset 0px -3px 0px 0px rgba(49, 252, 3, 0.952);
+    transition: box-shadow 0.2s ease-in;
+   
+    padding: 5px 40px 10px 15px;
+
+  }
+
+
+  .form-group .cssInputs:focus{
+    box-shadow: inset 0px -3px 0px 0px rgba(18, 26, 134, 0.7);
+    outline: none;
+ }
+
+ .form-group  label{
+    padding-left: 1.3rem;
+    align-self: start;
+    padding-bottom: 0.5rem;
+    color: rgba(0, 0, 0,1);
+  }
+  
+  form .btn{
+    margin: 10% 15% 5%;
+    border-radius: 25px;
+    width: 70%;
+    height: 40px;
+    font-size: 1.3rem;
+    color: white;
+    font-weight: 700;
+    background: #e71010;
+    background: linear-gradient(90deg, rgba(31,32,33,1) 0%, rgba(30,163,77,1) 48%, rgba(65,159,62,1) 59%, rgba(40,112,32,1) 76%, rgba(0,0,0,1) 99%);
+    border: 0px;
+    cursor: pointer;
+    transition: opacity 0.25s ease-out;
+
+  }
+
+  .centrar{
+      display: flex;
+      margin-top: 10px;
+  }
+
+
+  .contenedor{
+      height: 100vh;
+      background: rgb(34,193,195);
+      background: linear-gradient(90deg, rgba(31,32,33,1) 0%, rgba(36,163,189,1) 48%, rgba(25,122,156,1) 59%, rgba(32,95,126,0.9416141456582633) 76%);
+  }
+
+
+  .form-groups{
+    display: inline;
+    
+}
+
+.contenedor1{
+    max-width: 800px;
+    min-width: 300px;
+    width: 80%;
+    border-radius: 25px;
+    margin: 100px auto;
+    background: linear-gradient(135deg, rgba(34,193,195,1) 0%,     rgba(253,187,45,1) 100%);
+    padding:'20px'
+}
+
+
+.check{
+    width: 100%;
+    align-items: center;
+}
+.check .form-group{
+    align-self: flex-start;
+    padding-left: 50%;
+}
+
+.validacion{
+  font-size: 15px;
+  margin-top: 0;
+  color: red;
+  display: none; 
+
+  
+}
+
+
+
+
+@media screen and (max-width: 625px) {
+    .contenedor1{
+        max-width: 800px;
+        min-width: 300px;
+        width: 100%;
+        border-radius: 25px;
+        margin: 100px auto;
+        background: linear-gradient(135deg, rgb(66, 195, 34) 0%,     rgb(59, 193, 202) 100%);
+        padding:'20px'
+    }
+}
