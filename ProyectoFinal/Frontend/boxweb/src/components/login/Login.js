@@ -2,25 +2,10 @@
 import axios from 'axios';
 import React, { Component } from 'react'
 import Navbar from '../NavBar/Navegacion'
-import './loginCss/login.css';
+import '../../css/login.css';
 
 
 const esti = {
-    centrarTexto: {
-        textAlign: 'center',
-        fontWeight: 'bold',
-        fontSize: '20px'
-    },
-    centrarContenido: {
-        textAlign: 'center',
-    },
-    colorBloque:{
-        backgroundColor: '#EBAC44'
-    },
-    bloque: {
-        textAlign: 'right',
-        display: 'block',
-    },
     contenedor:{
         maxWidth:'400px',
         minWidth:'300px',
@@ -131,16 +116,20 @@ export default class Login extends Component {
     }
 
     nexPath(rua){
-        this.props.history.push(rua)
-        
+        this.props.history.push(rua)        
+    }
+
+    nexPath(){
+        this.props.history.push('/Registrar')        
     }
 
     render() {
         return (            
             <div className='contenedor'>
                 <Navbar/>
-
+                
                 <button onClick={()=>this.nexPath('/Registrar')}>prueba1</button>
+                <button onClick={()=>this.nexPath2}>prueba1</button>
                 <button onClick={()=>this.props.history.push('/Registrar')}>prueba2</button>
 
                 <div style={this.state.classes.contenedor}>
@@ -192,9 +181,10 @@ export default class Login extends Component {
 
 const SubInput = props  =>(
 
-    <div className='form-group'>
-        <label> {props.label}</label>
+    <div className='form-group alexCss'>
+        <label htmlFor={props.nombre}> {props.label}</label>
         <input 
+        id={props.nombre}
         disabled={props.editar}
         className={props.clase}
         name = {props.nombre}
