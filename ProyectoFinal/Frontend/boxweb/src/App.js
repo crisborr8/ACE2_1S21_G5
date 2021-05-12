@@ -33,7 +33,7 @@ class App extends Component  {
       <div className="App">
         
         <Navegacion titulo="TEMPERATURA223"></Navegacion>
-<Historial/>
+        <Historial/>
        {/* {Tem} */}
       
       </div>

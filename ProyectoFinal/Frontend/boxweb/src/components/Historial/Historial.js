@@ -156,10 +156,10 @@ export default function Historial() {
     if (primeraVez) {
         //ENVIAR ID DE USUARIO
         // “data” : {
-        //     {"id_user" : "1234"}
+        //     {"id_user" : localStorage.getItem('id')}
         // }
    
-        axios.get('http://localhost:5000/fechasHistorial')
+        axios.get('http://3.12.129.123:3000/fechasHistorial')
             .then(response => {
                 if (response.data.status === 'success') {
                     setBnderaFechasNoRecup(false);
@@ -186,7 +186,7 @@ export default function Historial() {
     // const getData = async () => {
     //     try {
     //         setBanderaServidorCaido(false);
-    //         const { data } = await axios.get('http://localhost:5000/fechasHistorial');
+    //         const { data } = await axios.get('http://3.12.129.123:3000/fechasHistorial');
 
     //         if (data.status === 'success') {
     //             setBnderaFechasNoRecup(false);
@@ -229,7 +229,7 @@ export default function Historial() {
         setFechaSeleccionada(value);
         // console.log('FECHA: ' + value);
         //ENVIAR FECHA y ID USUARIO
-        axios.get('http://localhost:5000/entrenamientosFecha')
+        axios.get('http://3.12.129.123:3000/entrenamientosFecha')
             .then(response => {
                 // setListaHoras([]);
                 let arr = [];
@@ -261,7 +261,7 @@ export default function Historial() {
         }
         //ENVIAR TAMBIEN ID DEL ENTRENAMIENTO
         //ENVIAR MEDICION SELECCIONADA -> VALUE;
-        axios.get('http://localhost:5000/historialMedicion')
+        axios.get('http://3.12.129.123:3000/historialMedicion')
             .then(response => {
                 let arr = [];
                 if (response.data.status === "success") {
@@ -278,7 +278,7 @@ export default function Historial() {
         });
         //ENVIAR ID_ENTRENAMIENTO
         //ENVIAR MEDICION SELECCIONADA -> VALUE;
-        axios.get('http://localhost:5000/minMedMax')
+        axios.get('http://3.12.129.123:3000/minMedMax')
             .then(response => {
                 let arr = [];
                 if (response.data.status === "success") {
