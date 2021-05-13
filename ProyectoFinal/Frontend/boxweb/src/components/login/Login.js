@@ -37,13 +37,18 @@ export default class Login extends Component {
         this.state = {
             usuario : '',
             contrasena:'',
+            UsuarioValido:true,
             editable:false,
             classes: esti
         }
+
+        localStorage.removeItem('Logueado');
+        localStorage.removeItem('id');
+
         this.controladorEvento = this.controladorEvento.bind(this);
         this.envio = this.envio.bind(this)
         this.editar= this.editar.bind(this)
-
+        this.iniciarSesion = this.iniciarSesion.bind(this);
     }
 
     
@@ -69,39 +74,55 @@ export default class Login extends Component {
     }
 
 
-    envio = async(e) =>{
-        console.log(this.state.usuario,this.state.contrasena);
-        this.props.history.push('/Registrar')
-        
+    envio = (e) =>{
+
+                
         e.preventDefault();
+        if(this.state.usuario=== ''){
+            this.setState({UsuarioValido:false});
+            
+        }else{
+            this.setState({UsuarioValido:true})
+        }
+        console.log(this.state.usuario,this.state.contrasena);
+        //this.props.history.push('/Registrar')
+
     }
 
     iniciarSesion = async(e)=>{
-        await axios.post('',{
-            usuario:this.state.usuario,
-            contrasena:this.state.contrasena
+       
+        e.preventDefault();
+        await axios.post('http://104.154.169.109:3000/Login',{
+            data:{
+                usuario:this.state.usuario,
+                contrasena:this.state.contrasena
+            }
         })
         .then(response=>{
-            if(response.status==='success'){
-                if(response.data.existe == true){
-                    const datos = [];
-                    datos = response.data;
+            console.log(response.data);
+            if(response.data.status==='success'){
+                if(response.data.data.existe == true){
+                    const datos = response.data.data;
+                    
 
                     localStorage.setItem('id',datos.idUser);
-                    localStorage.setItem('nombre',datos.nombre);
-                    localStorage.setItem('apellido',datos.apellido);
-                    localStorage.setItem('usuario',datos.usuario);
-                    localStorage.setItem('edad',datos.edad);
-                    localStorage.setItem('peso',datos.peso);
-                    localStorage.setItem('estatura',datos.estatura);
-                    localStorage.setItem('correo',datos.correo);
+                    localStorage.setItem("Logueado",JSON.stringify({
+                        id:datos.idUser,
+                        nombre:datos.nombre,
+                        apellido:datos.apellido,
+                        usuario:datos.usuario,
+                        edad:datos.edad,
+                        peso:datos.peso,
+                        estatura:datos.estatura,
+                        correo:datos.correo,
+                        contrasena:this.state.contrasena
+                    }));
 
+                    this.props.history.push('/PerfilI');
                 }
             }
         })
 
-        this.state.history.push('/Registrar')
-        e.preventDefault();
     }
 
     editar=(evento)=>{
@@ -128,19 +149,23 @@ export default class Login extends Component {
             <div className='contenedor'>
                 <Navbar/>
                 
-                <button onClick={()=>this.nexPath('/Registrar')}>prueba1</button>
-                <button onClick={()=>this.nexPath2}>prueba1</button>
-                <button onClick={()=>this.props.history.push('/Registrar')}>prueba2</button>
+                {
+                    /**                
+                     * <button onClick={()=>this.nexPath('/Registrar')}>prueba1</button>
+                        <button onClick={()=>this.nexPath2}>prueba1</button>
+                        <button onClick={()=>this.props.history.push('/Registrar')}>prueba2</button> */
+                }
 
                 <div style={this.state.classes.contenedor}>
                     
 
-                    <form  onSubmit={this.envio}>
+                    <form  onSubmit={this.iniciarSesion}>
 
                         <SubInput   
-
+                                    valido = {this.state.UsuarioValido}
                                     editar={this.state.editable}
-                                    value={this.state.usuario} label='Usuario:'                                     
+                                    value={this.state.usuario} 
+                                    label='Usuario:'                                     
                                     clase='cssInputs' 
                                     nombre='usuario' 
                                     placeholder='Ingrese su Usuario' 
@@ -148,6 +173,7 @@ export default class Login extends Component {
                                     handler={this.controladorEvento}/>
                 
                         <SubInput   
+                                    valido = {true}
                                     editar={this.state.editable}
                                     value={this.state.contrasena} 
                                     label='Contraseña:' 
@@ -184,6 +210,7 @@ const SubInput = props  =>(
     <div className='form-group alexCss'>
         <label htmlFor={props.nombre}> {props.label}</label>
         <input 
+        //value={props.value}
         id={props.nombre}
         disabled={props.editar}
         className={props.clase}
@@ -193,6 +220,12 @@ const SubInput = props  =>(
         onChange={props.handler}          
         autoComplete='off'
         />
+        {
+            !props.valido? <span style={{color:'red'}} >ffff</span>: ''
+        }
+        <span style={{color:'red',display: `${
+            props.valido? 'none':'box'
+        }`}}  >ffff</span>
     </div>
 
 );

@@ -42,6 +42,7 @@ class Tabla extends Component {
 		  
    }
   render() {
+    
     return (
       
         <div id="Bitacora" className="overflow-auto">

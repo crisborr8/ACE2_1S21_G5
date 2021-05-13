@@ -1,10 +1,20 @@
 import React, { Component } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Navegacion from "../NavBar/Navegacion";
-
+import axios from 'axios';
 
 
 var Editar=false;
+var temporal={
+    id:'',
+    nombre:'',
+    apellido:'',
+    usuario:'',
+    edad:'',
+    peso:'',
+    estatura:'',
+    correo:''
+};
    
 export default class PerfilInicio extends Component {
 
@@ -21,14 +31,17 @@ export default class PerfilInicio extends Component {
                 peso:'',
                 estatura:'',
                 correo:''
-            }
+            },
+            
 		}
 
-            
+        localStorage.removeItem('sesion');
         
         this.llenar = this.llenar.bind(this);
          this.ActivarEditar = this.ActivarEditar.bind(this);
          this.CancelarEditar = this.CancelarEditar.bind(this);
+         this.IniciarS= this.IniciarS.bind(this);
+         this.handleChange=this.handleChange.bind(this);
          this.llenar();
 		
 	}
@@ -60,6 +73,93 @@ ActivarEditar(){
      
  }
 
+
+ async IniciarS(e){
+    //aqui hago las peticiones 
+    e.preventDefault(); 
+    await axios.post('http://3.12.129.123:3000/CrearSesion',{data:{idUser: Number(this.state.usuario.id)}})
+            .then(async response => {
+                if (response.data.status === "success") {
+                    
+                    await localStorage.setItem('sesion', JSON.stringify({id:response.data.data.idSesion}));
+                    
+                } else {
+                   alert('No se pudo crear iniciar la sesion');
+                }
+            });
+
+   
+    await this.props.history.push('/Perfil');
+ }
+
+
+ async Actualizar(e){
+    //aqui hago las peticiones 
+   //console.log('this.state.usuario');
+     
+    //this.CancelarEditar().bind(this);
+    e.preventDefault(); 
+    await localStorage.setItem('Logueado', JSON.stringify(temporal));
+    await axios.post('http://3.12.129.123:3000/EditarDatos',{data:temporal})
+            .then(async response => {
+                if (response.data.status === "success") {
+                    
+                    //await localStorage.setItem('sesion', JSON.stringify({id:response.data.data.idSesion}));
+                    
+                } else {
+                   alert('No se pudo crear iniciar la sesion');
+                }
+            });
+
+   
+ }
+
+
+ handleChange (e) {
+     
+    temporal.id=this.state.usuario.id;
+    temporal.nombre=this.state.usuario.nombre;
+    temporal.apellido=this.state.usuario.apellido;
+    temporal.usuario=this.state.usuario.usuario;
+    temporal.edad=this.state.usuario.edad;
+    temporal.peso=this.state.usuario.peso;
+    temporal.estatura=this.state.usuario.estatura;
+    temporal.correo=this.state.usuario.correo;
+
+    const name = e.target.name;
+    const value = e.target.value;
+    
+    if(name==='nombre'){
+        temporal.nombre=value;
+
+    }else 
+    if(name==='apellido'){
+        temporal.apellido=value;
+    }else 
+    if(name==='usuario'){
+        temporal.usuario=value;
+    }else 
+    if(name==='edad'){
+        temporal.edad=value;
+    }else 
+    if(name==='peso'){
+        temporal.peso=value;
+    }else 
+    if(name==='estatura'){
+        temporal.estatura=value;
+    }else 
+    if(name==='correo'){
+        temporal.correo=value;
+    }
+    
+    console.log(temporal);
+    
+    
+    this.setState({
+        usuario:temporal
+    })
+  };
+
   render() {
     return (
       <div id="perfilI">
@@ -77,7 +177,7 @@ ActivarEditar(){
                                 {(()=>{
                                     if(this.state.editar){
                                             return <div  className="col-sm" >
-                                                        <button id="btnInit2"  type="button" className="btn btn-dark">Gruardar</button>
+                                                        <button id="btnInit2"  type="button" className="btn btn-dark" onClick={this.Actualizar}>Gruardar</button>
                                                         <button id="btnInit2" onClick={this.CancelarEditar} type="button" className="btn btn-dark">Cancelar</button>
                                                  </div> 
                                                                   
@@ -96,7 +196,7 @@ ActivarEditar(){
                                                     <div className="col-sm-10">
                                                     {(()=>{
                                                         if(this.state.editar){
-                                                            return <input type="text"  className="form-control" id="nombre" text={ String(this.state.usuario.nombre)}/>
+                                                            return <input type="text"  className="form-control" id="nombre" name="nombre" text={ String(this.state.usuario.nombre)} onChange={this.handleChange}/>
                                                         }else{
                                                             return <input type="text"  className="form-control" id="nombre" value={ String(this.state.usuario.nombre)} disabled/>
                                                         }
@@ -112,7 +212,7 @@ ActivarEditar(){
                                                     <div className="col-sm-10">
                                                     {(()=>{
                                                         if(this.state.editar){
-                                                            return <input type="text"  className="form-control" id="apellido"  text={ String(this.state.usuario.apellido)}/>
+                                                            return <input type="text"  className="form-control" id="apellido" name="apellido"  text={ String(this.state.usuario.apellido)} onChange={this.handleChange} />
                                                         }else{
                                                             return <input type="text"  className="form-control" id="apellido" value={ String(this.state.usuario.apellido)} disabled />
                                                         }
@@ -127,7 +227,7 @@ ActivarEditar(){
                                                     <div className="col-sm-10">
                                                     {(()=>{
                                                         if(this.state.editar){
-                                                            return <input type="text"  className="form-control" id="edad" text={ String(this.state.usuario.edad)} />
+                                                            return <input type="text"  className="form-control" id="edad" name="edad" text={ String(this.state.usuario.edad)} onChange={this.handleChange} />
                                                         }else{
                                                             return <input type="text"  className="form-control" id="edad" value={ String(this.state.usuario.edad)} disabled />
                                                         }
@@ -141,7 +241,7 @@ ActivarEditar(){
                                                     <div className="col-sm-10">
                                                     {(()=>{
                                                         if(this.state.editar){
-                                                            return <input type="text"  className="form-control" id="peso" text={ String(this.state.usuario.peso)} />
+                                                            return <input type="text"  className="form-control" id="peso" name="peso" text={ String(this.state.usuario.peso)} onChange={this.handleChange} />
                                                         }else{
                                                             return <input type="text"  className="form-control" id="peso" value={ String(this.state.usuario.peso)} disabled />
                                                         }
@@ -155,7 +255,7 @@ ActivarEditar(){
                                                     <div className="col-sm-10">
                                                      {(()=>{
                                                         if(this.state.editar){
-                                                            return <input type="text"  className="form-control" id="estatura" text={ String(this.state.usuario.estatura)} />
+                                                            return <input type="text"  className="form-control" id="estatura" name="estatura" text={ String(this.state.usuario.estatura)} onChange={this.handleChange} />
                                                         }else{
                                                             return <input type="text"  className="form-control" id="estatura" value={ String(this.state.usuario.estatura)} disabled />
                                                         }
@@ -168,7 +268,7 @@ ActivarEditar(){
                                                     <div className="col-sm-10">
                                                     {(()=>{
                                                         if(this.state.editar){
-                                                           return  <input type="text"  className="form-control" id="correo" text={ String(this.state.usuario.correo)} />
+                                                           return  <input type="text"  className="form-control" id="correo" name="correo" text={ String(this.state.usuario.correo)} onChange={this.handleChange} />
                                                         }else{
                                                             return <input type="text"  className="form-control" id="correo" value={ String(this.state.usuario.correo)} disabled />
                                                         }
@@ -187,7 +287,7 @@ ActivarEditar(){
                                     </div>
                                     <div id="contbtn" className="card">
                                         <a className="op" href="/Perfil">
-                                            <button id="btnInit" type="button" className="btn btn-success">Iniciar una Nueva Sesion</button>
+                                            <button id="btnInit" type="button" className="btn btn-success" onClick={this.IniciarS}>Iniciar una Nueva Sesion</button>
                                         </a>
                                          <a className="op" href="/Historial">
                                               <button id="btnInit" type="button" className="btn btn-warning">Historial</button>
