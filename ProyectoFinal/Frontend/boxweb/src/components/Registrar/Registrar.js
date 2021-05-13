@@ -16,10 +16,10 @@ export default function Registrar(props){
     let [peso,setPeso] = useState(0.0);
     let [estatura,setEstatura] = useState(0);
     let [correo,setCorreo] = useState('');
-    let [coach,setCoach] = useState(false);
 
     const envioRegistro = (evento) =>{
 
+        evento.preventDefault();
         console.log(nombre);
         console.log(apellido);
         console.log(usuario);
@@ -28,32 +28,34 @@ export default function Registrar(props){
         console.log(peso);
         console.log(estatura);
         console.log(correo);
-        console.log(coach);
-
-        axios.post('',{
-            usuario:usuario,
-            contrasena:contrasena,
-            nombre:nombre,
-            apellido:apellido,
-            edad:edad,
-            peso:peso,
-            estatura:estatura,
-            correo:correo
+        axios.post('http://3.12.129.123:3000/registro',{
+            data:{
+                usuario:usuario,
+                contrasena:contrasena,
+                nombre:nombre,
+                apellido:apellido,
+                edad:edad,
+                peso:peso,
+                estatura:estatura,
+                correo:correo
+            }
         }).then(response=>{
             return response;
         }).then(response=>{
-            if(response.status==='success'){
-                //usuario registrado
+            if(response.data.status==='success'){
+                console.log('usuario REgistrado')
+                this.props.history.push('/Login')
             }else{
-                //else
+                console.log('usuario no registrado');
             }
         })
 
-        props.history.push('/Login');
-        evento.preventDefault();
     }
 
     const guardarValores =(evento)=>{
+
+        
+        evento.preventDefault();
         const target =  evento.target;
         const value = target.value;
         const nombre = target.name;
@@ -66,12 +68,11 @@ export default function Registrar(props){
         else if(nombre==='correo')setCorreo(value);
         else if(nombre==='peso') setPeso(value);
         else if(nombre==='estatura') setEstatura(value);
-        else if(nombre==='coach') {
+        /*else if(nombre==='coach') {
             let valor2 = target.checked;
             console.log(valor2);
             setCoach(valor2);
-        }
-        evento.preventDefault();
+        }*/
     };
 
 
