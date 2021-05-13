@@ -9,15 +9,20 @@ import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
 
 import "../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css";
 
-function rowClassNameFormat(row, rowIdx) {
-  if (row["oxigeno"] < 20) {
-    return "Mal-Row";
-  } else if (row["oxigeno"] >= 20 && row["oxigeno"] <= 40) {
-    return "Normal-Row";
-  } else {
-    return "Exelente-Row";
-  }
-}
+/*function rowClassNameFormat(row, rowIdx) {
+
+	if(this.state.medicion.tipo==='Oxigeno'){
+		if (row["oxigeno"] < 20) {
+			return "Mal-Row";
+		  } else if (row["oxigeno"] >= 20 && row["oxigeno"] <= 40) {
+			return "Normal-Row";
+		  } else {
+			return "Exelente-Row";
+		  }
+	}
+
+  
+}*/
 var CanvasJS = CanvasJSReact.CanvasJS;
 var CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
@@ -77,7 +82,8 @@ class Grafica extends Component {
                 edad:'',
                 peso:'',
                 estatura:'',
-                correo:''
+                correo:'',
+				contrasena:''
             },
 			sesion:{
 				id:''
@@ -90,9 +96,48 @@ class Grafica extends Component {
 		this.handleClick1=this.handleClick1.bind(this);
 		this.handleClick2=this.handleClick2.bind(this);
 		this.handleClick3=this.handleClick3.bind(this);
+		this.rowClassNameFormat=this.rowClassNameFormat.bind(this);
 		this.llenar();
 		this.llenarUser();
 		this.llenarIdSesion();
+	}
+	rowClassNameFormat(row, rowIdx) {
+
+		if(this.state.medicion.tipo==='Oxigeno'){
+			if (row["oxigeno"] < 20) {
+				return "Mal-Row";
+			  } else if (row["oxigeno"] >= 20 && row["oxigeno"] <= 40) {
+				return "Normal-Row";
+			  } else {
+				return "Exelente-Row";
+			  }
+		}else if(this.state.medicion.tipo==='Temperatura'){
+			if (row["oxigeno"] < 20) {
+				return "Mal-Row";
+			  } else if (row["oxigeno"] >= 20 && row["oxigeno"] <= 40) {
+				return "Normal-Row";
+			  } else {
+				return "Exelente-Row";
+			  }
+		}else if(this.state.medicion.tipo==='Ritmo Cardiaco'){
+			if (row["oxigeno"] < 20) {
+				return "Mal-Row";
+			  } else if (row["oxigeno"] >= 20 && row["oxigeno"] <= 40) {
+				return "Normal-Row";
+			  } else {
+				return "Exelente-Row";
+			  }
+		}else if(this.state.medicion.tipo==='Fuerza'){
+			if (row["oxigeno"] < 20) {
+				return "Mal-Row";
+			  } else if (row["oxigeno"] >= 20 && row["oxigeno"] <= 40) {
+				return "Normal-Row";
+			  } else {
+				return "Exelente-Row";
+			  }
+		}
+	
+	  
 	}
 
 	async llenarUser(){
@@ -189,7 +234,7 @@ class Grafica extends Component {
 		times= new Date();
 		//AQUI REALIZARE LA PETICION
 		//console.log(ObtenerHora(times));
-		axios.post('http://3.12.129.123:3000/ObtenerMediciones',{data:{idusuario:this.state.usuario.id,idsesion:this.state.sesion.id,hora:ObtenerHora(times)}})
+		axios.post('http://104.154.169.109:3000/ObtenerMediciones',{data:{idusuario:this.state.usuario.id,idsesion:this.state.sesion.id,hora:ObtenerHora(times)}})
 		.then(response => {
 
 			if(this.state.medicion.tipo=='Oxigeno'){
@@ -208,7 +253,7 @@ class Grafica extends Component {
 				console.log('Velocidad');
 	
 			}else if(this.state.medicion.tipo=='Fuerza'){
-				yVal=response.data.data.fuerza;
+				yVal=response.data.fuerza;
 				console.log('Fuerza');
 			}
 			
@@ -280,6 +325,7 @@ class Grafica extends Component {
 					<div className="col-sm"><button type="button" id="menbtn" onClick={this.handleClick3} className="btn btn-primary">Fuerza</button></div>
 
 				</div>
+				<a   href="/PerfilI"><button id="Detener" type="button"  className="btn btn-danger" >Detener Rutina</button></a>
 			</div>
 			<div id="SubReporte" className="card">
 				<h1>GRAFICA</h1>
@@ -311,7 +357,7 @@ class Grafica extends Component {
 			<div id="Bitacora" className="overflow-auto">
           <BootstrapTable
             data={datas}
-            trClassName={rowClassNameFormat}
+            trClassName={this.rowClassNameFormat}
           >
             <TableHeaderColumn
               isKey

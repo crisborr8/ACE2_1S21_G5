@@ -44,6 +44,7 @@ export default class Login extends Component {
 
         localStorage.removeItem('Logueado');
         localStorage.removeItem('id');
+        localStorage.removeItem('sesion');
 
         this.controladorEvento = this.controladorEvento.bind(this);
         this.envio = this.envio.bind(this)

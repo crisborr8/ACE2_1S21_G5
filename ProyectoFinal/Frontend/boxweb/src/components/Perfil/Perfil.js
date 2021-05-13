@@ -16,7 +16,8 @@ export default class Perfil extends Component {
                                           edad:'',
                                           peso:'',
                                           estatura:'',
-                                          correo:''
+                                          correo:'',
+                                          contrasena:''
                                       }
                               }
 

@@ -30,7 +30,8 @@ export default class PerfilInicio extends Component {
                 edad:'',
                 peso:'',
                 estatura:'',
-                correo:''
+                correo:'',
+                contrasena:''
             },
             
 		}
@@ -77,7 +78,7 @@ ActivarEditar(){
  async IniciarS(e){
     //aqui hago las peticiones 
     e.preventDefault(); 
-    await axios.post('http://3.12.129.123:3000/CrearSesion',{data:{idUser: Number(this.state.usuario.id)}})
+    await axios.post('http://104.154.169.109:3000/CrearSesion',{data:{idUser: Number(this.state.usuario.id)}})
             .then(async response => {
                 if (response.data.status === "success") {
                     
@@ -100,7 +101,7 @@ ActivarEditar(){
     //this.CancelarEditar().bind(this);
     e.preventDefault(); 
     await localStorage.setItem('Logueado', JSON.stringify(temporal));
-    await axios.post('http://3.12.129.123:3000/EditarDatos',{data:temporal})
+    await axios.post('http://104.154.169.109:3000/EditarDatos',{data:temporal})
             .then(async response => {
                 if (response.data.status === "success") {
                     
@@ -110,7 +111,8 @@ ActivarEditar(){
                    alert('No se pudo crear iniciar la sesion');
                 }
             });
-
+       //await this.CancelarEditar();
+      //  this.location.replace('/PerfilI');
    
  }
 
@@ -125,6 +127,7 @@ ActivarEditar(){
     temporal.peso=this.state.usuario.peso;
     temporal.estatura=this.state.usuario.estatura;
     temporal.correo=this.state.usuario.correo;
+    temporal.contrasena=this.state.usuario.contrasena;
 
     const name = e.target.name;
     const value = e.target.value;
@@ -177,7 +180,7 @@ ActivarEditar(){
                                 {(()=>{
                                     if(this.state.editar){
                                             return <div  className="col-sm" >
-                                                        <button id="btnInit2"  type="button" className="btn btn-dark" onClick={this.Actualizar}>Gruardar</button>
+                                                        <button id="btnInit2"  onClick={this.Actualizar} type="button" className="btn btn-dark">Gruardar</button>
                                                         <button id="btnInit2" onClick={this.CancelarEditar} type="button" className="btn btn-dark">Cancelar</button>
                                                  </div> 
                                                                   

@@ -16,7 +16,8 @@ class Navegacion extends Component{
                 edad:'23',
                 peso:'67',
                 estatura:'165',
-                correo:'Alejo@g.com'
+                correo:'Alejo@g.com',
+                contrasena:'1111'
             
        },
 		}
