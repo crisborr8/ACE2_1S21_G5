@@ -96,7 +96,7 @@ render(){
             <div className="container">
             {(()=>{
                   if( localStorage.getItem('Logueado')===null){
-                   return <div><h3 id="warring">Inicie Sesion</h3> <p id="warring">Para poder ver las vistas de nuestra aplicacion.</p> <button id="btnss" type="button" className="btn btn-dark" onClick={this.Setear}>SETEAR</button></div>
+                   return <div><h3 id="warring">Inicie Sesion</h3> <p id="warring">Para poder ver las vistas de nuestra aplicacion.</p> </div>
 
       
                   }else{

@@ -263,3 +263,6 @@
   border-color: whitesmoke;
   font-size: 25px;
 }
+.swal2-styled.swal2-confirm.swalBtnColor {
+  color: #FFC900
+}
