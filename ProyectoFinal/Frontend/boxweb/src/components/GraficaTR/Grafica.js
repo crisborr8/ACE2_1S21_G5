@@ -188,7 +188,7 @@ class Grafica extends Component {
 		var max = 100;
 		times= new Date();
 		//AQUI REALIZARE LA PETICION
-		console.log(ObtenerHora(times));
+		//console.log(ObtenerHora(times));
 		axios.post('http://3.12.129.123:3000/ObtenerMediciones',{data:{idusuario:this.state.usuario.id,idsesion:this.state.sesion.id,hora:ObtenerHora(times)}})
 		.then(response => {
 
