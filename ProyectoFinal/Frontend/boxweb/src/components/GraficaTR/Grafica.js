@@ -67,9 +67,15 @@ class Grafica extends Component {
    }
 	
 	componentDidMount() {
-		setInterval(this.updateChart, updateInterval);
+		this.intervals = setInterval(this.updateChart, updateInterval);
 		
 	}
+
+	componentWillUnmount(){
+		clearInterval(this.intervals);		
+	}
+
+	
 	updateChart() {
 
 		
