@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Navegacion from "../NavBar/Navegacion";
-
+import axios from 'axios';
 
 
 var Editar=false;
@@ -24,11 +24,12 @@ export default class PerfilInicio extends Component {
             }
 		}
 
-            
+        localStorage.removeItem('sesion');
         
         this.llenar = this.llenar.bind(this);
          this.ActivarEditar = this.ActivarEditar.bind(this);
          this.CancelarEditar = this.CancelarEditar.bind(this);
+         this.IniciarS= this.IniciarS.bind(this);
          this.llenar();
 		
 	}
@@ -58,6 +59,44 @@ ActivarEditar(){
        editar:false,
    });
      
+ }
+
+
+ async IniciarS(e){
+    //aqui hago las peticiones 
+    e.preventDefault(); 
+    await axios.post('http://3.12.129.123:3000/CrearSesion',{data:{idUser: Number(this.state.usuario.id)}})
+            .then(async response => {
+                if (response.data.status === "success") {
+                    
+                    await localStorage.setItem('sesion', JSON.stringify({id:response.data.data.idSesion}));
+                    
+                } else {
+                   alert('No se pudo crear iniciar la sesion');
+                }
+            });
+
+   
+    await this.props.history.push('/Perfil');
+ }
+
+
+ async Actualizar(e){
+    //aqui hago las peticiones 
+    e.preventDefault(); 
+    await axios.post('http://3.12.129.123:3000/CrearSesion',{data:{idUser: Number(this.state.usuario.id)}})
+            .then(async response => {
+                if (response.data.status === "success") {
+                    
+                    await localStorage.setItem('sesion', JSON.stringify({id:response.data.data.idSesion}));
+                    
+                } else {
+                   alert('No se pudo crear iniciar la sesion');
+                }
+            });
+
+   
+    await this.props.history.push('/Perfil');
  }
 
   render() {
@@ -187,7 +226,7 @@ ActivarEditar(){
                                     </div>
                                     <div id="contbtn" className="card">
                                         <a className="op" href="/Perfil">
-                                            <button id="btnInit" type="button" className="btn btn-success">Iniciar una Nueva Sesion</button>
+                                            <button id="btnInit" type="button" className="btn btn-success" onClick={this.IniciarS}>Iniciar una Nueva Sesion</button>
                                         </a>
                                          <a className="op" href="/Historial">
                                               <button id="btnInit" type="button" className="btn btn-warning">Historial</button>

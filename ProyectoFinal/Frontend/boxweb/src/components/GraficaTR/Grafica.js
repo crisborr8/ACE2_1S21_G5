@@ -3,6 +3,7 @@ import CanvasJSReact from '../../canvasjs.react';
 import { Table } from '@material-ui/core';
 import Tabla from './Tabla'
 import { Route , withRouter} from 'react-router-dom';
+import axios from 'axios';
 
 import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
 
@@ -28,7 +29,12 @@ function ObtenerHora(Tiempo){
     const dat = new Date(Tiempo).toLocaleString('en-GB');
     const Separar = dat.split(",",2);
     const Hora = Separar[1];
-    return Hora;
+    return QuitarEspacio(Hora);
+}
+function QuitarEspacio(cadena){
+    const Separar = cadena.split(" ",2);
+    const dat = Separar[1];
+    return dat;
 }
 
 var times= new Date();
@@ -62,15 +68,52 @@ class Grafica extends Component {
 			medicion:{
 				tipo:'',
 				unidad:''
+			},
+			usuario:{
+                id:'',
+                nombre:'',
+                apellido:'',
+                usuario:'',
+                edad:'',
+                peso:'',
+                estatura:'',
+                correo:''
+            },
+			sesion:{
+				id:''
 			}
 		}
+		this.llenarUser = this.llenarUser.bind(this);
 		this.llenar = this.llenar.bind(this);
+		this.llenarIdSesion=this.llenarIdSesion.bind(this);
 		this.handleClick=this.handleClick.bind(this);
 		this.handleClick1=this.handleClick1.bind(this);
 		this.handleClick2=this.handleClick2.bind(this);
 		this.handleClick3=this.handleClick3.bind(this);
 		this.llenar();
+		this.llenarUser();
+		this.llenarIdSesion();
 	}
+
+	async llenarUser(){
+		if( await localStorage.getItem('Logueado')===null){
+      
+		}else{
+		  let Tas= await localStorage.getItem('Logueado');
+		  const tem=await this.setState({usuario:JSON.parse(Tas||'{}')});
+	   
+		}
+	}
+	async llenarIdSesion(){
+		if( await localStorage.getItem('sesion')===null){
+      
+		}else{
+		  let Tas= await localStorage.getItem('sesion');
+		  const tem=await this.setState({sesion:JSON.parse(Tas||'{}')});
+	   
+		}
+	}
+
 
 	async llenar(){
     
@@ -144,11 +187,34 @@ class Grafica extends Component {
 		var max = 100;
 		times= new Date();
 		//AQUI REALIZARE LA PETICION
+		console.log(ObtenerHora(times));
+		axios.post('http://3.12.129.123:3000/ObtenerMediciones',{data:{idusuario:this.state.usuario.id,idsesion:this.state.sesion.id,hora:ObtenerHora(times)}})
+		.then(response => {
 
-
+			if(this.state.medicion.tipo=='Oxigeno'){
+				yVal=response.data.oxigeno;
+				console.log('Oxigeno');
+			}else if(this.state.medicion.tipo=='Temperatura'){
+				yVal=response.data.temperatura;
+				console.log('Temperatura');
+	
+			}else if(this.state.medicion.tipo=='Ritmo Cardiaco'){
+				yVal=response.data.ritmocardiaco;
+				console.log('Ritmo Cardiaco');
+	
+			}else if(this.state.medicion.tipo=='Velocidad'){
+				yVal=response.data.velocidad;
+				console.log('Velocidad');
+	
+			}else if(this.state.medicion.tipo=='Fuerza'){
+				yVal=response.data.data.fuerza;
+				console.log('Fuerza');
+			}
+			
+		});
 
 		//AQUI FINALIZA LA PETICION INICIA LA ASIGNACION
-		yVal = (min + (Math.random() * (max-min))).toFixed(2);
+		/*yVal = (min + (Math.random() * (max-min))).toFixed(2);
 		
 		
 		if(this.state.medicion.tipo=='Oxigeno'){
@@ -165,7 +231,7 @@ class Grafica extends Component {
 
 		}else if(this.state.medicion.tipo=='Fuerza'){
 			console.log('Fuerza');
-		}
+		}*/
 		dps.push({x: xVal,label:String(ObtenerHora(times)),y: Number(yVal) });
 		datas.unshift({id: indice, oxigeno: yVal, estabilidad: String(ObtenerHora(times))});
 		this.setState(datas);
@@ -205,6 +271,7 @@ class Grafica extends Component {
 		return (
 		<div>
 			<div id="contbtn1" className="card">
+				<h1>{this.state.usuario.usuario}</h1>
 				<div className="row">
 					<div className="col-sm"><button type="button" id="menbtn" onClick={this.handleClick1} className="btn btn-primary">Oxigeno</button></div>
 					<div className="col-sm"><button type="button" id="menbtn" onClick={this.handleClick} className="btn btn-primary">Temperatura</button></div>

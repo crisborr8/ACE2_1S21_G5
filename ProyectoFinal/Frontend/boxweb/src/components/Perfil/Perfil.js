@@ -88,6 +88,7 @@ handleClick(e) {
               <h1>DATOS PERSONALES</h1>
             <h4>Usuario: {this.state.usuario.usuario}</h4>
             <h4>Edad: {this.state.usuario.edad}</h4>
+            <a   href="/PerfilI"><button id="Detener" type="button"  className="btn btn-danger" >Detener Rutina</button></a>
           
           </div>
           

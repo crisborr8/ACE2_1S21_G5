@@ -245,6 +245,21 @@
   color: white;
 }
 #menbtn{
-  width: 50%;
+  width: 90%;
+  margin-bottom: 10px;
  
+}
+#warring{
+  color: yellow;
+}
+#btnss{
+  margin-left: 30%;
+  width: 50%;
+  border-color: whitesmoke;
+}
+
+#Detener{
+  width: 90%;
+  border-color: whitesmoke;
+  font-size: 25px;
 }

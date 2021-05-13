@@ -9,7 +9,7 @@ class Navegacion extends Component{
 		super(props);
 		this.state={
 			usuario:{
-                id:'5000',
+                id:'3',
                 nombre:'José Alejandro',
                 apellido:'Grande Marín',
                 usuario:'Alejo',
@@ -64,7 +64,11 @@ handleClick3(e) {
   
   
 }
-    
+
+    async Cerrar(){
+      await localStorage.removeItem('sesion');
+       this.props.history.push('/Login');
+    }
 render(){
 
     return(
@@ -89,28 +93,60 @@ render(){
           <div className="bg-dark ">
             
             <div className="container">
-              <div className="row">
+            {(()=>{
+                  if( localStorage.getItem('Logueado')===null){
+                   return <div><h3 id="warring">Inicie Sesion</h3> <p id="warring">Para poder ver las vistas de nuestra aplicacion.</p> <button id="btnss" type="button" className="btn btn-dark" onClick={this.Setear}>SETEAR</button></div>
 
-                <div className="col-sm">
-                <a className="op" href="/PerfilI"><button type="button" className="btn btn-dark">Perfil</button></a>
+      
+                  }else{
+                    return <div className="row">
                 
-                </div>
-                <div className="col-sm">
-                <a className="op" href="/Perfil"><button type="button" className="btn btn-dark">Principal</button></a>
-              
-                </div>
-                <div className="col-sm">
-                <a className="op" href="/Historial"><button type="button" className="btn btn-dark">Historial</button></a>
-                
-                </div>
 
+                    {(()=>{
+                      if(localStorage.getItem('sesion')===null){
+                        return <div className="col-sm">
+                        <a className="op" href="/PerfilI"><button id="btnss" type="button" className="btn btn-dark">Perfil</button></a>
+                        
+                        </div>
+                      }
+                    })()}
 
-                <div className="col-sm">
-                <button type="button" onClick={this.handleClick3} className="btn btn-dark">Cerrar Sesion</button>
-                  
+                    {(()=>{
+                      if( localStorage.getItem('sesion')===null){
+           
+                       }else{
+                        return <div className="col-sm">
+                            <a className="op" href="/Perfil"><button id="btnss" type="button" className="btn btn-dark">Principal</button></a>
+                            
+                        </div>
+                       
+                       }
+                    })()}
+                    
+                    {(()=>{
+                      if( localStorage.getItem('sesion')===null){
+                        return <div className="col-sm">
+                        <a className="op" href="/Historial"><button id="btnss" type="button" className="btn btn-dark">Historial</button></a>
+                        
+                        </div>
+                      }
+                    })()}
+    
+    
+                    <div className="col-sm">
+                   
+                    <a className="op" href="/Login"><button id="btnss" type="button" className="btn btn-dark">Cerrar Sesion</button></a>
+                    
+                      </div>
+
+                      
+    
                   </div>
+                   
+                  }
 
-              </div>
+                })()}
+              
             </div>
 
 
