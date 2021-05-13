@@ -42,7 +42,7 @@ export default class Login extends Component {
             classes: esti
         }
 
-        localStorage.removeItem('Logeado');
+        localStorage.removeItem('Logueado');
         localStorage.removeItem('id');
 
         this.controladorEvento = this.controladorEvento.bind(this);
@@ -92,7 +92,7 @@ export default class Login extends Component {
     iniciarSesion = async(e)=>{
        
         e.preventDefault();
-        await axios.post('http://3.12.129.123:3000/Login',{
+        await axios.post('http://104.154.169.109:3000/Login',{
             data:{
                 usuario:this.state.usuario,
                 contrasena:this.state.contrasena
@@ -106,7 +106,7 @@ export default class Login extends Component {
                     
 
                     localStorage.setItem('id',datos.idUser);
-                    localStorage.setItem("Logeado",JSON.stringify({
+                    localStorage.setItem("Logueado",JSON.stringify({
                         id:datos.idUser,
                         nombre:datos.nombre,
                         apellido:datos.apellido,
@@ -114,7 +114,8 @@ export default class Login extends Component {
                         edad:datos.edad,
                         peso:datos.peso,
                         estatura:datos.estatura,
-                        correo:datos.correo
+                        correo:datos.correo,
+                        contrasena:this.state.contrasena
                     }));
 
                     this.props.history.push('/PerfilI');

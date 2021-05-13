@@ -2,12 +2,14 @@
 import axios from 'axios';
 import React, {useState } from 'react'
 import Navbar from '../NavBar/Navegacion'
+import {useHistory} from 'react-router-dom';
 import '../../css/login.css';
 
 
 
 export default function Registrar(props){
 
+    let history = useHistory();
     let [nombre,setNombre] = useState('');
     let [usuario,setUsuario] = useState('');
     let [apellido,setApellido] = useState('');
@@ -28,7 +30,7 @@ export default function Registrar(props){
         console.log(peso);
         console.log(estatura);
         console.log(correo);
-        axios.post('http://3.12.129.123:3000/registro',{
+        axios.post('http://104.154.169.109:3000/registro',{
             data:{
                 usuario:usuario,
                 contrasena:contrasena,
@@ -44,7 +46,7 @@ export default function Registrar(props){
         }).then(response=>{
             if(response.data.status==='success'){
                 console.log('usuario REgistrado')
-                this.props.history.push('/Login')
+                history.push('/Login')
             }else{
                 console.log('usuario no registrado');
             }
