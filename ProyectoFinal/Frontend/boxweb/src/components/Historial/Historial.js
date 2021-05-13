@@ -160,8 +160,8 @@ export default function Historial() {
                 id_user : localStorage.getItem('id')
             }
         }
-        axios.post('http://3.12.129.123:3000/fechasHistorial', data)
-        // axios.get('http://localhost:5000/fechasHistorial', data)
+        // axios.post('http://3.12.129.123:3000/fechasHistorial', data)
+        axios.get('http://localhost:5000/fechasHistorial', data)
             .then(response => {
                 if (response.data.status === 'success') {
                     setBnderaFechasNoRecup(false);
@@ -238,8 +238,8 @@ export default function Historial() {
             }
         }
         console.log('DATA-ENTRENAMIENTOS FECHA: ' + JSON.stringify( data))
-        axios.post('http://3.12.129.123:3000/entrenamientosFecha', data)
-        // axios.get('http://localhost:5000/entrenamientosFecha', data)
+        // axios.post('http://3.12.129.123:3000/entrenamientosFecha', data)
+        axios.get('http://localhost:5000/entrenamientosFecha', data)
             .then(response => {
                 // setListaHoras([]);
                 let arr = [];
@@ -278,8 +278,8 @@ export default function Historial() {
             }
         }
         console.log('DATA-HISTORIAL_MEDICION: ' + JSON.stringify( data))
-        axios.post('http://3.12.129.123:3000/historialMedicion', data)
-        // axios.get('http://localhost:5000/historialMedicion', data)
+        // axios.post('http://3.12.129.123:3000/historialMedicion', data)
+        axios.get('http://localhost:5000/historialMedicion', data)
             .then(response => {
                 let arr = [];
                 if (response.data.status === "success") {
@@ -312,15 +312,21 @@ export default function Historial() {
         //ENVIAR ID_ENTRENAMIENTO
         //ENVIAR MEDICION SELECCIONADA -> VALUE;
 
-        axios.post('http://3.12.129.123:3000/minMedMax', data)
         console.log('DATA-MIN_MED_MAX: ' + JSON.stringify( data))
-        // axios.get('http://localhost:5000/minMedMax', data)
+        // axios.post('http://3.12.129.123:3000/minMedMax', data)
+        axios.get('http://localhost:5000/minMedMax', data)
             .then(response => {
                 let arr = [];
                 if (response.data.status === "success") {
                     response.data.data.forEach((element) => {
-                        arr.push(element.valor);
-                    })
+                        if(element.valormin){
+                            arr.push(element.valormin);
+                        }else if(element.valormed){
+                            arr.push(element.valormed);
+                        }else if(element.valormax){
+                            arr.push(element.valormax);
+                        }
+                    });
                     setMaxMinMed(arr);
                 } else {
                     setMensajeErrorData('No se pudo recuperar los valores promedio de la medición')
