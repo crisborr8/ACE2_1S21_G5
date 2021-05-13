@@ -154,12 +154,15 @@ export default function Historial() {
     };
 
     if (primeraVez) {
-        //ENVIAR ID DE USUARIO
-        // “data” : {
-        //     {"id_user" : localStorage.getItem('id')}
-        // }
+        // ENVIAR ID DE USUARIO
+        const data = {
+            data: {
+                id_user : localStorage.getItem('id')
+            }
+        }
+        
    
-        axios.get('http://3.12.129.123:3000/fechasHistorial')
+        axios.post('http://3.12.129.123:3000/fechasHistorial', data)
             .then(response => {
                 if (response.data.status === 'success') {
                     setBnderaFechasNoRecup(false);
@@ -186,7 +189,7 @@ export default function Historial() {
     // const getData = async () => {
     //     try {
     //         setBanderaServidorCaido(false);
-    //         const { data } = await axios.get('http://3.12.129.123:3000/fechasHistorial');
+    //         const { data } = await axios.post('http://3.12.129.123:3000/fechasHistorial');
 
     //         if (data.status === 'success') {
     //             setBnderaFechasNoRecup(false);
@@ -229,7 +232,14 @@ export default function Historial() {
         setFechaSeleccionada(value);
         // console.log('FECHA: ' + value);
         //ENVIAR FECHA y ID USUARIO
-        axios.get('http://3.12.129.123:3000/entrenamientosFecha')
+        const data = {
+            data: {
+                id_user : localStorage.getItem('id'),
+                fecha: value
+            }
+        }
+        console.log('DATA-ENTRENAMIENTOS FECHA: ' + data)
+        axios.post('http://3.12.129.123:3000/entrenamientosFecha', data)
             .then(response => {
                 // setListaHoras([]);
                 let arr = [];
@@ -261,7 +271,13 @@ export default function Historial() {
         }
         //ENVIAR TAMBIEN ID DEL ENTRENAMIENTO
         //ENVIAR MEDICION SELECCIONADA -> VALUE;
-        axios.get('http://3.12.129.123:3000/historialMedicion')
+        const data = {
+            data: {
+                id_entrenamiento: entrenamientoSeleccionado,
+                medicion: value
+            }
+        }
+        axios.post('http://3.12.129.123:3000/historialMedicion', data)
             .then(response => {
                 let arr = [];
                 if (response.data.status === "success") {
@@ -278,7 +294,8 @@ export default function Historial() {
         });
         //ENVIAR ID_ENTRENAMIENTO
         //ENVIAR MEDICION SELECCIONADA -> VALUE;
-        axios.get('http://3.12.129.123:3000/minMedMax')
+
+        axios.post('http://3.12.129.123:3000/minMedMax', data)
             .then(response => {
                 let arr = [];
                 if (response.data.status === "success") {
