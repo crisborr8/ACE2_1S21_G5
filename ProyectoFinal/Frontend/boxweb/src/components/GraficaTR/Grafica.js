@@ -150,10 +150,7 @@ class Grafica extends Component {
   
   async handleClick2() {
 	
-<<<<<<< HEAD
-	componentDidMount() {
-		this.intervals = setInterval(this.updateChart, updateInterval);
-=======
+	
 	await localStorage.setItem('medicion', JSON.stringify({tipo:'Ritmo Cardiaco', unidad:' BPM'}));
 	await this.llenar();
 	datas=await [];
@@ -177,25 +174,14 @@ class Grafica extends Component {
   }
   	componentDidMount() {
  		  this.intervalo=setInterval(this.updateChart, updateInterval);
->>>>>>> Fasefinal
 		
 	
 		}
 	componentWillUnmount(){
 		clearInterval(this.intervalo);
 	}
-<<<<<<< HEAD
-
-	componentWillUnmount(){
-		clearInterval(this.intervals);		
-	}
-
-	
-	updateChart() {
-=======
     
   updateChart() {
->>>>>>> Fasefinal
 
 		
 		var min = 1;
