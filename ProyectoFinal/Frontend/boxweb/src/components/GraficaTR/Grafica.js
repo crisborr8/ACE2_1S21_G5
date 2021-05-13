@@ -2,6 +2,22 @@ import React, { Component, useState } from 'react'
 import CanvasJSReact from '../../canvasjs.react';
 import { Table } from '@material-ui/core';
 import Tabla from './Tabla'
+import { Route , withRouter} from 'react-router-dom';
+import axios from 'axios';
+
+import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
+
+import "../../../node_modules/react-bootstrap-table/css/react-bootstrap-table.css";
+
+function rowClassNameFormat(row, rowIdx) {
+  if (row["oxigeno"] < 20) {
+    return "Mal-Row";
+  } else if (row["oxigeno"] >= 20 && row["oxigeno"] <= 40) {
+    return "Normal-Row";
+  } else {
+    return "Exelente-Row";
+  }
+}
 var CanvasJS = CanvasJSReact.CanvasJS;
 var CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
@@ -13,7 +29,12 @@ function ObtenerHora(Tiempo){
     const dat = new Date(Tiempo).toLocaleString('en-GB');
     const Separar = dat.split(",",2);
     const Hora = Separar[1];
-    return Hora;
+    return QuitarEspacio(Hora);
+}
+function QuitarEspacio(cadena){
+    const Separar = cadena.split(" ",2);
+    const dat = Separar[1];
+    return dat;
 }
 
 var times= new Date();
@@ -39,19 +60,60 @@ var updateInterval = 1000;
 
 class Grafica extends Component {
 
-	constructor() {
-		super();
+	constructor(props) {
+		super(props);
 		this.updateChart = this.updateChart.bind(this);
 		this.state={
 			data:datas,
 			medicion:{
 				tipo:'',
 				unidad:''
+			},
+			usuario:{
+                id:'',
+                nombre:'',
+                apellido:'',
+                usuario:'',
+                edad:'',
+                peso:'',
+                estatura:'',
+                correo:''
+            },
+			sesion:{
+				id:''
 			}
 		}
+		this.llenarUser = this.llenarUser.bind(this);
 		this.llenar = this.llenar.bind(this);
+		this.llenarIdSesion=this.llenarIdSesion.bind(this);
+		this.handleClick=this.handleClick.bind(this);
+		this.handleClick1=this.handleClick1.bind(this);
+		this.handleClick2=this.handleClick2.bind(this);
+		this.handleClick3=this.handleClick3.bind(this);
 		this.llenar();
+		this.llenarUser();
+		this.llenarIdSesion();
 	}
+
+	async llenarUser(){
+		if( await localStorage.getItem('Logueado')===null){
+      
+		}else{
+		  let Tas= await localStorage.getItem('Logueado');
+		  const tem=await this.setState({usuario:JSON.parse(Tas||'{}')});
+	   
+		}
+	}
+	async llenarIdSesion(){
+		if( await localStorage.getItem('sesion')===null){
+      
+		}else{
+		  let Tas= await localStorage.getItem('sesion');
+		  const tem=await this.setState({sesion:JSON.parse(Tas||'{}')});
+	   
+		}
+	}
+
 
 	async llenar(){
     
@@ -65,11 +127,64 @@ class Grafica extends Component {
 		
 		  
    }
+
+  async handleClick() {
+  
+	await localStorage.setItem('medicion', JSON.stringify({tipo:'Temperatura', unidad:' °C'}));
+	await this.llenar();
+	datas=await [];
+	dps=await[];
+	await this.setState(datas);
 	
+	
+  }
+  
+  async handleClick1() {
+	await localStorage.setItem('medicion', JSON.stringify({tipo:'Oxigeno', unidad:' O2'}));
+	await this.llenar();
+	datas=await [];
+	dps=await[];
+	await this.setState(datas);
+
+  }
+  
+  async handleClick2() {
+	
+<<<<<<< HEAD
 	componentDidMount() {
 		this.intervals = setInterval(this.updateChart, updateInterval);
+=======
+	await localStorage.setItem('medicion', JSON.stringify({tipo:'Ritmo Cardiaco', unidad:' BPM'}));
+	await this.llenar();
+	datas=await [];
+	dps=await[];
+	await this.setState(datas);
+	
+	//this.props.history.push('/ReporteTR');
+	
+  }
+  
+  async handleClick3() {
+   
+	  await localStorage.setItem('medicion', JSON.stringify({tipo:'Fuerza', unidad:' N'}));
+	  await this.llenar();
+	  datas=await [];
+	  dps=await[];
+	await this.setState(datas);
+	  
+  // localStorage.setItem('medicion', JSON.stringify({tipo:'Velocidad', unidad:' u/s'}));
+	
+  }
+  	componentDidMount() {
+ 		  this.intervalo=setInterval(this.updateChart, updateInterval);
+>>>>>>> Fasefinal
 		
+	
+		}
+	componentWillUnmount(){
+		clearInterval(this.intervalo);
 	}
+<<<<<<< HEAD
 
 	componentWillUnmount(){
 		clearInterval(this.intervals);		
@@ -77,17 +192,44 @@ class Grafica extends Component {
 
 	
 	updateChart() {
+=======
+    
+  updateChart() {
+>>>>>>> Fasefinal
 
 		
 		var min = 1;
 		var max = 100;
 		times= new Date();
 		//AQUI REALIZARE LA PETICION
+		console.log(ObtenerHora(times));
+		axios.post('http://3.12.129.123:3000/ObtenerMediciones',{data:{idusuario:this.state.usuario.id,idsesion:this.state.sesion.id,hora:ObtenerHora(times)}})
+		.then(response => {
 
-
+			if(this.state.medicion.tipo=='Oxigeno'){
+				yVal=response.data.oxigeno;
+				console.log('Oxigeno');
+			}else if(this.state.medicion.tipo=='Temperatura'){
+				yVal=response.data.temperatura;
+				console.log('Temperatura');
+	
+			}else if(this.state.medicion.tipo=='Ritmo Cardiaco'){
+				yVal=response.data.ritmocardiaco;
+				console.log('Ritmo Cardiaco');
+	
+			}else if(this.state.medicion.tipo=='Velocidad'){
+				yVal=response.data.velocidad;
+				console.log('Velocidad');
+	
+			}else if(this.state.medicion.tipo=='Fuerza'){
+				yVal=response.data.data.fuerza;
+				console.log('Fuerza');
+			}
+			
+		});
 
 		//AQUI FINALIZA LA PETICION INICIA LA ASIGNACION
-		yVal = (min + (Math.random() * (max-min))).toFixed(2);
+		/*yVal = (min + (Math.random() * (max-min))).toFixed(2);
 		
 		
 		if(this.state.medicion.tipo=='Oxigeno'){
@@ -104,7 +246,7 @@ class Grafica extends Component {
 
 		}else if(this.state.medicion.tipo=='Fuerza'){
 			console.log('Fuerza');
-		}
+		}*/
 		dps.push({x: xVal,label:String(ObtenerHora(times)),y: Number(yVal) });
 		datas.unshift({id: indice, oxigeno: yVal, estabilidad: String(ObtenerHora(times))});
 		this.setState(datas);
@@ -113,7 +255,10 @@ class Grafica extends Component {
 		if (dps.length >  10 ) {
 			dps.shift();
 		}
-		this.chart.render();
+
+			this.chart.render();
+		
+		
 	}
 	render() {
 		
@@ -140,6 +285,16 @@ class Grafica extends Component {
 		
 		return (
 		<div>
+			<div id="contbtn1" className="card">
+				<h1>{this.state.usuario.usuario}</h1>
+				<div className="row">
+					<div className="col-sm"><button type="button" id="menbtn" onClick={this.handleClick1} className="btn btn-primary">Oxigeno</button></div>
+					<div className="col-sm"><button type="button" id="menbtn" onClick={this.handleClick} className="btn btn-primary">Temperatura</button></div>
+					<div className="col-sm"><button type="button" id="menbtn" onClick={this.handleClick2} className="btn btn-primary">Ritmo Cardiaco</button></div>
+					<div className="col-sm"><button type="button" id="menbtn" onClick={this.handleClick3} className="btn btn-primary">Fuerza</button></div>
+
+				</div>
+			</div>
 			<div id="SubReporte" className="card">
 				<h1>GRAFICA</h1>
 					<CanvasJSChart options = {options}
@@ -163,11 +318,63 @@ class Grafica extends Component {
 
 		<div id="SubReporte" className="card">
 			<h1>BITACORA</h1>
-			<Tabla data={datas}></Tabla>
+			{/*<Tabla data={datas}></Tabla>*/}
+
+
+
+			<div id="Bitacora" className="overflow-auto">
+          <BootstrapTable
+            data={datas}
+            trClassName={rowClassNameFormat}
+          >
+            <TableHeaderColumn
+              isKey
+              dataField="id"
+              dataAlign="center"
+              headerAlign="left"
+              width="10%"
+              tdStyle={{ backgroundColor: "gray" }}
+              thStyle={{
+                color: "White",
+                backgroundColor: "black",
+              }}
+            >
+              ID
+            </TableHeaderColumn>
+            <TableHeaderColumn
+              dataField="oxigeno"
+              dataAlign="center"
+              headerAlign="center"
+              width="50%"
+              thStyle={{
+                color: "White",
+                backgroundColor: "black",
+              }}
+            >
+              {this.state.medicion.tipo} ({this.state.medicion.unidad})
+            </TableHeaderColumn>
+            <TableHeaderColumn
+              dataField="estabilidad"
+              dataAlign="center"
+              headerAlign="center"
+              thStyle={{
+                color: "White",
+                backgroundColor: "black",
+              }}
+            >
+              Hora
+            </TableHeaderColumn>
+          </BootstrapTable>
+        </div>
+
+
+
+
+
          </div>
 			{/*You can get reference to the chart instance as shown above using onRef. This allows you to access all chart properties and methods*/}
 		</div>
 		);
 	}
 }
-export default Grafica;
+export default withRouter(Grafica);
