@@ -312,15 +312,21 @@ export default function Historial() {
         //ENVIAR ID_ENTRENAMIENTO
         //ENVIAR MEDICION SELECCIONADA -> VALUE;
 
-        axios.post('http://3.12.129.123:3000/minMedMax', data)
         console.log('DATA-MIN_MED_MAX: ' + JSON.stringify( data))
+        axios.post('http://3.12.129.123:3000/minMedMax', data)
         // axios.get('http://localhost:5000/minMedMax', data)
             .then(response => {
                 let arr = [];
                 if (response.data.status === "success") {
                     response.data.data.forEach((element) => {
-                        arr.push(element.valor);
-                    })
+                        if(element.valormin){
+                            arr.push(element.valormin);
+                        }else if(element.valormed){
+                            arr.push(element.valormed);
+                        }else if(element.valormax){
+                            arr.push(element.valormax);
+                        }
+                    });
                     setMaxMinMed(arr);
                 } else {
                     setMensajeErrorData('No se pudo recuperar los valores promedio de la medición')
