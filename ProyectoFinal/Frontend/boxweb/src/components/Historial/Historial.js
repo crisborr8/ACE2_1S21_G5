@@ -122,7 +122,7 @@ export default function Historial() {
         'Temperatura',
         'Ritmo Cardiaco'
     ]
-
+    let [sufijoMedicion, setSufijoMedicion]=useState('');
     let [maxMinMed, setMaxMinMed] = useState([]);
     let [options, setOptions] = useState({
         animationEnabled: true,
@@ -130,8 +130,8 @@ export default function Historial() {
             text: ""
         },
         axisY: {
-            title: "Valor de la medición\n",
-            suffix: " %"
+            title: "",
+            suffix: ""
         },
         axisX: {
             title: "Tiempo",
@@ -160,9 +160,8 @@ export default function Historial() {
                 id_user : localStorage.getItem('id')
             }
         }
-        
-   
         axios.post('http://3.12.129.123:3000/fechasHistorial', data)
+        // axios.get('http://localhost:5000/fechasHistorial', data)
             .then(response => {
                 if (response.data.status === 'success') {
                     setBnderaFechasNoRecup(false);
@@ -238,8 +237,9 @@ export default function Historial() {
                 fecha: value
             }
         }
-        console.log('DATA-ENTRENAMIENTOS FECHA: ' + data)
+        console.log('DATA-ENTRENAMIENTOS FECHA: ' + JSON.stringify( data))
         axios.post('http://3.12.129.123:3000/entrenamientosFecha', data)
+        // axios.get('http://localhost:5000/entrenamientosFecha', data)
             .then(response => {
                 // setListaHoras([]);
                 let arr = [];
@@ -273,11 +273,13 @@ export default function Historial() {
         //ENVIAR MEDICION SELECCIONADA -> VALUE;
         const data = {
             data: {
-                id_entrenamiento: entrenamientoSeleccionado,
+                id_entrenamiento: entrenamientoSeleccionado.id,
                 medicion: value
             }
         }
+        console.log('DATA-HISTORIAL_MEDICION: ' + JSON.stringify( data))
         axios.post('http://3.12.129.123:3000/historialMedicion', data)
+        // axios.get('http://localhost:5000/historialMedicion', data)
             .then(response => {
                 let arr = [];
                 if (response.data.status === "success") {
@@ -285,7 +287,22 @@ export default function Historial() {
                         arr.push({ label: "", y: element.valor});
                     })
                     options.data[0].dataPoints = arr;
+                    let sufijo= '';
+                    if(value === 'Temperatura'){
+                       sufijo = '°C';
+                    }else if(value === 'Fuerza'){
+                        sufijo = 'N';
+                    }else if(value === 'Oxígeno'){
+                        sufijo = 'O2';
+                    }else if(value === 'Aceleración'){
+                        sufijo = 'm/s^2';
+                    }else if(value === 'Ritmo Cardiaco'){
+                        sufijo = 'BPM';
+                    }
+                    setSufijoMedicion(sufijo);
                     options.title.text = value;
+                    options.axisY.title =  'Valor de la medición en ' + sufijo + '\n'; 
+                    
                     setOptions({ ...options});
                 } else {
                     setMensajeErrorData('No se pudo recuperar el historial de mediciones')
@@ -296,6 +313,8 @@ export default function Historial() {
         //ENVIAR MEDICION SELECCIONADA -> VALUE;
 
         axios.post('http://3.12.129.123:3000/minMedMax', data)
+        console.log('DATA-MIN_MED_MAX: ' + JSON.stringify( data))
+        // axios.get('http://localhost:5000/minMedMax', data)
             .then(response => {
                 let arr = [];
                 if (response.data.status === "success") {
@@ -457,7 +476,7 @@ export default function Historial() {
                                     </label>
                                     &nbsp;
                                     <label style={{fontSize: '18px', fontFamily: 'Arial'}}> 
-                                        {maxMinMed[0]}
+                                        {maxMinMed[0] + sufijoMedicion}
                                     </label>
                                     &nbsp; &nbsp;
                                     <label style={{fontSize: '18px', fontWeight: 'bold', fontFamily: 'Arial'}}>
@@ -465,7 +484,7 @@ export default function Historial() {
                                     </label>
                                     &nbsp;
                                     <label style={{fontSize: '18px', fontFamily: 'Arial'}}> 
-                                        {maxMinMed[1]}
+                                        {maxMinMed[1] + sufijoMedicion}
                                     </label>
                                     &nbsp; &nbsp; &nbsp;
                                     <label style={{fontSize: '18px', fontWeight: 'bold', fontFamily: 'Arial'}}>
@@ -473,7 +492,7 @@ export default function Historial() {
                                     </label>
                                     &nbsp;
                                     <label style={{fontSize: '18px', fontFamily: 'Arial'}}> 
-                                        {maxMinMed[2]}
+                                        {maxMinMed[2] + sufijoMedicion}
                                     </label>
                                     </div>
                                     <br></br>
