@@ -158,7 +158,7 @@ function getString_of_KatyDATE_becauseSheCannotSendSsAString_ImVeryMad(katydate_
     from Sesion_Entrenamiento se
     inner join Datos_Entrenamiento de on (se.idSesion_Entrenamiento = de.id_Sesion)
     where se.id_User = 1
-    and se.fecha = STR_TO_DATE('13/04/2021','%d/%m/%Y')
+    and se.fecha = STR_TO_DATE('14/05/2021','%d/%m/%Y')
     group by se.idSesion_Entrenamiento, se.hora
 
     select se.idSesion_Entrenamiento as id, se.hora
