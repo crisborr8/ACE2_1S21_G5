@@ -104,35 +104,33 @@ class Grafica extends Component {
 	rowClassNameFormat(row, rowIdx) {
 
 		if(this.state.medicion.tipo==='Oxigeno'){
-			if (row["oxigeno"] < 20) {
+			if (row["oxigeno"] < 86) {
 				return "Mal-Row";
-			  } else if (row["oxigeno"] >= 20 && row["oxigeno"] <= 40) {
-				return "Normal-Row";
-			  } else {
+			  } else if (row["oxigeno"] >= 95 && row["oxigeno"] <= 99) {
 				return "Exelente-Row";
+			  } else {
+				return "Normal-Row";
 			  }
 		}else if(this.state.medicion.tipo==='Temperatura'){
-			if (row["oxigeno"] < 20) {
+			if (row["oxigeno"] < 36||row["oxigeno"] > 40) {
 				return "Mal-Row";
-			  } else if (row["oxigeno"] >= 20 && row["oxigeno"] <= 40) {
+			  } else if (row["oxigeno"] >= 36 && row["oxigeno"] <= 40) {
 				return "Normal-Row";
-			  } else {
-				return "Exelente-Row";
-			  }
+			  } 
 		}else if(this.state.medicion.tipo==='Ritmo Cardiaco'){
-			if (row["oxigeno"] < 20) {
+			if (row["oxigeno"] < 59||row["oxigeno"] > 100) {
 				return "Mal-Row";
-			  } else if (row["oxigeno"] >= 20 && row["oxigeno"] <= 40) {
+			  } else if ((row["oxigeno"] >= 60 && row["oxigeno"] <= 69)||(row["oxigeno"] >= 91 && row["oxigeno"] <= 100)) {
 				return "Normal-Row";
-			  } else {
+			  } else if(row["oxigeno"] >= 70 && row["oxigeno"] <= 90){
 				return "Exelente-Row";
 			  }
 		}else if(this.state.medicion.tipo==='Fuerza'){
-			if (row["oxigeno"] < 20) {
+			if (row["oxigeno"] <= 90) {
 				return "Mal-Row";
-			  } else if (row["oxigeno"] >= 20 && row["oxigeno"] <= 40) {
+			  } else if (row["oxigeno"] >= 20 && row["oxigeno"] <255) {
 				return "Normal-Row";
-			  } else {
+			  } else if (row["oxigeno"] >= 255) {
 				return "Exelente-Row";
 			  }
 		}

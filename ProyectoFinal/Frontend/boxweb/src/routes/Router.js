@@ -13,7 +13,7 @@ export default class Router extends Component {
         return (
             <BrowserRouter>
                 <Switch>
-                    <Route exact path="/" component={App}/>
+                    <Route exact path="/" component={Login}/>
                     <Route exact path="/Login" component={Login}/>
                     <Route exact path="/Historial" component={Historial}/>
                     <Route exact path='/Registrar' component={Registrar}/>
