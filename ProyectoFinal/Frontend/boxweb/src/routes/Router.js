@@ -15,7 +15,7 @@ export default class Router extends Component {
                 <Switch>
                     <Route exact path="/" component={App}/>
                     <Route exact path="/Login" component={Login}/>
-                    <Route exact path="/Historial" component={Historial}/>
+                    {localStorage.getItem('Logueado')!=null?<Route exact path="/Historial" component={Historial}/>: <div><h3 >Inicie Sesion</h3> <p >Para poder ver las vistas de nuestra aplicacion.</p> </div>}
                     <Route exact path='/Registrar' component={Registrar}/>
                     <Route exact path="/ReporteTR" component={Reportetr}/>
                     <Route exact path="/Perfil" component={Perfil}/>
