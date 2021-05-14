@@ -627,6 +627,19 @@ router.post("/guardarDatos", (request, response, next) => {
                         }
                     );
                 }
+
+
+                if (rows.length = 0) {
+                    response.json(
+                        {
+                            status: "fail",
+                            message: "IdSesion invalido"
+                        }
+                    );
+                    return
+                }
+
+
                 var peso = rows[0].peso;
                 var masa = Math.trunc((peso / 9.8)); //  m = f / a
                 var aceleracion = Math.trunc(Number(String(request.body.data.fuerza)) / masa); // f =ma : a = f / m
