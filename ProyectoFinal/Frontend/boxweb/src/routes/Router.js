@@ -13,7 +13,7 @@ export default class Router extends Component {
         return (
             <BrowserRouter>
                 <Switch>
-                    <Route exact path="/" component={App}/>
+                    <Route exact path="/" component={Login}/>
                     <Route exact path="/Login" component={Login}/>
                     {localStorage.getItem('Logueado')!=null?<Route exact path="/Historial" component={Historial}/>: <div><h3 >Inicie Sesion</h3> <p >Para poder ver las vistas de nuestra aplicacion.</p> </div>}
                     <Route exact path='/Registrar' component={Registrar}/>

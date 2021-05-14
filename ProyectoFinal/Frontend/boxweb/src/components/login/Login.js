@@ -3,7 +3,7 @@ import axios from 'axios';
 import React, { Component } from 'react'
 import Navbar from '../NavBar/Navegacion'
 import '../../css/login.css';
-
+import swal from 'sweetalert';
 
 const esti = {
     contenedor:{
@@ -44,13 +44,38 @@ export default class Login extends Component {
 
         localStorage.removeItem('Logueado');
         localStorage.removeItem('id');
+        localStorage.removeItem('sesion');
+        localStorage.removeItem('medicion');
 
+        this.Bienvenida= this.Bienvenida.bind(this);
         this.controladorEvento = this.controladorEvento.bind(this);
         this.envio = this.envio.bind(this)
         this.editar= this.editar.bind(this)
         this.iniciarSesion = this.iniciarSesion.bind(this);
+        
     }
 
+    async Bienvenida(){
+        await swal({
+           
+            title:"Bienvenido al sistema",
+            text:"Puedes iniciar tu entrenamiento o ver tu historial",
+            
+            timer:"3000"
+            
+           });
+     }
+
+     async Error(){
+        await swal({
+           
+            title:"El Usuario No existe",
+            text:"Registra una cuenta",
+            icon:'error',
+            timer:"3000"
+            
+           });
+     }
     
     controladorEvento=(evento)=>{
 
@@ -117,9 +142,11 @@ export default class Login extends Component {
                         correo:datos.correo,
                         contrasena:this.state.contrasena
                     }));
-
+                    this.Bienvenida();
                     this.props.history.push('/PerfilI');
                 }
+            }else{
+                this.Error();
             }
         })
 
