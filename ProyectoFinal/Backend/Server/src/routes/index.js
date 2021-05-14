@@ -549,7 +549,7 @@ router.post("/CrearSesion", (request, response, next) => {
                 );
             }
             
-            var CONSULTA2 = 'select idSesion_Entrenamiento from Sesion_Entrenamiento order by idSesion_Entrenamiento desc limit 1 where id_User = ' + String(request.body.data.idUser) ;
+            var CONSULTA2 = 'select idSesion_Entrenamiento from Sesion_Entrenamiento where id_User = ' + String(request.body.data.idUser) + ' order by idSesion_Entrenamiento desc limit 1';
             connection.query(CONSULTA2, (error, rows) => {
                 if (error) {
                     console.log(error);
@@ -750,7 +750,11 @@ function incrementarTime(tiempoInicial)
     }
 
     var horaint = Number(hora);
-    horaint = horaint + 18 + agregadohora;
+    horaint = horaint + 17 + agregadohora;
+
+    if (horaint >= 24) {
+        horaint = horaint - 24;
+    }
 
     return String(String(horaint) + ':' + minuto + ":" + String(segundo))
 }
