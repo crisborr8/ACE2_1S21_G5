@@ -546,7 +546,7 @@ router.post("/CrearSesion", (request, response, next) => {
                 );
             }
             
-            var CONSULTA2 = 'select idSesion_Entrenamiento from Sesion_Entrenamiento order by idSesion_Entrenamiento desc limit 1';
+            var CONSULTA2 = 'select idSesion_Entrenamiento from Sesion_Entrenamiento order by idSesion_Entrenamiento desc limit 1 where id_User = ' + String(request.body.data.idUser) ;
             connection.query(CONSULTA2, (error, rows) => {
                 if (error) {
                     console.log(error);
@@ -557,6 +557,8 @@ router.post("/CrearSesion", (request, response, next) => {
                         }
                     );
                 }
+
+                console.log(rows)
                 
                 response.json(
                     {
