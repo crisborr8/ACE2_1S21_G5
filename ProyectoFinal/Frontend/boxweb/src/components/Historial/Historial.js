@@ -118,6 +118,7 @@ export default function Historial() {
     const listaMediciones = [
         'Fuerza',
         'Oxígeno',
+        'Velocidad',
         'Aceleración',
         'Temperatura',
         'Ritmo Cardiaco'
@@ -291,13 +292,15 @@ export default function Historial() {
                     if(value === 'Temperatura'){
                        sufijo = '°C';
                     }else if(value === 'Fuerza'){
-                        sufijo = 'N';
+                        sufijo = 'Kp';
                     }else if(value === 'Oxígeno'){
-                        sufijo = 'O2';
+                        sufijo = '%';
+                    }else if(value === 'Velocidad'){
+                        sufijo = 'm/s';
                     }else if(value === 'Aceleración'){
                         sufijo = 'm/s^2';
                     }else if(value === 'Ritmo Cardiaco'){
-                        sufijo = 'BPM';
+                        sufijo = 'ppm';
                     }
                     setSufijoMedicion(sufijo);
                     options.title.text = value;
