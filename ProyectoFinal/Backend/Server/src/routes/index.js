@@ -717,13 +717,22 @@ function incrementarTime(tiempoInicial)
     var segundo = tiemposplitted[2];
 
     var segundoint = Number(segundo);
-    segundoint = segundoint + 10;
+    segundoint = segundoint + 5;
     segundo = String(segundoint)
 
     var agregadohora = 0;
     if (segundoint >= 60) {
-        segundoint = 0;
-        segundo =String(segundoint)
+        segundoint = segundoint - 60;
+
+        if (segundoint == 0) {
+            segundo =String("00")
+        }
+        else
+        {
+            segundo =String(segundoint)
+        }
+
+        
         var minutoint = Number(minuto)
         minutoint = minutoint + 1;
         minuto = String(minutoint)
@@ -786,6 +795,7 @@ router.post("/ObtenerMediciones", (request, response, next) => {
             );
         }
         console.log(rows)
+        console.log(rows[0])
         response.json(
             {
                 status: "success",
