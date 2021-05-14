@@ -717,7 +717,7 @@ function incrementarTime(tiempoInicial)
     var segundo = tiemposplitted[2];
 
     var segundoint = Number(segundo);
-    segundoint = segundoint + 30;
+    segundoint = segundoint + 10;
     segundo = String(segundoint)
 
     var agregadohora = 0;
