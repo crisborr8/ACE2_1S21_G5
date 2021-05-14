@@ -721,7 +721,7 @@ function incrementarTime(tiempoInicial)
     segundo = String(segundoint)
 
     var agregadohora = 0;
-    if (segundoint == 60) {
+    if (segundoint >= 60) {
         segundoint = 0;
         segundo =String(segundoint)
         var minutoint = Number(minuto)
