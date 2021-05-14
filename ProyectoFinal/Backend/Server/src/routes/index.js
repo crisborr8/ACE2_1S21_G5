@@ -684,11 +684,26 @@ function incrementarTime(tiempoInicial)
 
     var segundoint = Number(segundo);
     segundoint = segundoint + 1;
+    segundo = String(segundoint)
+
+    var agregadohora = 0;
+    if (segundoint == 60) {
+        segundoint == 0;
+        var minutoint = Number(minuto)
+        minutoint = minutoint + 1;
+        minuto = String(minutoint)
+
+        if (minutoint == 60) {
+            minuto = String("00")
+            agregadohora = 1;
+        }
+
+    }
 
     var horaint = Number(hora);
-    horaint = horaint + 18;
+    horaint = horaint + 18 + agregadohora;
 
-    return String(String(horaint) + ':' + minuto + ":" + String(segundoint))
+    return String(String(horaint) + ':' + minuto + ":" + String(segundo))
 }
 
 // -------------------------------------------------------------------------------------
