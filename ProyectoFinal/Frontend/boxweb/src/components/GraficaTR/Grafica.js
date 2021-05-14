@@ -60,8 +60,8 @@ var t10= String(ObtenerHora(times.setSeconds(times.getSeconds()-1)));
 //var xVal = String(ObtenerHora(time2.setSeconds(time2.getSeconds()+1)));
 var dps = [{ x:1, y: 0,label:String(t1) }];   //dataPoints.
 var xVal = dps.length + 1;
-var yVal = 15;
-var updateInterval = 1000;
+var yVal = 0;
+var updateInterval = 300;
 
 class Grafica extends Component {
 
@@ -231,15 +231,17 @@ class Grafica extends Component {
 		var max = 100;
 		times= new Date();
 		//AQUI REALIZARE LA PETICION
-		//console.log(ObtenerHora(times));
+		console.log(ObtenerHora(times));
 		axios.post('http://104.154.169.109:3000/ObtenerMediciones',{data:{idusuario:this.state.usuario.id,idsesion:this.state.sesion.id,hora:ObtenerHora(times)}})
 		.then(response => {
 
+			console.log(response);
 			if(this.state.medicion.tipo=='Oxigeno'){
 				yVal=response.data.oxigeno;
 				console.log('Oxigeno');
 			}else if(this.state.medicion.tipo=='Temperatura'){
-				yVal=response.data.temperatura;
+					
+				yVal=response.data.temperatura;				
 				console.log('Temperatura');
 	
 			}else if(this.state.medicion.tipo=='Ritmo Cardiaco'){
@@ -254,6 +256,7 @@ class Grafica extends Component {
 				yVal=response.data.fuerza;
 				console.log('Fuerza');
 			}
+			console.log(response.status);
 			
 		});
 
@@ -276,6 +279,7 @@ class Grafica extends Component {
 		}else if(this.state.medicion.tipo=='Fuerza'){
 			console.log('Fuerza');
 		}*/
+		console.log(yVal+" <-----------");
 		dps.push({x: xVal,label:String(ObtenerHora(times)),y: Number(yVal) });
 		datas.unshift({id: indice, oxigeno: yVal, estabilidad: String(ObtenerHora(times))});
 		this.setState(datas);
