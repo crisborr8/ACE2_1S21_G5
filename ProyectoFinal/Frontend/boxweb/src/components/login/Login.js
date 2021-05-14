@@ -66,6 +66,7 @@ export default class Login extends Component {
            });
      }
 
+
      async Error(){
         await swal({
            
@@ -144,9 +145,11 @@ export default class Login extends Component {
                     }));
                     this.Bienvenida();
                     this.props.history.push('/PerfilI');
+                }else{
+                    this.Error();
                 }
             }else{
-                this.Error();
+                
             }
         })
 

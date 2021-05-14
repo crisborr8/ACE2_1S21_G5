@@ -153,8 +153,6 @@ async MensajeInicioSesionUser(){
             .then(async response => {
                 if (response.data.status === "success") {
                     
-                    //await localStorage.setItem('sesion', JSON.stringify({id:response.data.data.idSesion}));
-                    
                 } else {
                     swal({
                         title:"No se pudo realizar la actualizacion",

@@ -15,7 +15,7 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import CanvasJSReact from '../../canvasjs.react';
-
+import Navegacion from "../NavBar/Navegacion";
 
 const useStyles = makeStyles((theme) => ({
     centrarTexto: {
@@ -341,6 +341,7 @@ export default function Historial() {
 
     return (
         <div className="container-fluid">
+            <Navegacion />
             <br />
             {
                 // console.log(listaHoras)

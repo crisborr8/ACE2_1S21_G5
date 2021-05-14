@@ -39,6 +39,15 @@
 
         box-shadow: inset 0 0 0 3px cyan;
         }
+        .botones5:hover {
+
+          box-shadow: inset 0 0 0 3px cyan;
+          }
+    
+          .botones6:hover {
+    
+            box-shadow: inset 0 0 0 3px cyan;
+            }
       
 
 .botones2{
@@ -63,6 +72,23 @@
   width: 77%;
   height: 235PX;
   background-image: url('./assets/img/Fz.jpg');
+  
+}
+
+.botones5{
+  border-color: transparent;
+  margin: 15px;
+  width: 77%;
+  height: 235PX;
+  background-image: url('./assets/img/AC.jpg');
+  
+}
+.botones6{
+  border-color: transparent;
+  margin: 15px;
+  width: 77%;
+  height: 235PX;
+  background-image: url('./assets/img/VL.jpg');
   
 }
 #con2{
