@@ -240,7 +240,7 @@ router.post("/historialMedicion", (request, response, next) => {
     }
 
     var CONSULTA1 = '';
-    CONSULTA1 = CONSULTA1 + 'select de.' + campomedicion + ' as valor ';
+    CONSULTA1 = CONSULTA1 + 'select de.' + campomedicion + ' as valor,  de.hora ';
     CONSULTA1 = CONSULTA1 + 'from Sesion_Entrenamiento se ';
     CONSULTA1 = CONSULTA1 + 'inner join Datos_Entrenamiento de on (se.idSesion_Entrenamiento = de.id_Sesion) ';
     CONSULTA1 = CONSULTA1 + 'where se.idSesion_Entrenamiento = ' + String(request.body.data.id_entrenamiento);
