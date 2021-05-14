@@ -15,6 +15,7 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import CanvasJSReact from '../../canvasjs.react';
+import { Collapse } from '@material-ui/core';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -27,7 +28,8 @@ const useStyles = makeStyles((theme) => ({
         textAlign: 'center',
     },
     colorBloque:{
-        backgroundColor: '#EBAC44'
+        backgroundColor: '#EBAC44',
+        minHeight: 557
     },
     bloque: {
         textAlign: 'right',
@@ -49,7 +51,6 @@ const useStyles = makeStyles((theme) => ({
     },
     container: {
         maxHeight: 420,
-        
     },
     estiloAutoComplete:{
         
@@ -124,7 +125,8 @@ export default function Historial() {
         'Ritmo Cardiaco'
     ]
     let [sufijoMedicion, setSufijoMedicion]=useState('');
-    let [maxMinMed, setMaxMinMed] = useState([]);
+    let [mostrarSeleccionMedicion, setMostrarSeleccionMedicion] = useState(false);
+    let [maxMinMed, setMaxMinMed] = useState([0,0,0]);
     let [options, setOptions] = useState({
         animationEnabled: true,
         title: {
@@ -161,7 +163,7 @@ export default function Historial() {
                 id_user : localStorage.getItem('id')
             }
         }
-        axios.post('http://3.12.129.123:3000/fechasHistorial', data)
+        axios.post('http://104.154.169.109:3000/fechasHistorial', data)
         // axios.get('http://localhost:5000/fechasHistorial', data)
             .then(response => {
                 if (response.data.status === 'success') {
@@ -171,13 +173,13 @@ export default function Historial() {
                         return;
                     }
                     setBanderaSinFechas(false);
-                    // let arr = [];
+                    let arr = [];
                     response.data.data.forEach(element => {
                         fechasHistorial.push(element.fecha)
-                        //let f = new Date(element.fecha)
-                        //arr.push(f.getDate() + '/' + (f.getMonth() + 1) + '/' + f.getFullYear())
+                        let f = new Date(element.fecha)
+                        arr.push((f.getDate()+1) + '/' + (f.getMonth() + 1) + '/' + f.getFullYear())
                     });
-                    // setFechasHistorial(arr)
+                    setFechasHistorial(arr)
                 } else {
                     setBnderaFechasNoRecup(true);
                 }
@@ -189,7 +191,7 @@ export default function Historial() {
     // const getData = async () => {
     //     try {
     //         setBanderaServidorCaido(false);
-    //         const { data } = await axios.post('http://3.12.129.123:3000/fechasHistorial');
+    //         const { data } = await axios.post('http://104.154.169.109:3000/fechasHistorial');
 
     //         if (data.status === 'success') {
     //             setBnderaFechasNoRecup(false);
@@ -227,6 +229,14 @@ export default function Historial() {
 
     const metodoCambiaEstadoFechaSeleccionada = (event, value) => {
         if (value === '' || value === null) {
+            setMostrarSeleccionMedicion(false);
+            setListaHoras([]);
+            setMaxMinMed([0,0,0]);
+            options.title.text = '';
+            options.axisY.title = ''; 
+            options.data[0].dataPoints = [];
+            setSufijoMedicion('');
+            setOptions({ ...options});
             return;
         }
         setFechaSeleccionada(value);
@@ -238,8 +248,8 @@ export default function Historial() {
                 fecha: value
             }
         }
-        console.log('DATA-ENTRENAMIENTOS FECHA: ' + JSON.stringify( data))
-        axios.post('http://3.12.129.123:3000/entrenamientosFecha', data)
+        // console.log('DATA-ENTRENAMIENTOS FECHA: ' + JSON.stringify( data))
+        axios.post('http://104.154.169.109:3000/entrenamientosFecha', data)
         // axios.get('http://localhost:5000/entrenamientosFecha', data)
             .then(response => {
                 // setListaHoras([]);
@@ -261,6 +271,7 @@ export default function Historial() {
         listaHoras.forEach(function (item) {
             if (item.key === key) {
                 setEntrenamientoSeleccionado(item);
+                setMostrarSeleccionMedicion(true);
             }
         }
         );
@@ -268,24 +279,39 @@ export default function Historial() {
 
     const metodoCambiaEstadoMedicion = (event, value) => {
         if (value === '' || value === null) {
+            setMaxMinMed([0,0,0]);
+            options.title.text = '';
+            options.axisY.title = ''; 
+            options.data[0].dataPoints = [];
+            setSufijoMedicion('');
+            setOptions({ ...options});
             return;
         }
         //ENVIAR TAMBIEN ID DEL ENTRENAMIENTO
         //ENVIAR MEDICION SELECCIONADA -> VALUE;
+        let med = '';
+        if(value === 'Aceleración'){
+            med = 'Aceleracion'
+        }else if(value === 'Oxígeno'){
+            med = 'Oxigeno'
+        }else{
+            med = value
+        }
         const data = {
             data: {
                 id_entrenamiento: entrenamientoSeleccionado.id,
-                medicion: value
+                medicion: med
             }
         }
-        console.log('DATA-HISTORIAL_MEDICION: ' + JSON.stringify( data))
-        axios.post('http://3.12.129.123:3000/historialMedicion', data)
+        // console.log('DATA-HISTORIAL_MEDICION: ' + JSON.stringify( data))
+        axios.post('http://104.154.169.109:3000/historialMedicion', data)
         // axios.get('http://localhost:5000/historialMedicion', data)
             .then(response => {
                 let arr = [];
                 if (response.data.status === "success") {
                     response.data.data.forEach((element) => {
-                        arr.push({ label: "", y: element.valor});
+                        // arr.push({ label: element.hora, y: element.valor});
+                        arr.push({ label: '', y: element.valor});
                     })
                     options.data[0].dataPoints = arr;
                     let sufijo= '';
@@ -315,8 +341,8 @@ export default function Historial() {
         //ENVIAR ID_ENTRENAMIENTO
         //ENVIAR MEDICION SELECCIONADA -> VALUE;
 
-        console.log('DATA-MIN_MED_MAX: ' + JSON.stringify( data))
-        axios.post('http://3.12.129.123:3000/minMedMax', data)
+        // console.log('DATA-MIN_MED_MAX: ' + JSON.stringify( data))
+        axios.post('http://104.154.169.109:3000/minMedMax', data)
         // axios.get('http://localhost:5000/minMedMax', data)
             .then(response => {
                 let arr = [];
@@ -324,9 +350,11 @@ export default function Historial() {
                     response.data.data.forEach((element) => {
                         if(element.valormin){
                             arr.push(element.valormin);
-                        }else if(element.valormed){
+                        }
+                        if(element.valormed){
                             arr.push(element.valormed);
-                        }else if(element.valormax){
+                        }
+                        if(element.valormax){
                             arr.push(element.valormax);
                         }
                     });
@@ -348,7 +376,9 @@ export default function Historial() {
             <div>
                 {/* <div className="row justify-content-center"> */}
                 <div className="row">
-                    <div className="col col-lg-6 col-md-12 col-sm-12 col-12 order-sm-last order-last order-lg-first order-md-last">
+                <div className="col col-lg-6 col-md-12 col-sm-12 col-12 order-sm-first order-first order-lg-last order-md-first">
+                   
+                    {/* <div className="col col-lg-6 col-md-12 col-sm-12 col-12 order-sm-last order-last order-lg-first order-md-last"> */}
                         <div className="card border-dark mb-3">
                             <div style={{backgroundColor: '#E6E6E6'}}>
                             <div className="card-header">
@@ -445,6 +475,7 @@ export default function Historial() {
                         </div>
                     </div>
                     {/*----- DETALLES DEL ENTRENAMIENTO -------*/}
+                    {/* <div className="col col-lg-6 col-md-12 col-sm-12 col-12 order-sm-last order-last order-lg-first order-md-last"> */}
                     <div className="col col-lg-6 col-md-12 col-sm-12 col-12 order-sm-first order-first order-lg-last order-md-first">
                         <div className="card border-dark mb-3">
                             <div className="card-header">
@@ -464,6 +495,7 @@ export default function Historial() {
                                         {entrenamientoSeleccionado.duracion} seg
                                     </label>
                                     </div>
+                                    <Collapse in={mostrarSeleccionMedicion}>
                                     <Autocomplete
                                         key={'Med' + 1}
                                         options={listaMediciones}
@@ -478,6 +510,7 @@ export default function Historial() {
                                             />
                                         )}
                                     />
+                                    </Collapse>
                                     <br></br>
                                     <div>
                                     <label style={{fontSize: '18px', fontWeight: 'bold', fontFamily: 'Arial'}}>
