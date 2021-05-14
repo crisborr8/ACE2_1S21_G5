@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS BoxinPunch.Sesion_Entrenamiento (
   idSesion_Entrenamiento INT NOT NULL AUTO_INCREMENT,
   id_User int null,
   fecha date null,
-  hora time null,
+  hora VARCHAR(1000) null,
   duracion int null,
   FOREIGN KEY(id_User) REFERENCES Usuario(idUsuario),
   PRIMARY KEY (idSesion_Entrenamiento))
@@ -46,7 +46,7 @@ CREATE TABLE IF NOT EXISTS BoxinPunch.Datos_Entrenamiento (
   pulso int not null,
   fuerza float(5,2) NULL,
   fecha date null,
-  hora time null,
+  hora VARCHAR(1000) null,
   aceleracion int null,
   velocidad int null,
   FOREIGN KEY(id_Sesion) REFERENCES Sesion_Entrenamiento(idSesion_Entrenamiento),

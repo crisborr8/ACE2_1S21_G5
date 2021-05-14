@@ -13,7 +13,7 @@ router.use(bodyParser.urlencoded({ limit: '100mb', extended: true }))
 
 const mysql = require('mysql');
 const connection = mysql.createConnection({
-    host: '3.12.129.123',
+    host: '104.154.169.109',
     user: 'root',
     password: 'secret',
     database: 'BoxinPunch',
@@ -510,9 +510,10 @@ router.post("/registro", (request, response, next) => {
 */
 router.post("/CrearSesion", (request, response, next) => {
 
+    console.log('entro a crear sesion')
 
-    var CONSULTAtime = 'select curtime() as tiempo';
-    connection.query( CONSULTAtime, (error, rows) => {
+    var CONSULTA10 = 'SELECT CURTIME() as tiempo';
+    connection.query( CONSULTA10, (error, rows) => {
         if (error) {
             console.log(error);
             response.json(
@@ -523,8 +524,10 @@ router.post("/CrearSesion", (request, response, next) => {
             );
         }
 
-        var hora = incrementarTime(String(rows[0].tiempo))
+        console.log(rows)
 
+        var hora = incrementarTime(String(rows[0].tiempo))
+        console.log(hora)
         var CONSULTA1 = '';
         CONSULTA1 = CONSULTA1 + 'insert into Sesion_Entrenamiento ';
         CONSULTA1 = CONSULTA1 + '(id_User, fecha, duracion, hora) ';
