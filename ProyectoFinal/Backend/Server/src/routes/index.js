@@ -612,41 +612,12 @@ router.post("/guardarDatos", (request, response, next) => {
         console.log(tiempo)
         console.log(tiempoFix)
 
-        var CONSULTA2 = '';
-        CONSULTA2 = CONSULTA2 + 'select u.peso from Usuario u inner join Sesion_Entrenamiento se on (se.id_User = u.idUsuario) ';
-        CONSULTA2 = CONSULTA2 + 'where se.idSesion_Entrenamiento = ' + String(request.body.data.idSesion);
-        connection.query(CONSULTA2, (error, rows) => {
-            if (error) {
-                console.log(error);
-                response.json(
-                    {
-                        status: "fail",
-                        message: error
-                    }
-                );
-            }
-            var peso = rows[0].peso;
-            var masa = Math.trunc((peso / 9.8)); //  m = f / a
-            var aceleracion = Math.trunc(Number(String(request.body.data.fuerza)) / masa); // f =ma : a = f / m
-            var velocidad = Math.trunc(aceleracion * 0.6) // Vmedia = a * t 
+        try {
 
-
-            var CONSULTA3 = '';
-            CONSULTA3 = CONSULTA3 + 'insert into Datos_Entrenamiento ';
-            CONSULTA3 = CONSULTA3 + '(id_Sesion, oxigenacion, temperatura, pulso, fuerza, fecha, hora, aceleracion, velocidad) ';
-            CONSULTA3 = CONSULTA3 + 'values(';
-            CONSULTA3 = CONSULTA3 + String(request.body.data.idSesion) + ',';
-            CONSULTA3 = CONSULTA3 + String(request.body.data.oxigeno) + ',';
-            CONSULTA3 = CONSULTA3 + String(request.body.data.temperatura) + ',';
-            CONSULTA3 = CONSULTA3 + String(request.body.data.pulso) + ',';
-            CONSULTA3 = CONSULTA3 + String(request.body.data.fuerza) + ',';
-            CONSULTA3 = CONSULTA3 + 'STR_TO_DATE(\'17/05/2021\',\'%d/%m/%Y\')' + ',';
-            CONSULTA3 = CONSULTA3 + '\'' + tiempoFix + '\','
-            CONSULTA3 = CONSULTA3 + String(aceleracion) + ',';
-            CONSULTA3 = CONSULTA3 + String(velocidad) + '';
-            CONSULTA3 = CONSULTA3 + ')';
-
-            connection.query(CONSULTA3, (error, rows) => {
+            var CONSULTA2 = '';
+            CONSULTA2 = CONSULTA2 + 'select u.peso from Usuario u inner join Sesion_Entrenamiento se on (se.id_User = u.idUsuario) ';
+            CONSULTA2 = CONSULTA2 + 'where se.idSesion_Entrenamiento = ' + String(request.body.data.idSesion);
+            connection.query(CONSULTA2, (error, rows) => {
                 if (error) {
                     console.log(error);
                     response.json(
@@ -656,18 +627,58 @@ router.post("/guardarDatos", (request, response, next) => {
                         }
                     );
                 }
-                response.json(
-                    {
-                        status: "fail",
-                        message: error,
-                        data : {
-                            "guardado" : "true"
-                        }
-                    }
-                );
-            }); 
+                var peso = rows[0].peso;
+                var masa = Math.trunc((peso / 9.8)); //  m = f / a
+                var aceleracion = Math.trunc(Number(String(request.body.data.fuerza)) / masa); // f =ma : a = f / m
+                var velocidad = Math.trunc(aceleracion * 0.6) // Vmedia = a * t 
 
-        }); 
+
+                var CONSULTA3 = '';
+                CONSULTA3 = CONSULTA3 + 'insert into Datos_Entrenamiento ';
+                CONSULTA3 = CONSULTA3 + '(id_Sesion, oxigenacion, temperatura, pulso, fuerza, fecha, hora, aceleracion, velocidad) ';
+                CONSULTA3 = CONSULTA3 + 'values(';
+                CONSULTA3 = CONSULTA3 + String(request.body.data.idSesion) + ',';
+                CONSULTA3 = CONSULTA3 + String(request.body.data.oxigeno) + ',';
+                CONSULTA3 = CONSULTA3 + String(request.body.data.temperatura) + ',';
+                CONSULTA3 = CONSULTA3 + String(request.body.data.pulso) + ',';
+                CONSULTA3 = CONSULTA3 + String(request.body.data.fuerza) + ',';
+                CONSULTA3 = CONSULTA3 + 'STR_TO_DATE(\'17/05/2021\',\'%d/%m/%Y\')' + ',';
+                CONSULTA3 = CONSULTA3 + '\'' + tiempoFix + '\','
+                CONSULTA3 = CONSULTA3 + String(aceleracion) + ',';
+                CONSULTA3 = CONSULTA3 + String(velocidad) + '';
+                CONSULTA3 = CONSULTA3 + ')';
+
+                connection.query(CONSULTA3, (error, rows) => {
+                    if (error) {
+                        console.log(error);
+                        response.json(
+                            {
+                                status: "fail",
+                                message: error
+                            }
+                        );
+                    }
+                    response.json(
+                        {
+                            status: "fail",
+                            message: error,
+                            data : {
+                                "guardado" : "true"
+                            }
+                        }
+                    );
+                }); 
+
+            }); 
+            
+        } catch (error) {
+            response.json(
+                {
+                    status: "fail",
+                    message: "IdSesion invalido"
+                }
+            )
+        }
 
 
     }); 
@@ -688,7 +699,8 @@ function incrementarTime(tiempoInicial)
 
     var agregadohora = 0;
     if (segundoint == 60) {
-        segundoint == 0;
+        segundoint = 0;
+        segundo =String(segundoint)
         var minutoint = Number(minuto)
         minutoint = minutoint + 1;
         minuto = String(minutoint)
@@ -732,6 +744,8 @@ router.post("/ObtenerMediciones", (request, response, next) => {
     CONSULTA1 = CONSULTA1 + 'where u.idUsuario = ' + String(request.body.data.idusuario);
     CONSULTA1 = CONSULTA1 + ' and se.idSesion_Entrenamiento = ' + String(request.body.data.idsesion);
     CONSULTA1 = CONSULTA1 + ' and de.hora = \'' + String(request.body.data.hora) + '\'';
+
+    console.log("--> " + String(request.body.data.hora))
 
 
     connection.query(CONSULTA1, (error, rows) => {
