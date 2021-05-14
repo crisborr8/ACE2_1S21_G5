@@ -47,7 +47,7 @@ router.get('/hola',
 router.post("/fechasHistorial", (request, response, next) => {
 
     var CONSULTA1 = '';
-    CONSULTA1 = CONSULTA1 + 'select fecha, hora from Sesion_Entrenamiento where id_User = ' + String(request.body.data.id_user);
+    CONSULTA1 = CONSULTA1 + 'select distinct fecha from Sesion_Entrenamiento where id_User = ' + String(request.body.data.id_user);
 
     connection.query(CONSULTA1, (error, rows) => {
         if (error) {
