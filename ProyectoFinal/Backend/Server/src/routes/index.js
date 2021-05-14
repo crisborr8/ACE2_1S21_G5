@@ -230,6 +230,7 @@ router.post("/historialMedicion", (request, response, next) => {
     mediciones.push({"katyname" : "Aceleracion", "BDname" : "aceleracion"});
     mediciones.push({"katyname" : "Temperatura", "BDname" : "temperatura"});
     mediciones.push({"katyname" : "Ritmo Cardiaco", "BDname" : "pulso"});
+    mediciones.push({"katyname" : "Velocidad", "BDname" : "velocidad"});
 
     var campomedicion = 'fuerza';
     for (let index = 0; index < mediciones.length; index++) {
@@ -285,6 +286,7 @@ router.post("/minMedMax", (request, response, next) => {
     mediciones.push({"katyname" : "Aceleracion", "BDname" : "aceleracion"});
     mediciones.push({"katyname" : "Temperatura", "BDname" : "temperatura"});
     mediciones.push({"katyname" : "Ritmo Cardiaco", "BDname" : "pulso"});
+    mediciones.push({"katyname" : "Velocidad", "BDname" : "velocidad"});
 
     var campomedicion = 'fuerza';
     for (let index = 0; index < mediciones.length; index++) {
