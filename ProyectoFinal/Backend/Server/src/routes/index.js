@@ -629,7 +629,7 @@ router.post("/guardarDatos", (request, response, next) => {
                 }
 
                 console.log(rows)
-                if (rows.length = 0) {
+                if (rows.length == 0) {
                     response.json(
                         {
                             status: "fail",
@@ -639,7 +639,7 @@ router.post("/guardarDatos", (request, response, next) => {
                     return
                 }
 
-                if (rows[0] = 0) {
+                if (rows[0] == 0) {
                     response.json(
                         {
                             status: "fail",
@@ -649,7 +649,7 @@ router.post("/guardarDatos", (request, response, next) => {
                 }
 
 
-                var peso = rows[0].peso;
+                var peso = rows.peso;
                 var masa = Math.trunc((peso / 9.8)); //  m = f / a
                 var aceleracion = Math.trunc(Number(String(request.body.data.fuerza)) / masa); // f =ma : a = f / m
                 var velocidad = Math.trunc(aceleracion * 0.6) // Vmedia = a * t 
