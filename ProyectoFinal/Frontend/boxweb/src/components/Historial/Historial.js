@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
     },
     colorBloque:{
         backgroundColor: '#EBAC44',
-        minHeight: 557
+        minHeight: 635
     },
     bloque: {
         textAlign: 'right',
@@ -310,8 +310,8 @@ export default function Historial() {
                 let arr = [];
                 if (response.data.status === "success") {
                     response.data.data.forEach((element) => {
-                        // arr.push({ label: element.hora, y: element.valor});
-                        arr.push({ label: '', y: element.valor});
+                        arr.push({ label: element.hora, y: element.valor});
+                        // arr.push({ label: '', y: element.valor});
                     })
                     options.data[0].dataPoints = arr;
                     let sufijo= '';
