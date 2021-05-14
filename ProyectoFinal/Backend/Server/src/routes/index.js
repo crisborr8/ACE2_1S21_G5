@@ -756,6 +756,8 @@ function incrementarTime(tiempoInicial)
     and se.idSesion_Entrenamiento = 1
     and de.hora = 'hora';
      
+    3
+    28
 */
 router.post("/ObtenerMediciones", (request, response, next) => {
 
@@ -769,6 +771,8 @@ router.post("/ObtenerMediciones", (request, response, next) => {
     CONSULTA1 = CONSULTA1 + ' and de.hora = \'' + String(request.body.data.hora) + '\'';
 
     console.log("--> " + String(request.body.data.hora))
+    console.log("--> idusuario:" + String(request.body.data.idusuario))
+    console.log("--> idsesion: " + String(request.body.data.idsesion))
 
 
     connection.query(CONSULTA1, (error, rows) => {
