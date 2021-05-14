@@ -628,7 +628,7 @@ router.post("/guardarDatos", (request, response, next) => {
                     );
                 }
 
-
+                console.log(rows)
                 if (rows.length = 0) {
                     response.json(
                         {
@@ -637,6 +637,15 @@ router.post("/guardarDatos", (request, response, next) => {
                         }
                     );
                     return
+                }
+
+                if (rows[0] = 0) {
+                    response.json(
+                        {
+                            status: "fail",
+                            message: "IdSesion invalido"
+                        }
+                    );
                 }
 
 
