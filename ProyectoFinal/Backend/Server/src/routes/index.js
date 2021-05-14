@@ -781,7 +781,7 @@ router.post("/ObtenerMediciones", (request, response, next) => {
                 }
             );
         }
-        console.log(rows[0])
+        console.log(rows)
         response.json(
             {
                 status: "success",
