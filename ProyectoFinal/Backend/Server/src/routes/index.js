@@ -809,9 +809,12 @@ router.post("/ObtenerMediciones", (request, response, next) => {
     console.log("--> " + String(request.body.data.hora))
     console.log("--> idusuario:" + String(request.body.data.idusuario))
     console.log("--> idsesion: " + String(request.body.data.idsesion))
+    
 
 
-    connection.query(CONSULTA1, (error, rows) => {
+    var CONSULTA2 = 'SELECT CURTIME() as tiempo';
+
+    connection.query(CONSULTA2, (error, rows) => {
         if (error) {
             console.log(error);
             response.json(
@@ -821,18 +824,41 @@ router.post("/ObtenerMediciones", (request, response, next) => {
                 }
             );
         }
-        console.log(rows)
-        console.log(rows[0])
-        var respuesta = rows[0]
-        response.json(
-            //{
-                /*status: "success",
-                message: "none",
-                data: respuesta*/
-                respuesta
-            //}
-        );
+        var tiempo = rows[0].tiempo;
+        var tiempoFix = incrementarTime(String(tiempo));
+
+        console.log("--------------------------------------------------------------")
+        console.log("[CLIENTE] -> " + String(request.body.data.hora))
+        console.log("[SERVER]  -> " + String(tiempoFix));
+        console.log("--------------------------------------------------------------")
+
+
+        connection.query(CONSULTA1, (error, rows) => {
+            if (error) {
+                console.log(error);
+                response.json(
+                    {
+                        status: "fail",
+                        message: error
+                    }
+                );
+            }
+            console.log(rows)
+            console.log(rows[0])
+            var respuesta = rows[0]
+            response.json(
+                //{
+                    /*status: "success",
+                    message: "none",
+                    data: respuesta*/
+                    respuesta
+                //}
+            );
+        }); 
+
     }); 
+
+    
 });
 
 
