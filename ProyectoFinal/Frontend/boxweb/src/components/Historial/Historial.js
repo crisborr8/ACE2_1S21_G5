@@ -164,7 +164,7 @@ export default function Historial() {
                 id_user : localStorage.getItem('id')
             }
         }
-        axios.post('http://104.154.169.109:3000/fechasHistorial', data)
+        axios.post('https://104.154.169.109:3000/fechasHistorial', data)
         // axios.get('http://localhost:5000/fechasHistorial', data)
             .then(response => {
                 if (response.data.status === 'success') {
@@ -250,7 +250,7 @@ export default function Historial() {
             }
         }
         // console.log('DATA-ENTRENAMIENTOS FECHA: ' + JSON.stringify( data))
-        axios.post('http://104.154.169.109:3000/entrenamientosFecha', data)
+        axios.post('https://104.154.169.109:3000/entrenamientosFecha', data)
         // axios.get('http://localhost:5000/entrenamientosFecha', data)
             .then(response => {
                 // setListaHoras([]);
@@ -305,7 +305,7 @@ export default function Historial() {
             }
         }
         // console.log('DATA-HISTORIAL_MEDICION: ' + JSON.stringify( data))
-        axios.post('http://104.154.169.109:3000/historialMedicion', data)
+        axios.post('https://104.154.169.109:3000/historialMedicion', data)
         // axios.get('http://localhost:5000/historialMedicion', data)
             .then(response => {
                 let arr = [];
@@ -343,7 +343,7 @@ export default function Historial() {
         //ENVIAR MEDICION SELECCIONADA -> VALUE;
 
         // console.log('DATA-MIN_MED_MAX: ' + JSON.stringify( data))
-        axios.post('http://104.154.169.109:3000/minMedMax', data)
+        axios.post('https://104.154.169.109:3000/minMedMax', data)
         // axios.get('http://localhost:5000/minMedMax', data)
             .then(response => {
                 let arr = [];

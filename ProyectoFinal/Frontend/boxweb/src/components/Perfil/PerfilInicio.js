@@ -126,7 +126,7 @@ async MensajeInicioSesionUser(){
  async IniciarS(e){
     //aqui hago las peticiones 
     e.preventDefault(); 
-    await axios.post('http://104.154.169.109:3000/CrearSesion',{data:{idUser: Number(this.state.usuario.id)}})
+    await axios.post('https://104.154.169.109:3000/CrearSesion',{data:{idUser: Number(this.state.usuario.id)}})
             .then(async response => {
                 if (response.data.status === "success") {
                     
@@ -149,7 +149,7 @@ async MensajeInicioSesionUser(){
     //this.CancelarEditar().bind(this);
     e.preventDefault(); 
     await localStorage.setItem('Logueado', JSON.stringify(temporal));
-    await axios.post('http://104.154.169.109:3000/EditarDatos',{data:temporal})
+    await axios.post('https://104.154.169.109:3000/EditarDatos',{data:temporal})
             .then(async response => {
                 if (response.data.status === "success") {
                     

@@ -30,7 +30,7 @@ export default function Registrar(props){
         console.log(peso);
         console.log(estatura);
         console.log(correo);
-        axios.post('http://104.154.169.109:3000/registro',{
+        axios.post('https://104.154.169.109:3000/registro',{
             data:{
                 usuario:usuario,
                 contrasena:contrasena,

@@ -128,29 +128,21 @@ class Grafica extends Component {
 				return "Exelente-Row";
 			  }
 		}else if(this.state.medicion.tipo==='Fuerza'){
-			if (row["oxigeno"] <= 90) {
+			if (row["oxigeno"] <= 25) {
 				return "Mal-Row";
-			  } else if (row["oxigeno"] >= 91 && row["oxigeno"] <255) {
+			  } else if (row["oxigeno"] >= 26 && row["oxigeno"] <54) {
 				return "Normal-Row";
-			  } else if (row["oxigeno"] >= 255) {
+			  } else if (row["oxigeno"] >= 55) {
 				return "Exelente-Row";
 			  }
 		}else if(this.state.medicion.tipo==='Velocidad'){
-			if (row["oxigeno"] <= 19) {//8.9m/s
-				return "Mal-Row";
-			  } else if (row["oxigeno"] >= 20 && row["oxigeno"] <31) {
-				return "Normal-Row";
-			  } else if (row["oxigeno"] >= 32) {
+			
 				return "Exelente-Row";
-			  }
+			  
 		}else if(this.state.medicion.tipo==='Aceleracion'){
-			if (row["oxigeno"] < 7) {
-				return "Mal-Row";
-			  } else if (row["oxigeno"] >= 7 && row["oxigeno"] <19) {
-				return "Normal-Row";
-			  } else if (row["oxigeno"] >= 19) {
+			
 				return "Exelente-Row";
-			  }
+			  
 		}
 	
 	  
@@ -274,7 +266,7 @@ class Grafica extends Component {
 		times= new Date();
 		//AQUI REALIZARE LA PETICION
 	//	console.log(ObtenerHora(times));
-		axios.post('http://104.154.169.109:3000/ObtenerMediciones',{data:{idusuario:this.state.usuario.id,idsesion:this.state.sesion.id,hora:ObtenerHora(times)}})
+		axios.post('https://104.154.169.109:3000/ObtenerMediciones',{data:{idusuario:this.state.usuario.id,idsesion:this.state.sesion.id,hora:ObtenerHora(times)}})
 		.then(response => {
 
 			//console.log(response);

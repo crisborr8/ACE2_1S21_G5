@@ -118,7 +118,7 @@ export default class Login extends Component {
     iniciarSesion = async(e)=>{
        
         e.preventDefault();
-        await axios.post('http://104.154.169.109:3000/Login',{
+        await axios.post('https://104.154.169.109:3000/Login',{
             data:{
                 usuario:this.state.usuario,
                 contrasena:this.state.contrasena
