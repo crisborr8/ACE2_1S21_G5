@@ -752,7 +752,7 @@ function incrementarTime(tiempoInicial)
     }
 
     var horaint = Number(hora);
-    horaint = horaint + 17 + agregadohora;
+    horaint = horaint + 18 + agregadohora;
 
     if (horaint >= 24) {
         horaint = horaint - 24;
