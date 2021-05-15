@@ -15,12 +15,9 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import CanvasJSReact from '../../canvasjs.react';
-<<<<<<< HEAD
 import { Collapse } from '@material-ui/core';
 
-=======
 import Navegacion from "../NavBar/Navegacion";
->>>>>>> TESTEO2
 
 const useStyles = makeStyles((theme) => ({
     centrarTexto: {
