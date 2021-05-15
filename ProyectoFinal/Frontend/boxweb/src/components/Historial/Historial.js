@@ -15,12 +15,9 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import CanvasJSReact from '../../canvasjs.react';
-<<<<<<< HEAD
 import { Collapse } from '@material-ui/core';
 
-=======
 import Navegacion from "../NavBar/Navegacion";
->>>>>>> TESTEO2
 
 const useStyles = makeStyles((theme) => ({
     centrarTexto: {
@@ -141,7 +138,7 @@ export default function Historial() {
             suffix: ""
         },
         axisX: {
-            title: "Tiempo",
+            title: "Hora",
         },
        
         data: [{
@@ -352,15 +349,7 @@ export default function Historial() {
                 let arr = [];
                 if (response.data.status === "success") {
                     response.data.data.forEach((element) => {
-                        if(element.valormin){
-                            arr.push(element.valormin);
-                        }
-                        if(element.valormed){
-                            arr.push(element.valormed);
-                        }
-                        if(element.valormax){
-                            arr.push(element.valormax);
-                        }
+                        arr.push(element.valor);
                     });
                     setMaxMinMed(arr);
                 } else {
