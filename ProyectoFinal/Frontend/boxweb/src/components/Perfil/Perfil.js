@@ -78,7 +78,7 @@ handleClick(e) {
   handleClick3(e) {
     e.preventDefault(); 
   // localStorage.setItem('medicion', JSON.stringify({tipo:'Velocidad', unidad:' u/s'}));
-    localStorage.setItem('medicion', JSON.stringify({tipo:'Fuerza', unidad:' Kp'}));
+    localStorage.setItem('medicion', JSON.stringify({tipo:'Fuerza', unidad:' Kg/(pulgada^2)'}));
     this.props.history.push('/ReporteTR');
     
   }
@@ -155,6 +155,47 @@ async MensajeInicioSesionUser(){
                                
                                 <div id="BasePerfil" className="card">
                                   <div id="con2" className="container">
+                                    
+                      
+                                    <div id="Fila" className="row">
+                                    <div id="Columna" className="col-sm">
+                                        <div className="card" id="bot">
+                                        <h1>Fuerza</h1>
+                                        <a className="op" href="#" onClick={this.handleClick3}>
+                                          <button className="botones4"></button>
+                                        </a>
+                                        </div>
+                                      </div>
+                                      <div id="Columna" className="col-sm">
+                                        <div id="bot1" className="card">
+                                        <h1>Temperatura</h1>
+                                        <a className="op" href="#" onClick={this.handleClick}>
+                                          <button className="botones3"></button>
+                                        </a>
+                                        </div>
+                                      </div>
+                                      
+                                    </div>
+
+                                    <div id="Fila" className="row">
+                                      <div id="Columna" className="col-sm">
+                                        <div id="bot" className="card">
+                                        <h1>Aceleracion</h1>
+                                        <a className="op" href="#" onClick={this.handleClick5}>
+                                          <button className="botones5"></button>
+                                        </a>
+                                        </div>
+                                      </div>
+                                      <div id="Columna" className="col-sm">
+                                        <div className="card" id="bot1">
+                                        <h1>Velocidad</h1>
+                                        <a className="op" href="#" onClick={this.handleClick6}>
+                                          <button className="botones6"></button>
+                                        </a>
+                                        </div>
+                                      </div>
+                                    </div>
+
                                     <div id="Fila" className="row">
                       
                                       <div id="Columna" className="col-sm">
@@ -176,44 +217,7 @@ async MensajeInicioSesionUser(){
                                         </div>
                                       </div>
                                     </div>
-                      
-                                    <div id="Fila" className="row">
-                                      <div id="Columna" className="col-sm">
-                                        <div id="bot" className="card">
-                                        <h1>Temperatura</h1>
-                                        <a className="op" href="#" onClick={this.handleClick}>
-                                          <button className="botones3"></button>
-                                        </a>
-                                        </div>
-                                      </div>
-                                      <div id="Columna" className="col-sm">
-                                        <div className="card" id="bot1">
-                                        <h1>Fuerza</h1>
-                                        <a className="op" href="#" onClick={this.handleClick3}>
-                                          <button className="botones4"></button>
-                                        </a>
-                                        </div>
-                                      </div>
-                                    </div>
 
-                                    <div id="Fila" className="row">
-                                      <div id="Columna" className="col-sm">
-                                        <div id="bot" className="card">
-                                        <h1>Aceleracion</h1>
-                                        <a className="op" href="#" onClick={this.handleClick5}>
-                                          <button className="botones5"></button>
-                                        </a>
-                                        </div>
-                                      </div>
-                                      <div id="Columna" className="col-sm">
-                                        <div className="card" id="bot1">
-                                        <h1>Velocidad</h1>
-                                        <a className="op" href="#" onClick={this.handleClick6}>
-                                          <button className="botones6"></button>
-                                        </a>
-                                        </div>
-                                      </div>
-                                    </div>
                                   </div>
                                 </div>
                       

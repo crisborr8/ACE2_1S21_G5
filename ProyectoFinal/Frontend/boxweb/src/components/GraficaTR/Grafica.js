@@ -201,7 +201,7 @@ class Grafica extends Component {
   }
   
   async handleClick1() {
-	await localStorage.setItem('medicion', JSON.stringify({tipo:'Oxigeno', unidad:' O2'}));
+	await localStorage.setItem('medicion', JSON.stringify({tipo:'Oxigeno', unidad:' %'}));
 	await this.llenar();
 	datas=await [];
 	dps=await[];
@@ -212,7 +212,7 @@ class Grafica extends Component {
   async handleClick2() {
 	
 	
-	await localStorage.setItem('medicion', JSON.stringify({tipo:'Ritmo Cardiaco', unidad:' BPM'}));
+	await localStorage.setItem('medicion', JSON.stringify({tipo:'Ritmo Cardiaco', unidad:' PPM'}));
 	await this.llenar();
 	datas=await [];
 	dps=await[];
@@ -224,7 +224,7 @@ class Grafica extends Component {
   
   async handleClick3() {
    
-	  await localStorage.setItem('medicion', JSON.stringify({tipo:'Fuerza', unidad:' N'}));
+	  await localStorage.setItem('medicion', JSON.stringify({tipo:'Fuerza', unidad:' kg/(pulgada^2)'}));
 	  await this.llenar();
 	  datas=await [];
 	  dps=await[];
@@ -362,14 +362,15 @@ class Grafica extends Component {
 		
 		
 		return (
-		<div>
+		<div >
 			<div id="contbtn1" className="card">
 				<h1>{this.state.usuario.usuario}</h1>
 				<div className="row">
-					<div className="col-sm"><button type="button" id="menbtn" onClick={this.handleClick1} className="btn btn-primary">Oxigeno</button></div>
+				<div className="col-sm"><button type="button" id="menbtn" onClick={this.handleClick3} className="btn btn-primary">Fuerza</button></div>
 					<div className="col-sm"><button type="button" id="menbtn" onClick={this.handleClick} className="btn btn-primary">Temperatura</button></div>
+					<div className="col-sm"><button type="button" id="menbtn" onClick={this.handleClick1} className="btn btn-primary">Oxigeno</button></div>
 					<div className="col-sm"><button type="button" id="menbtn" onClick={this.handleClick2} className="btn btn-primary">Ritmo Cardiaco</button></div>
-					<div className="col-sm"><button type="button" id="menbtn" onClick={this.handleClick3} className="btn btn-primary">Fuerza</button></div>
+					
 					<div className="col-sm"><button type="button" id="menbtn" onClick={this.handleClick6} className="btn btn-primary">Velocidad</button></div>
 					<div className="col-sm"><button type="button" id="menbtn" onClick={this.handleClick5} className="btn btn-primary">Aceleracion</button></div>
 				</div>
@@ -401,9 +402,9 @@ class Grafica extends Component {
 			<h1>BITACORA</h1>
 			{/*<Tabla data={datas}></Tabla>*/}
 			<div className="row">
-					<div className="col-sm"><button type="button" id="menbtnR"  className="btn btn-primary">Bajo</button></div>
-					<div className="col-sm"><button type="button" id="menbtnA"  className="btn btn-primary">Normal</button></div>
-					<div className="col-sm"><button type="button" id="menbtnV"  className="btn btn-primary">Alto</button></div>
+					<div className="col-sm"><button type="button" id="menbtnR"  className="btn btn-primary"><b>Bajo</b> </button></div>
+					<div className="col-sm"><button type="button" id="menbtnA"  className="btn btn-primary"><b>Normal</b> </button></div>
+					<div className="col-sm"><button type="button" id="menbtnV"  className="btn btn-primary"><b>Alto</b></button></div>
 			</div>
 
 

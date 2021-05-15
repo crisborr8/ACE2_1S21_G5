@@ -361,8 +361,10 @@ export default function Historial() {
 
 
     return (
-        <div className="container-fluid">
+        <div id="CuerpoHistorial">
             <Navegacion />
+            <div className="container-fluid">
+            
             <br />
             {
                 // console.log(listaHoras)
@@ -370,10 +372,10 @@ export default function Historial() {
             <div>
                 {/* <div className="row justify-content-center"> */}
                 <div className="row">
-                <div className="col col-lg-6 col-md-12 col-sm-12 col-12 order-sm-first order-first order-lg-last order-md-first">
+                <div className="col-sm">
                    
                     {/* <div className="col col-lg-6 col-md-12 col-sm-12 col-12 order-sm-last order-last order-lg-first order-md-last"> */}
-                        <div className="card border-dark mb-3">
+                        <div className="card border-dark mb-3" style={{ width:'50%', marginLeft:'25%'}}>
                             <div style={{backgroundColor: '#E6E6E6'}}>
                             <div className="card-header">
                                 <div className={classes.centrarTexto}>
@@ -470,8 +472,16 @@ export default function Historial() {
                     </div>
                     {/*----- DETALLES DEL ENTRENAMIENTO -------*/}
                     {/* <div className="col col-lg-6 col-md-12 col-sm-12 col-12 order-sm-last order-last order-lg-first order-md-last"> */}
-                    <div className="col col-lg-6 col-md-12 col-sm-12 col-12 order-sm-first order-first order-lg-last order-md-first">
-                        <div className="card border-dark mb-3">
+                    
+
+
+                    
+                </div>
+                <div className="row"  >
+                {(()=>{
+                        if(true){
+                            return <div id="Histor" className="col-sm">
+                        <div className="card border-dark mb-3" style={{ width:'50%', marginLeft:'25%' }}>
                             <div className="card-header">
                                 <div className={classes.centrarTexto}>
                                     <Typography use="headline3">DETALLES DEL ENTRENAMIENTO</Typography>
@@ -506,6 +516,8 @@ export default function Historial() {
                                     />
                                     </Collapse>
                                     <br></br>
+                             
+                                    
                                     <div>
                                     <label style={{fontSize: '18px', fontWeight: 'bold', fontFamily: 'Arial'}}>
                                         Valor mínimo: 
@@ -546,9 +558,14 @@ export default function Historial() {
                             </div>
                         </div>
                     </div>
+                        }else{}
+                        
+                    })()}
+
                 </div>
                 
             </div>
+        </div>
         </div>
     );
 }

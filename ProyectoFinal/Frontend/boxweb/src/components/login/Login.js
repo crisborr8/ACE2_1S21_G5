@@ -176,9 +176,9 @@ export default class Login extends Component {
 
     render() {
         return (            
-            <div className='contenedor'>
+            <div id='Fondo1'>
                 <Navbar/>
-                
+                <h1 id="Textito">BOX-PUNCH</h1>
                 {
                     /**                
                      * <button onClick={()=>this.nexPath('/Registrar')}>prueba1</button>

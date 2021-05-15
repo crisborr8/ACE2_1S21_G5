@@ -160,6 +160,10 @@
 #perfil{
   background-color: black;
 }
+#perfilI{
+  background-color: black;
+  height: 1080px;
+}
 
 #bot{
   text-align: center;
@@ -291,4 +295,72 @@
 }
 .swal2-styled.swal2-confirm.swalBtnColor {
   color: #FFC900
+}
+
+#menbtnR{
+  width: 90%;
+  margin-bottom: 10px;
+ background-color: red;
+ color: black;
+ font-size: 25px;
+}
+
+#menbtnA{
+  width: 90%;
+  margin-bottom: 10px;
+  background-color: yellow;
+  color: black;
+  font-size: 25px;
+}
+
+#menbtnV{
+  width: 90%;
+  margin-bottom: 10px;
+  background-color: chartreuse;
+  color: black;
+  font-size: 25px;
+ 
+}
+
+#CuerpoHistorial{
+  background-color: black;
+  height: 1080px+max-content;
+}
+
+#Fondo2{
+  height: 100vh;
+  background-image: url('../src/assets/img/Fondo4.jpg');  
+  text-align: center;
+  background-position: center center;
+
+background-repeat: no-repeat;
+
+background-attachment: fixed;
+
+background-size: cover;
+
+background-color: black;
+}
+#TextoV{
+  color: white;
+  font-family: "Latin Modern Roman 10";
+  font-style: oblique;
+}
+#TextoV1{
+  margin-top: 50px;
+  margin-bottom: 100px;
+  color: white;
+  font-family: "Latin Modern Roman 10";
+  font-style: oblique;
+  font-size: 50px;
+}
+#btnLog{
+  border-color: white;
+  background-color: black;
+  font-size: 30px;
+}
+
+#btnLog:hover {
+  background-color:grey;
+  color: white;
 }

@@ -80,12 +80,13 @@ export default function Registrar(props){
 
 
     return (
-        <div>
+        <div  id="Fondo1">
             <Navbar titulo='Registro'/>
+            <h1 id="Textito">BOX-PUNCH</h1>
             <div className='contenedor1'>
-
+            
                 <form onSubmit={envioRegistro}>
-
+                
                     <div className='row'>
                         <div className='col-lg-6 col-md-6 col-xs-12'>
                             <Inputs 

@@ -114,8 +114,24 @@
   
 }
 
+#Fondo1{
+  height: 100vh;
+  background-image: url('../assets/img/Fondo1.jpg');  
+  text-align: center;
+  background-repeat: no-repeat;
 
+background-attachment: fixed;
 
+background-size: cover;
+
+background-color: black;
+}
+#Textito{
+  margin-top: 100px;
+  color: white;
+  font-family: "Latin Modern Roman 10";
+  font-style: oblique;
+}
 
 @media screen and (max-width: 625px) {
     .contenedor1{
