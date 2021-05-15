@@ -772,9 +772,17 @@ function incrementarTime(tiempoInicial)
 
     if (horaint >= 24) {
         horaint = horaint - 24;
+
+        
     }
 
-    return String(String(horaint) + ':' + minuto + ":" + String(segundo))
+    hora = String(horaint)
+
+    if (horaint == 0) {
+        hora = '00'
+    }
+
+    return String(String(hora) + ':' + minuto + ":" + String(segundo))
 }
 
 // -------------------------------------------------------------------------------------
