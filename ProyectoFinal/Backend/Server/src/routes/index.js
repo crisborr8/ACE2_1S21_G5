@@ -273,10 +273,10 @@ router.post("/historialMedicion", (request, response, next) => {
 // -------------------------------------------------------------------------------------
 /*
     String(request.body.data.cosa)
-    select min(de.fuerza) as valor, avg(de.fuerza) as valor, max(de.fuerza) as valor
+    select min(de.fuerza) as valor1, avg(de.fuerza) as valor2, max(de.fuerza) as valor3
     from Sesion_Entrenamiento se
     inner join Datos_Entrenamiento de on (se.idSesion_Entrenamiento = de.id_Sesion)
-    where se.idSesion_Entrenamiento = 1;
+    where se.idSesion_Entrenamiento = 9;
 */
 router.post("/minMedMax", (request, response, next) => {
 
@@ -314,11 +314,27 @@ router.post("/minMedMax", (request, response, next) => {
                 }
             );
         }
+
+        var respuesta = rows;
+        var respuesta_ = [];
+        for (let index = 0; index < respuesta.length; index++) {
+            const element = respuesta[index];
+            respuesta_.push({
+                "valor" : element.valormin
+            });
+            respuesta_.push({
+                "valor" : element.valormed
+            });
+            respuesta_.push({
+                "valor" : element.valormax
+            });
+        }
+
         response.json(
             {
                 status: "success",
                 message: "none",
-                data: rows
+                data: respuesta_
             }
         );
     }); 
