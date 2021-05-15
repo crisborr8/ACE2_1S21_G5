@@ -46,6 +46,8 @@ router.get('/hola',
 */
 router.post("/fechasHistorial", (request, response, next) => {
 
+    console.log("{ fechasHistorial } --> id_user: " + String(request.body.data.id_user))
+
     var CONSULTA1 = '';
     CONSULTA1 = CONSULTA1 + 'select distinct fecha from Sesion_Entrenamiento where id_User = ' + String(request.body.data.id_user);
 
@@ -169,6 +171,10 @@ function getString_of_KatyDATE_becauseSheCannotSendSsAString_ImVeryMad(katydate_
 */
 router.post("/entrenamientosFecha", (request, response, next) => {
 
+
+    console.log("{ entrenamientosFecha } --> id_user: " + String(request.body.data.id_user))
+    console.log("{ entrenamientosFecha } --> fecha: " + String(request.body.data.fecha))
+
     var CONSULTA1 = '';
     CONSULTA1 = CONSULTA1 + 'select se.idSesion_Entrenamiento as id, count(*) as duracion, se.hora '
     CONSULTA1 = CONSULTA1 + 'from Sesion_Entrenamiento se '
@@ -223,6 +229,9 @@ router.post("/entrenamientosFecha", (request, response, next) => {
     where se.idSesion_Entrenamiento = XXX
 */
 router.post("/historialMedicion", (request, response, next) => {
+
+    console.log("{ historialMedicion } --> id_entrenamiento: " + String(request.body.data.id_entrenamiento))
+    console.log("{ historialMedicion } --> medicion: " + String(request.body.data.medicion))
 
     var mediciones = [];
     mediciones.push({"katyname" : "Fuerza", "BDname" : "fuerza"});
