@@ -61,7 +61,7 @@ var t10= String(ObtenerHora(times.setSeconds(times.getSeconds()-1)));
 var dps = [{ x:1, y: 0,label:String(t1) }];   //dataPoints.
 var xVal = dps.length + 1;
 var yVal = 0;
-var updateInterval = 300;
+var updateInterval = 1000;
 
 class Grafica extends Component {
 
@@ -96,6 +96,8 @@ class Grafica extends Component {
 		this.handleClick1=this.handleClick1.bind(this);
 		this.handleClick2=this.handleClick2.bind(this);
 		this.handleClick3=this.handleClick3.bind(this);
+		this.handleClick5= this.handleClick5.bind(this);
+        this.handleClick6= this.handleClick6.bind(this);
 		this.rowClassNameFormat=this.rowClassNameFormat.bind(this);
 		this.llenar();
 		this.llenarUser();
@@ -108,14 +110,14 @@ class Grafica extends Component {
 				return "Mal-Row";
 			  } else if (row["oxigeno"] >= 95 && row["oxigeno"] <= 99) {
 				return "Exelente-Row";
-			  } else {
+			  } else if (row["oxigeno"] >= 91 && row["oxigeno"] <= 94){
 				return "Normal-Row";
 			  }
 		}else if(this.state.medicion.tipo==='Temperatura'){
 			if (row["oxigeno"] < 36||row["oxigeno"] > 40) {
 				return "Mal-Row";
 			  } else if (row["oxigeno"] >= 36 && row["oxigeno"] <= 40) {
-				return "Normal-Row";
+				return "Exelente-Row";
 			  } 
 		}else if(this.state.medicion.tipo==='Ritmo Cardiaco'){
 			if (row["oxigeno"] < 59||row["oxigeno"] > 100) {
@@ -128,9 +130,25 @@ class Grafica extends Component {
 		}else if(this.state.medicion.tipo==='Fuerza'){
 			if (row["oxigeno"] <= 90) {
 				return "Mal-Row";
-			  } else if (row["oxigeno"] >= 20 && row["oxigeno"] <255) {
+			  } else if (row["oxigeno"] >= 91 && row["oxigeno"] <255) {
 				return "Normal-Row";
 			  } else if (row["oxigeno"] >= 255) {
+				return "Exelente-Row";
+			  }
+		}else if(this.state.medicion.tipo==='Velocidad'){
+			if (row["oxigeno"] <= 19) {//8.9m/s
+				return "Mal-Row";
+			  } else if (row["oxigeno"] >= 20 && row["oxigeno"] <31) {
+				return "Normal-Row";
+			  } else if (row["oxigeno"] >= 32) {
+				return "Exelente-Row";
+			  }
+		}else if(this.state.medicion.tipo==='Aceleracion'){
+			if (row["oxigeno"] < 7) {
+				return "Mal-Row";
+			  } else if (row["oxigeno"] >= 7 && row["oxigeno"] <19) {
+				return "Normal-Row";
+			  } else if (row["oxigeno"] >= 19) {
 				return "Exelente-Row";
 			  }
 		}
@@ -215,6 +233,30 @@ class Grafica extends Component {
   // localStorage.setItem('medicion', JSON.stringify({tipo:'Velocidad', unidad:' u/s'}));
 	
   }
+
+
+  async handleClick5() {
+   // e.preventDefault();
+    localStorage.setItem('medicion', JSON.stringify({tipo:'Aceleracion', unidad:' m/(s^2)'}));
+    await this.llenar();
+	  datas=await [];
+	  dps=await[];
+	await this.setState(datas);
+    
+  }
+
+  async handleClick6() {
+    //e.preventDefault(); 
+  // localStorage.setItem('medicion', JSON.stringify({tipo:'Velocidad', unidad:' u/s'}));
+    localStorage.setItem('medicion', JSON.stringify({tipo:'Velocidad', unidad:' m/s'}));
+    await this.llenar();
+	  datas=await [];
+	  dps=await[];
+	await this.setState(datas);
+    
+  }
+
+
   	componentDidMount() {
  		  this.intervalo=setInterval(this.updateChart, updateInterval);
 		
@@ -231,11 +273,11 @@ class Grafica extends Component {
 		var max = 100;
 		times= new Date();
 		//AQUI REALIZARE LA PETICION
-		console.log(ObtenerHora(times));
+	//	console.log(ObtenerHora(times));
 		axios.post('http://104.154.169.109:3000/ObtenerMediciones',{data:{idusuario:this.state.usuario.id,idsesion:this.state.sesion.id,hora:ObtenerHora(times)}})
 		.then(response => {
 
-			console.log(response);
+			//console.log(response);
 			if(this.state.medicion.tipo=='Oxigeno'){
 				yVal=response.data.oxigeno;
 				console.log('Oxigeno');
@@ -255,8 +297,11 @@ class Grafica extends Component {
 			}else if(this.state.medicion.tipo=='Fuerza'){
 				yVal=response.data.fuerza;
 				console.log('Fuerza');
+			}else if(this.state.medicion.tipo=='Aceleracion'){
+				yVal=response.data.aceleracion;
+				console.log('Aceleracion');
 			}
-			console.log(response.status);
+			//console.log(response.status);
 			
 		});
 
@@ -279,7 +324,7 @@ class Grafica extends Component {
 		}else if(this.state.medicion.tipo=='Fuerza'){
 			console.log('Fuerza');
 		}*/
-		console.log(yVal+" <-----------");
+	//	console.log(yVal+" <-----------");
 		dps.push({x: xVal,label:String(ObtenerHora(times)),y: Number(yVal) });
 		datas.unshift({id: indice, oxigeno: yVal, estabilidad: String(ObtenerHora(times))});
 		this.setState(datas);
@@ -325,8 +370,10 @@ class Grafica extends Component {
 					<div className="col-sm"><button type="button" id="menbtn" onClick={this.handleClick} className="btn btn-primary">Temperatura</button></div>
 					<div className="col-sm"><button type="button" id="menbtn" onClick={this.handleClick2} className="btn btn-primary">Ritmo Cardiaco</button></div>
 					<div className="col-sm"><button type="button" id="menbtn" onClick={this.handleClick3} className="btn btn-primary">Fuerza</button></div>
-
+					<div className="col-sm"><button type="button" id="menbtn" onClick={this.handleClick6} className="btn btn-primary">Velocidad</button></div>
+					<div className="col-sm"><button type="button" id="menbtn" onClick={this.handleClick5} className="btn btn-primary">Aceleracion</button></div>
 				</div>
+				
 				<a   href="/PerfilI"><button id="Detener" type="button"  className="btn btn-danger" >Detener Rutina</button></a>
 			</div>
 			<div id="SubReporte" className="card">

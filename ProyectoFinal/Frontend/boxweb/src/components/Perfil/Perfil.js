@@ -29,6 +29,8 @@ export default class Perfil extends Component {
                                   this.handleClick1= this.handleClick1.bind(this);
                                   this.handleClick2= this.handleClick2.bind(this);
                                   this.handleClick3= this.handleClick3.bind(this);
+                                  this.handleClick5= this.handleClick5.bind(this);
+                                  this.handleClick6= this.handleClick6.bind(this);
                                   this.MensajeInicioSesionUser=this.MensajeInicioSesionUser.bind(this);
                                   this.MensajeInicioSesion=this.MensajeInicioSesion.bind(this);
                                   this.llenar();
@@ -61,14 +63,14 @@ handleClick(e) {
   handleClick1(e) {
     e.preventDefault();
     
-    localStorage.setItem('medicion', JSON.stringify({tipo:'Oxigeno', unidad:' O2'}));
+    localStorage.setItem('medicion', JSON.stringify({tipo:'Oxigeno', unidad:' %'}));
     this.props.history.push('/ReporteTR');
     
   }
 
   handleClick2(e) {
     e.preventDefault();
-    localStorage.setItem('medicion', JSON.stringify({tipo:'Ritmo Cardiaco', unidad:' BPM'}));
+    localStorage.setItem('medicion', JSON.stringify({tipo:'Ritmo Cardiaco', unidad:' PPM'}));
     this.props.history.push('/ReporteTR');
     
   }
@@ -76,7 +78,22 @@ handleClick(e) {
   handleClick3(e) {
     e.preventDefault(); 
   // localStorage.setItem('medicion', JSON.stringify({tipo:'Velocidad', unidad:' u/s'}));
-    localStorage.setItem('medicion', JSON.stringify({tipo:'Fuerza', unidad:' N'}));
+    localStorage.setItem('medicion', JSON.stringify({tipo:'Fuerza', unidad:' Kp'}));
+    this.props.history.push('/ReporteTR');
+    
+  }
+
+  handleClick5(e) {
+    e.preventDefault();
+    localStorage.setItem('medicion', JSON.stringify({tipo:'Aceleracion', unidad:' m/(s^2)'}));
+    this.props.history.push('/ReporteTR');
+    
+  }
+
+  handleClick6(e) {
+    e.preventDefault(); 
+  // localStorage.setItem('medicion', JSON.stringify({tipo:'Velocidad', unidad:' u/s'}));
+    localStorage.setItem('medicion', JSON.stringify({tipo:'Velocidad', unidad:' m/s'}));
     this.props.history.push('/ReporteTR');
     
   }
@@ -174,6 +191,25 @@ async MensajeInicioSesionUser(){
                                         <h1>Fuerza</h1>
                                         <a className="op" href="#" onClick={this.handleClick3}>
                                           <button className="botones4"></button>
+                                        </a>
+                                        </div>
+                                      </div>
+                                    </div>
+
+                                    <div id="Fila" className="row">
+                                      <div id="Columna" className="col-sm">
+                                        <div id="bot" className="card">
+                                        <h1>Aceleracion</h1>
+                                        <a className="op" href="#" onClick={this.handleClick5}>
+                                          <button className="botones5"></button>
+                                        </a>
+                                        </div>
+                                      </div>
+                                      <div id="Columna" className="col-sm">
+                                        <div className="card" id="bot1">
+                                        <h1>Velocidad</h1>
+                                        <a className="op" href="#" onClick={this.handleClick6}>
+                                          <button className="botones6"></button>
                                         </a>
                                         </div>
                                       </div>
