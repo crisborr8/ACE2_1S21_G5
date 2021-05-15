@@ -288,7 +288,7 @@ class Grafica extends Component {
 	
 			}else if(this.state.medicion.tipo=='Ritmo Cardiaco'){
 				yVal=response.data.ritmocardiaco;
-				console.log('Ritmo Cardiaco');
+				console.log('Ritmo Cardiaco->'+yVal);
 	
 			}else if(this.state.medicion.tipo=='Velocidad'){
 				yVal=response.data.velocidad;
@@ -400,7 +400,11 @@ class Grafica extends Component {
 		<div id="SubReporte" className="card">
 			<h1>BITACORA</h1>
 			{/*<Tabla data={datas}></Tabla>*/}
-
+			<div className="row">
+					<div className="col-sm"><button type="button" id="menbtnR"  className="btn btn-primary">Bajo</button></div>
+					<div className="col-sm"><button type="button" id="menbtnA"  className="btn btn-primary">Normal</button></div>
+					<div className="col-sm"><button type="button" id="menbtnV"  className="btn btn-primary">Alto</button></div>
+			</div>
 
 
 			<div id="Bitacora" className="overflow-auto">
